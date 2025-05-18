@@ -1,0 +1,13 @@
+{
+  "web": {
+    "client_id": "426503477689-h0fhctv6uhe2f11dv2nb12j40h56o9u9.apps.googleusercontent.com",
+    "project_id": "cogent-wall-460113-t8",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "http://localhost:4000/oauth2callback"
+    ]
+  }
+}
