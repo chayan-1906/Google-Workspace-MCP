@@ -3,7 +3,7 @@
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/create-spreadsheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-content-by-id.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-id-by-name.ts"}}
-{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-ids-by-name.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/rename-spreadsheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/add-sheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/append-row.ts"}}
@@ -16,7 +16,7 @@
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/create-spreadsheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-content-by-id.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-id-by-name.ts"}}
-{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-ids-by-name.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/rename-spreadsheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/add-sheet.ts"}}
 {"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/append-row.ts"}}

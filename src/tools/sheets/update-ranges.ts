@@ -5,6 +5,7 @@ import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 interface RangeUpdate {
     range: string;
@@ -38,20 +39,10 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     values: z.array(z.array(z.any())).describe('2D array of values to update'),
                 })
             ).describe("Array of updates"),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
         },
-        async ({spreadsheetId, updates, email}) => {
-            const oauth2Client = await getOAuthClientForUser(email);
-            if (!oauth2Client) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
+        async ({spreadsheetId, updates}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             try {
                 await updateRanges(spreadsheetId, updates, oauth2Client);
