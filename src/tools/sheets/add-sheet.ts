@@ -3,9 +3,7 @@ import {Auth, google} from "googleapis";
 import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
-import {getEmailFromSessionToken} from "../../services/OAuth";
-import {printInConsole} from "../../utils/printInConsole";
-import {transport} from "../../server";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
     const sheets = google.sheets({version: 'v4', auth});
@@ -33,47 +31,10 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetName: z.string().describe('The name of the sheet to be created'),
-            sessionToken: z.string().describe('Session token to identify the authenticated user'),
         },
-        async ({spreadsheetId, sheetName, sessionToken}) => {
-            await printInConsole(transport, `Received sessionToken: ${process.env.CLAUDE_SESSION_TOKEN}`);
-            const token = sessionToken || process.env.CLAUDE_SESSION_TOKEN;
-            await printInConsole(transport, `Using sessionToken: ${token}`);
-            if (!token) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'No session token provided. Please authenticate first.',
-                        },
-                    ],
-                };
-            }
-
-            const email = await getEmailFromSessionToken(token);
-            await printInConsole(transport, `Email from token: ${email}`);
-            if (!email) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'Invalid session. Please authenticate again. 🔑',
-                        },
-                    ],
-                };
-            }
-
-            const oauth2Client = await getOAuthClientForUser(email);
-            if (!oauth2Client) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
+        async ({spreadsheetId, sheetName}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             // Force refresh token if expired before API call
             // await oauth2Client.getAccessToken();

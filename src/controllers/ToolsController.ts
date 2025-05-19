@@ -1,28 +1,13 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../server";
 import path from "path";
+import {google} from "googleapis";
 import * as fs from "node:fs";
 import {printInConsole} from "../utils/printInConsole";
-import {getTokensForUser, oauth2Client, saveTokens} from "../services/OAuth";
-import {google} from "googleapis";
+import {getTokensForUser, saveTokens} from "../services/OAuth";
 import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI} from "../config/config";
 import {OAuth2Client} from "googleapis-common";
 import {sendError} from "../utils/sendError";
-
-/*async function setupMcpTools(server: McpServer) {
-    const toolsDir = path.join(__dirname, '..', 'tools');
-    await printInConsole(transport, toolsDir);
-    const toolFiles = fs.readdirSync(toolsDir).filter(f => f.endsWith('.ts') || f.endsWith('.js'));
-
-    for (const file of toolFiles) {
-        const modulePath = path.join(toolsDir, file);
-        await printInConsole(transport, `modulePath: ${modulePath}`);
-        const toolModule = await import(modulePath);
-        if (typeof toolModule.registerTool === 'function') {
-            toolModule.registerTool(server);
-        }
-    }
-}*/
 
 async function setupMcpTools(server: McpServer) {
     const toolsDir = path.join(__dirname, '..', 'tools');
@@ -86,17 +71,6 @@ async function setupMcpTools(server: McpServer) {
         const toolModule = await import(modulePath);
 
         if (typeof toolModule.registerTool === 'function') {
-            if (!oauth2Client) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
-
             toolModule.registerTool(server, getOAuthClientForUser);
         }
     }
