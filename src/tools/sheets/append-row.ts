@@ -3,6 +3,9 @@ import {z} from 'zod';
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
 import {Auth, google} from "googleapis";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {sendError} from "../../utils/sendError";
+import {transport} from "../../server";
 
 const appendRow = async (spreadsheetId: string, range: string, values: any[][], auth: Auth.OAuth2Client) => {
     const sheets = google.sheets({version: 'v4', auth});
@@ -39,31 +42,33 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             range: z.string().describe('The range in the spreadsheet where the data will be inserted'),
             values: z.array(z.array(z.any())).describe('A list where each inner list represents a row of the spreadsheet, and each string within a row corresponds to a cell value'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
         },
-        async ({spreadsheetId, range, values, email}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
+        async ({spreadsheetId, range, values}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
+
+            try {
+                await appendRow(spreadsheetId, range, values, oauth2Client);
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
+                            text: `Row added to ${range} ✅`,
+                        },
+                    ],
+                };
+            } catch (error: any) {
+                sendError(transport, new Error(`Failed to append row: ${error}`), 'append-row');
+                return {
+                    content: [
+                        {
+                            type: 'text',
+                            text: `Failed to append row ❌: ${error.message}`,
                         },
                     ],
                 };
             }
-
-            await appendRow(spreadsheetId, range, values, oauthClient);
-
-            return {
-                content: [
-                    {
-                        type: 'text',
-                        text: `Row added to ${range} ✅`,
-                    },
-                ],
-            };
         },
     );
 }

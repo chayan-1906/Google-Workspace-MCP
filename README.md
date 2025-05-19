@@ -51,17 +51,32 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 
 ## 🧰 Available Tools
 
-| Tool Name         | Description                                     | Sample Prompts |
-|-------------------|-------------------------------------------------|----------------| 
-| `appuendRow`      | Appends a new row to an existing sheet          |                |
-| `batchClear`      |                                                 |                |
-| `update`          |                                                 |                |
-| `getSheetContent` |                                                 |                |
-| `addSheet`        | Creates a new sheet tab in a Google Spreadsheet |                |
-| `addSheetContent` |                                                 |                |
-| `deleteSheet`     |                                                 |                |
-| `insertColumn`    |                                                 |                |
-| `deleteColumn`    |                                                 |                |
+| Tool Name                       | Description                                     | Sample Prompts |
+|---------------------------------|-------------------------------------------------|----------------| 
+| `getSheetIdsByName`             |                                                 |                |
+| `getFolderIdByName`             |                                                 |                |
+| `getFolderContentById`          |                                                 |                |
+| `createSpreadsheet`             |                                                 |                |
+| `renameSpreadsheet`             |                                                 |                |
+|
+| `appendRow`                     | Appends a new row to an existing sheet          |                |
+| `clearRanges`                   |                                                 |                |
+| `updateRanges`                  |                                                 |                |
+| `getSheetContent`               |                                                 |                |
+| `addSheet`                      | Creates a new sheet tab in a Google Spreadsheet |                |
+| `addSheetContent`               |                                                 |                |
+| `deleteSheet`                   |                                                 |                |
+| `insertColumn`                  |                                                 |                |
+| `deleteColumn`                  |                                                 |                |
+| `addChart`                      |                                                 |                |
+| `sort`                          |                                                 |                |
+| `filter`                        |                                                 |                |
+| `functions`                     |                                                 |                |
+| `addConditionalFormatting`      |                                                 |                |
+| `getAllConditionalFormatting`   |                                                 |                |
+| `clearAllConditionalFormatting` |                                                 |                |
+| `freezeRowsColumns`             |                                                 |                |
+| `unfreezeRowsColumns`           |                                                 |                |
 
 
 ## 🧪 Run the MCP Server

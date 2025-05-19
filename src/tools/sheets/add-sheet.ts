@@ -4,6 +4,8 @@ import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {sendError} from "../../utils/sendError";
+import {transport} from "../../server";
 
 const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
     const sheets = google.sheets({version: 'v4', auth});
@@ -36,18 +38,28 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
-            // Force refresh token if expired before API call
-            // await oauth2Client.getAccessToken();
-            await addSheet(spreadsheetId, sheetName, oauth2Client);
+            try {
+                await addSheet(spreadsheetId, sheetName, oauth2Client);
 
-            return {
-                content: [
-                    {
-                        type: 'text',
-                        text: `${sheetName} created ✅`,
-                    },
-                ],
-            };
+                return {
+                    content: [
+                        {
+                            type: 'text',
+                            text: `${sheetName} created ✅`,
+                        },
+                    ],
+                };
+            } catch (error: any) {
+                sendError(transport, new Error(`Failed to add sheet: ${error}`), 'add-sheet');
+                return {
+                    content: [
+                        {
+                            type: 'text',
+                            text: `Failed to add sheet ❌: ${error.message}`,
+                        },
+                    ],
+                };
+            }
         },
     );
 }

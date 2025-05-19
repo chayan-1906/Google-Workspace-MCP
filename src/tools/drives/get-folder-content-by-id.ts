@@ -5,6 +5,7 @@ import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 interface FolderMetadata {
     fileId: string;
@@ -43,23 +44,13 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         'Finds the Google Drive folder contents by folder ID',
         {
             folderId: z.string().describe('The ID of the Google Drive folder to list contents from'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
         },
-        async ({folderId, email}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
+        async ({folderId}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             try {
-                const folderMetadata = await getFolderContentById(folderId, oauthClient);
+                const folderMetadata = await getFolderContentById(folderId, oauth2Client);
 
                 if (!folderMetadata.length) {
                     return {
@@ -86,7 +77,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to fetch content of folder: ${error}`), 'get-sheet-content');
+                sendError(transport, new Error(`Failed to fetch content of folder: ${error}`), 'get-folder-content-by-id');
                 return {
                     content: [
                         {

@@ -5,6 +5,7 @@ import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const createSpreadsheet = async (sheetName: string, auth: Auth.OAuth2Client, parentFolderId?: string) => {
     const drive = google.drive({version: 'v3', auth});
@@ -35,24 +36,14 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         'Creates a new Google Spreadsheet in the specified Drive folder',
         {
             sheetName: z.string().describe('The title of the new spreadsheet'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
             parentFolderId: z.string().optional().describe('Optional parent folder ID to place the spreadsheet inside'),
         },
-        async ({sheetName, email, parentFolderId}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
+        async ({sheetName, parentFolderId}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             try {
-                const {spreadsheetId, url} = await createSpreadsheet(sheetName, oauthClient, parentFolderId);
+                const {spreadsheetId, url} = await createSpreadsheet(sheetName, oauth2Client, parentFolderId);
 
                 return {
                     content: [

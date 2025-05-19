@@ -3,6 +3,9 @@ import {Auth, google} from "googleapis";
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {sendError} from "../../utils/sendError";
+import {transport} from "../../server";
 
 interface SheetsMetadata {
     sheetId: string;
@@ -37,48 +40,50 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         tools.sheetIdsByName,
         'Finds the Google Spreadsheet IDs by spreadsheet name',
         {
-            sheetsName: z.string().describe('The name of the spreadsheet to find'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
+            sheetName: z.string().describe('The name of the spreadsheet to find'),
         },
-        async ({sheetsName, email}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
+        async ({sheetName}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
+
+            try {
+                const sheetsMetadata = await getSheetIdsByName(sheetName, oauth2Client);
+
+                if (!sheetsMetadata.length) {
+                    return {
+                        content: [
+                            {
+                                type: 'text',
+                                text: `No sheets found containing ${sheetName} 😕`,
+                            },
+                        ],
+                    };
+                }
+
+                const formattedSheets = sheetsMetadata
+                    .map(({sheetId, sheetName}, index) => `${index + 1}. 📁 ${sheetName} → \`${sheetId}\``)
+                    .join('\n');
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
+                            // text: `${sheetName} found 🎉`,
+                            text: `Found ${sheetsMetadata.length} sheet(s) containing ${sheetName}: 🎉\n\n${formattedSheets}`,
                         },
                     ],
                 };
-            }
-
-            const sheetsMetadata = await getSheetIdsByName(sheetsName, oauthClient);
-
-            if (!sheetsMetadata.length) {
+            } catch (error: any) {
+                sendError(transport, new Error(`Failed to get sheet ID by name: ${error}`), 'get-sheet-id-by-name');
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `No sheets found containing ${sheetsName} 😕`,
+                            text: `Failed to get sheet ID by name ❌: ${error.message}`,
                         },
                     ],
                 };
             }
-
-            const formattedSheets = sheetsMetadata
-                .map(({sheetId, sheetName}, index) => `${index + 1}. 📁 ${sheetName} → \`${sheetId}\``)
-                .join('\n');
-
-            return {
-                content: [
-                    {
-                        type: 'text',
-                        // text: `${sheetName} found 🎉`,
-                        text: `Found ${sheetsMetadata.length} sheet(s) containing ${sheetsName}: 🎉\n\n${formattedSheets}`,
-                    },
-                ],
-            };
         },
     );
 }

@@ -6,6 +6,7 @@ import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import * as url from "node:url";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const renameSpreadsheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
     const drive = google.drive({version: 'v3', auth});
@@ -26,23 +27,13 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         {
             spreadsheetId: z.string().describe('The ID of the spreadsheet file to rename'),
             sheetName: z.string().describe('The title of the new spreadsheet'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
         },
-        async ({spreadsheetId, sheetName, email}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
-                return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
-                        },
-                    ],
-                };
-            }
+        async ({spreadsheetId, sheetName}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             try {
-                await renameSpreadsheet(spreadsheetId, sheetName, oauthClient);
+                await renameSpreadsheet(spreadsheetId, sheetName, oauth2Client);
 
                 return {
                     content: [

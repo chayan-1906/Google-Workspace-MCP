@@ -3,6 +3,9 @@ import {Auth, google} from "googleapis";
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {sendError} from "../../utils/sendError";
+import {transport} from "../../server";
 
 interface FolderMetadata {
     folderId: string;
@@ -38,47 +41,49 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         'Finds the Google Drive folder IDs by folder name',
         {
             folderName: z.string().describe('The name of the Google Drive folder to find'),
-            email: z.string().describe('The authenticated user\'s email, used to check right access'),
         },
-        async ({folderName, email}) => {
-            const oauthClient = await getOAuthClientForUser(email);
-            if (!oauthClient) {
+        async ({folderName}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
+
+            try {
+                const folderMetadata = await getFolderIdsByName(folderName, oauth2Client);
+
+                if (!folderMetadata.length) {
+                    return {
+                        content: [
+                            {
+                                type: 'text',
+                                text: `No folders found containing ${folderName} 😕`,
+                            },
+                        ],
+                    };
+                }
+
+                const formattedFolders = folderMetadata
+                    .map(({folderId, folderName}, index) => `${index + 1}. 📁 ${folderName} → \`${folderId}\``)
+                    .join('\n');
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: 'User not authenticated. Please authenticate first. 🔑',
+                            // text: `${folderName} found 🎉`,
+                            text: `Found ${folderMetadata.length} folder(s) containing ${folderName}: 🎉\n\n${formattedFolders}`,
                         },
                     ],
                 };
-            }
-
-            const folderMetadata = await getFolderIdsByName(folderName, oauthClient);
-
-            if (!folderMetadata.length) {
+            } catch (error: any) {
+                sendError(transport, new Error(`Failed to fetch ID of folder by name: ${error}`), 'get-folder-id-by-name');
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `No folders found containing ${folderName} 😕`,
+                            text: `Failed to fetch ID of folder by name ❌: ${error.message}`,
                         },
                     ],
                 };
             }
-
-            const formattedFolders = folderMetadata
-                .map(({folderId, folderName}, index) => `${index + 1}. 📁 ${folderName} → \`${folderId}\``)
-                .join('\n');
-
-            return {
-                content: [
-                    {
-                        type: 'text',
-                        // text: `${folderName} found 🎉`,
-                        text: `Found ${folderMetadata.length} folder(s) containing ${folderName}: 🎉\n\n${formattedFolders}`,
-                    },
-                ],
-            };
         },
     );
 }
