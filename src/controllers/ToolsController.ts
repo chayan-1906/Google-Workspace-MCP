@@ -54,7 +54,7 @@ async function setupMcpTools(server: McpServer) {
 
             const mergedTokens = {
                 ...credentials,
-                refresh_token: tokens.refresh_token, // ensure this stays
+                refresh_token: tokens.refresh_token, // Preserve refresh token
             };
 
             oauth2Client.setCredentials(mergedTokens);

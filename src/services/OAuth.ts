@@ -10,7 +10,7 @@ export const oauth2Client = new google.auth.OAuth2(
     REDIRECT_URI
 ) as OAuth2Client;
 
-export const sheets = google.sheets({version: 'v4', auth: oauth2Client});
+// export const sheets = google.sheets({version: 'v4', auth: oauth2Client});
 
 export function getAuthUrl() {
     return oauth2Client.generateAuthUrl({
@@ -40,4 +40,11 @@ export async function getTokensForUser(email: string) {
     const collection = db.collection('user_tokens');
     const doc = await collection.findOne({email});
     return doc ? doc.tokens : null;
+}
+
+export async function getEmailFromSessionToken(sessionToken: string) {
+    const db = await connect(transport);
+    const collection = db.collection('sessions');
+    const doc = await collection.findOne({sessionToken});
+    return doc ? doc.email : null;
 }

@@ -1,0 +1,26 @@
+{"jsonrpc":"2.0","method":"log","params":{"message":"/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"OAuth server running on http://localhost:undefined"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/create-spreadsheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-content-by-id.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/rename-spreadsheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/add-sheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/append-row.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/clear-ranges.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/get-sheet-content.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/update-ranges.ts"}}
+{"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"Google Sheets","version":"1.0.0"}},"jsonrpc":"2.0","id":0}
+{"jsonrpc":"2.0","method":"log","params":{"message":"/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"OAuth server running on http://localhost:undefined"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/create-spreadsheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-content-by-id.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-folder-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/get-sheet-id-by-name.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/drives/rename-spreadsheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/add-sheet.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/append-row.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/clear-ranges.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/get-sheet-content.ts"}}
+{"jsonrpc":"2.0","method":"log","params":{"message":"modulePath: /Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/src/tools/sheets/update-ranges.ts"}}
+{"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"Google Sheets","version":"1.0.0"}},"jsonrpc":"2.0","id":0}
