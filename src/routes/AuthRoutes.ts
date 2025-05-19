@@ -1,14 +1,10 @@
 import {Router} from 'express';
-import {getAuthUrl, oauth2Client, saveTokens} from "../services/OAuth";
+import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, oauth2Client, saveTokens} from "../services/OAuth";
 import {google} from "googleapis";
 import {sendError} from "../utils/sendError";
 import {transport} from "../server";
-import {v4 as uuidv4} from 'uuid';
-import {connect} from "../config/db";
-import fs from 'fs/promises';
+import {promises as fs} from 'fs';
 import path from 'path';
-import os from 'os';
-import {printInConsole} from "../utils/printInConsole";
 
 const router = Router();
 
@@ -30,22 +26,31 @@ router.get('/oauth2callback', async (req, res) => {
         const email = userInfoRes.data.email;
         if (!email) return res.status(500).send('Failed to get user email');
 
+        /** Save tokens object (received by oauth) in DB (collection: user_tokens) */
         await saveTokens(email, tokens);
 
-        // Generate and save a session token
-        const sessionToken = uuidv4();
-        const db = await connect(transport);
-        await db.collection('sessions').insertOne({sessionToken, email});
+        /** Generate and save a session token (collection: sessions) */
+        const sessionToken = await generateAndSaveSessionToken(email);
 
-        // Save session token to a local file
-        const tokenFilePath = path.join(os.homedir(), '.claude', 'session_token.json');
-        await printInConsole(transport, `tokenFilePath: ${tokenFilePath}`);
-        await fs.mkdir(path.dirname(tokenFilePath), {recursive: true});
-        await printInConsole(transport, 'folder created for sessionToken');
-        await fs.writeFile(tokenFilePath, JSON.stringify({sessionToken, email}, null, 2), 'utf8');
-        await printInConsole(transport, 'file written');
+        /** Save session token to a local file (.claude/session_token.json) */
+        await createClaudeFileAndStoreSession(sessionToken, email);
 
-        res.send(`Authentication successful! Your session token: ${sessionToken}<br>Email: ${email}`);
+        // res.send(`Authentication successful! Your session token: ${sessionToken}<br>Email: ${email}`);
+        /** return views/success.html */
+        const filePath = path.join(__dirname, '..', 'views', 'success.html');
+
+        try {
+            const html = await fs.readFile(filePath, 'utf8');
+
+            const filledHtml = html
+                .replace('{{email}}', email)
+                .replace('{{token}}', sessionToken);
+
+            res.send(filledHtml);
+        } catch (err) {
+            console.error('Error reading HTML file:', err);
+            res.status(500).send('Something went wrong');
+        }
     } catch (error: any) {
         sendError(transport, error instanceof Error ? error : new Error(`Error in OAuth2: ${error.message}`), 'oauth-2');
         res.status(500).send(`Authentication failed: ${JSON.stringify(error)}`);
