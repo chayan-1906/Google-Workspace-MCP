@@ -8,6 +8,8 @@ import path from "path";
 import os from "os";
 import {printInConsole} from "../utils/printInConsole";
 import fs from "fs/promises";
+import {decryptToken, encryptToken} from "../utils/encryption";
+import {sendError} from "../utils/sendError";
 
 export const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
@@ -31,11 +33,16 @@ export function getAuthUrl() {
 export async function saveTokens(email: string, tokens: any) {
     const db = await connect(transport);
     const collection = db.collection('user_tokens');
+
+    const encrypted = encryptToken(JSON.stringify(tokens));
+
     await collection.updateOne(
         {email},
-        {$set: {tokens}},
+        {$set: {tokens: encrypted}},
         {upsert: true}
     );
+
+    // await getTokensForUser(email);
 }
 
 export async function getTokensForUser(email: string) {
@@ -43,7 +50,18 @@ export async function getTokensForUser(email: string) {
     const collection = db.collection('user_tokens');
     const doc = await collection.findOne({email});
 
-    return doc ? doc.tokens : null;
+    if (!doc || !doc.tokens) return null;
+
+    try {
+        const decrypted = decryptToken(doc.tokens);
+        const parsedDecrypted = JSON.parse(decrypted);
+        await printInConsole(transport, parsedDecrypted);
+
+        return parsedDecrypted;
+    } catch (error: any) {
+        sendError(transport, Error(`Failed to decrypt tokens: ${error}`), 'decrypt-token');
+        return null;
+    }
 }
 
 export async function getEmailFromSessionToken(sessionToken: string) {
