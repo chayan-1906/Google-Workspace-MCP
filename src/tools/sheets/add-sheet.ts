@@ -29,7 +29,7 @@ const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAu
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.addSheet,
-        'Creates a new sheet tab in google spreadsheet',
+        'Creates a new sheet tab in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetName: z.string().describe('The name of the sheet to be created'),
