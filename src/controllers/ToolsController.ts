@@ -35,14 +35,21 @@ async function setupMcpTools(server: McpServer) {
         await printInConsole(transport, 'manually refreshing access_token');
         try {
             // Force refresh
-            const {credentials} = await oauth2Client.refreshAccessToken();
+            const accessToken = await oauth2Client.getAccessToken();
+            if (!accessToken || !accessToken.token) {
+                // throw new Error('Could not retrieve access token');
+                sendError(transport, Error(`Could not retrieve access token: accessToken - ${accessToken} accessToken.token - ${accessToken.token}`), 'refresh-token');
+                return null;
+            }
+            await printInConsole(transport, `access_token obtained: ${accessToken.token}`);
 
+            const currentCredentials = oauth2Client.credentials;
             const mergedTokens = {
-                ...credentials,
+                ...currentCredentials,
                 refresh_token: tokens.refresh_token, // Preserve refresh token
             };
 
-            oauth2Client.setCredentials(mergedTokens);
+            // oauth2Client.setCredentials(mergedTokens);
             await saveTokens(email, mergedTokens);
 
             await printInConsole(transport, 'Access token refreshed and saved to DB');
