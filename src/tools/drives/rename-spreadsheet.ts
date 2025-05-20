@@ -1,14 +1,14 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
-import * as url from "node:url";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const renameSpreadsheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
+    const {google} = await import('googleapis');
     const drive = google.drive({version: 'v3', auth});
 
     const renamedSpreadsheet = await drive.files.update({
@@ -39,7 +39,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `📄 Spreadsheet *"${sheetName}"* renamed successfully! 🎉\n\n🔗 [Open Spreadsheet](${url})\n🆔 \`${spreadsheetId}\``,
+                            text: `📄 Spreadsheet ${sheetName} renamed successfully! 🎉`,
                         },
                     ],
                 };

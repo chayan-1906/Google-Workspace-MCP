@@ -1,10 +1,9 @@
 import {Router} from 'express';
-import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, oauth2Client, saveTokens} from "../services/OAuth";
-import {google} from "googleapis";
+import path from "path";
+import fs from "fs/promises";
 import {sendError} from "../utils/sendError";
 import {transport} from "../server";
-import {promises as fs} from 'fs';
-import path from 'path';
+import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, getOAuth2Client, saveTokens} from "../services/OAuth";
 
 const router = Router();
 
@@ -17,9 +16,12 @@ router.get('/oauth2callback', async (req, res) => {
     if (!code) return res.status(400).send('No code provided');
 
     try {
+        const oauth2Client = await getOAuth2Client();
+
         const {tokens} = await oauth2Client.getToken(code);
         oauth2Client.setCredentials(tokens);
 
+        const {google} = await import('googleapis');
         const oauth2 = google.oauth2({version: 'v2', auth: oauth2Client});
         const userInfoRes = await oauth2.userinfo.get();
 

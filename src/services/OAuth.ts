@@ -1,8 +1,8 @@
-import {Auth, google} from 'googleapis';
+import {Auth} from 'googleapis';
 import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI} from "../config/config";
 import {connect} from "../config/db";
 import {transport} from "../server";
-import {OAuth2Client} from "googleapis-common";
+import type {OAuth2Client} from 'google-auth-library';
 import {v4 as uuidv4} from "uuid";
 import path from "path";
 import os from "os";
@@ -11,11 +11,63 @@ import fs from "fs/promises";
 import {decryptToken, encryptToken} from "../utils/encryption";
 import {sendError} from "../utils/sendError";
 
-export const oauth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-) as OAuth2Client;
+let oauth2Client: OAuth2Client;
+
+export async function getOAuth2Client(): Promise<OAuth2Client> {
+    if (!oauth2Client) {
+        const {google} = await import('googleapis');
+        oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+    }
+    return oauth2Client;
+}
+
+export const getOAuthClientForUser = async (email: string) => {
+    const tokens = await getTokensForUser(email);
+    if (!tokens) return null;
+
+    const {google} = await import('googleapis');
+    const oauth2Client: OAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+    oauth2Client.setCredentials(tokens);
+    await printInConsole(transport, `existing tokens: ${JSON.stringify(tokens)}`);
+
+    // Force refresh the access token and get updated tokens
+    await printInConsole(transport, 'manually refreshing access_token');
+    try {
+        // Force refresh
+        const accessToken = await oauth2Client.getAccessToken();
+        if (!accessToken || !accessToken.token) {
+            // throw new Error('Could not retrieve access token');
+            sendError(transport, Error(`Could not retrieve access token: accessToken - ${accessToken} accessToken.token - ${accessToken.token}`), 'refresh-token');
+            return null;
+        }
+        await printInConsole(transport, `access_token obtained: ${accessToken.token}`);
+
+        const currentCredentials = oauth2Client.credentials;
+        const mergedTokens = {
+            ...currentCredentials,
+            refresh_token: tokens.refresh_token, // Preserve refresh token
+        };
+
+        await saveTokens(email, mergedTokens);
+
+        await printInConsole(transport, 'Access token refreshed and saved to DB');
+    } catch (error: any) {
+        sendError(transport, new Error(`Failed to refresh token: ${error}`), 'refresh-token');
+    }
+
+    await printInConsole(transport, 'about to update token to DB');
+    // Automatically refresh token and persist it if access token is updated
+    oauth2Client.on('tokens', async (newTokens) => {
+        const merged = {
+            ...oauth2Client.credentials,
+            ...newTokens,
+            refresh_token: tokens.refresh_token,
+        };
+        await saveTokens(email, merged);
+    });
+
+    return oauth2Client;
+}
 
 export function getAuthUrl() {
     return oauth2Client.generateAuthUrl({

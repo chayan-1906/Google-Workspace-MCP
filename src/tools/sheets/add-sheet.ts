@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
@@ -8,6 +8,7 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
 const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
+    const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
     await sheets.spreadsheets.batchUpdate({
