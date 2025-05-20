@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
@@ -24,6 +24,7 @@ function getReadableMimeType(mimeType: string): string {
 }
 
 const getFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
+    const {google} = await import('googleapis');
     const drive = google.drive({version: 'v3', auth});
 
     const response = await drive.files.list({

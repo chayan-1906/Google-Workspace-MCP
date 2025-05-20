@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
@@ -8,6 +8,7 @@ import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const clearRanges = async (spreadsheetId: string, ranges: string[], auth: Auth.OAuth2Client) => {
+    const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
     await sheets.spreadsheets.values.batchClear({

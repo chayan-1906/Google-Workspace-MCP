@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
@@ -8,6 +8,7 @@ import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const getSheetContent = async (spreadsheetId: string, auth: Auth.OAuth2Client, ranges?: string[]) => {
+    const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
     const response = await sheets.spreadsheets.get({

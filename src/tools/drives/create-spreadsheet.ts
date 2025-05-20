@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
@@ -8,6 +8,7 @@ import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const createSpreadsheet = async (sheetName: string, auth: Auth.OAuth2Client, parentFolderId?: string) => {
+    const {google} = await import('googleapis');
     const drive = google.drive({version: 'v3', auth});
 
     const fileMetadata: any = {

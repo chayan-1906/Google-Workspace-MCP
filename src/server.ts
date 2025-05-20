@@ -1,10 +1,12 @@
+const startTime = Date.now();
+
+import {setupMcpTools} from "./controllers/ToolsController";
+import 'dotenv/config';
 import express from 'express';
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
-import AuthRoutes from "./routes/AuthRoutes";
 import {PORT} from "./config/config";
-import {setupMcpTools} from "./controllers/ToolsController";
-import 'dotenv/config';
+import AuthRoutes from "./routes/AuthRoutes";
 import {printInConsole} from "./utils/printInConsole";
 
 const app = express();
@@ -21,20 +23,14 @@ const server = new McpServer({
 
 // Start receiving messages on stdin and sending messages on stdout
 async function startMcp() {
-    await setupMcpTools(server, /*[
-        (server) => registerAddSheetTool(server, {
-            CLIENT_ID: CLIENT_ID!,
-            CLIENT_SECRET: CLIENT_SECRET!,
-            REDIRECT_URI: REDIRECT_URI!,
-        }),
-    ]*/);
+    await setupMcpTools(server);
     await server.connect(transport);
 }
 
-startMcp();
-
 app.listen(PORT, async () => {
+    await printInConsole(transport, `OAuth server running on http://localhost:${PORT}, started in ${Date.now() - startTime}ms`);
+    await startMcp();
+    await printInConsole(transport, `All tools loaded in ${Date.now() - startTime}ms`);
     // await connect(transport);
-    await printInConsole(transport, `OAuth server running on http://localhost:${PORT}`)
     // await printInConsole(transport, `OAuth server running on http://localhost:4000`)
 });

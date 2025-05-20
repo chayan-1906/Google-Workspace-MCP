@@ -1,13 +1,14 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {Auth} from 'googleapis';
 import {z} from 'zod';
 import {tools} from "../../utils/constants";
 import {OAuth2Client} from "googleapis-common";
-import {Auth, google} from "googleapis";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
 const appendRow = async (spreadsheetId: string, range: string, values: any[][], auth: Auth.OAuth2Client) => {
+    const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
     function formatIfDate(value: any): any {

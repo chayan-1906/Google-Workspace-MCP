@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {Auth, google} from "googleapis";
+import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
 import {z} from "zod";
 import {tools} from "../../utils/constants";
@@ -13,6 +13,7 @@ interface FolderMetadata {
 }
 
 const getFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
+    const {google} = await import('googleapis');
     const drive = google.drive({version: 'v3', auth});
 
     const matchingFolders: FolderMetadata[] = [];
