@@ -3,31 +3,39 @@ import {transport} from "../server";
 import {printInConsole} from "../utils/printInConsole";
 import {getOAuthClientForUser} from "../services/OAuth";
 
-import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
-import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
-import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
 import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
+import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
+import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
+import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
 import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsheet';
-import {registerTool as addSheet} from '../tools/sheets/add-sheet';
 import {registerTool as appendRow} from '../tools/sheets/append-row';
 import {registerTool as clearRanges} from '../tools/sheets/clear-ranges';
-import {registerTool as getSheetContent} from '../tools/sheets/get-sheet-content';
 import {registerTool as updateRanges} from '../tools/sheets/update-ranges';
+import {registerTool as getSheetContent} from '../tools/sheets/get-sheet-content';
+import {registerTool as addSheet} from '../tools/sheets/add-sheet';
+import {registerTool as deleteSheet} from '../tools/sheets/delete-sheet';
+import {registerTool as addSheetContent} from '../tools/sheets/add-sheet-content';
+import {registerTool as updateSheetContent} from '../tools/sheets/update-sheet-content';
+import {registerTool as insertColumn} from '../tools/sheets/insert-column';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
 
-    createSpreadsheet(server, getOAuthClientForUser);
-    getFolderContentById(server, getOAuthClientForUser);
-    getFolderIdsByName(server, getOAuthClientForUser);
     getSheetIdsByName(server, getOAuthClientForUser);
+    getFolderIdsByName(server, getOAuthClientForUser);
+    getFolderContentById(server, getOAuthClientForUser);
+    createSpreadsheet(server, getOAuthClientForUser);
     renameSpreadsheet(server, getOAuthClientForUser);
 
-    addSheet(server, getOAuthClientForUser);
     appendRow(server, getOAuthClientForUser);
     clearRanges(server, getOAuthClientForUser);
-    getSheetContent(server, getOAuthClientForUser);
     updateRanges(server, getOAuthClientForUser);
+    getSheetContent(server, getOAuthClientForUser);
+    addSheet(server, getOAuthClientForUser);
+    deleteSheet(server, getOAuthClientForUser);
+    addSheetContent(server, getOAuthClientForUser);
+    updateSheetContent(server, getOAuthClientForUser);
+    insertColumn(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
