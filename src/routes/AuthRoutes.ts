@@ -7,8 +7,8 @@ import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl
 
 const router = Router();
 
-router.get('/auth', (_req, res) => {
-    res.redirect(getAuthUrl());
+router.get('/auth', async (_req, res) => {
+    res.redirect(await getAuthUrl());
 });
 
 router.get('/oauth2callback', async (req, res) => {

@@ -69,7 +69,8 @@ export const getOAuthClientForUser = async (email: string) => {
     return oauth2Client;
 }
 
-export function getAuthUrl() {
+export async function getAuthUrl() {
+    await getOAuth2Client();
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: [

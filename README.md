@@ -63,6 +63,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `renameSpreadsheet`             | Renames an existing Google Spreadsheet by the spreadsheet ID                 |                |
 |
 | `appendRow`                     | Appends a new row to an existing sheet                                       |                |
+| `deleteRow`                     | Deletes one or more rows in a sheet tab                                      |                |
 | `clearRanges`                   | Clears certain ranges from a Google Spreadsheet                              |                |
 | `updateRanges`                  | Updates specific ranges in a Google Spreadsheet                              |                |
 | `getSheetContent`               | Fetches values from a specific sheet range                                   |                |
@@ -71,7 +72,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `addSheetContent`               | Adds new content (rows) to a specified range in a Google Spreadsheet         |                |
 | `updateSheetContent`            | Overwrites content in a specific Google Spreadsheet ranges                   |                |
 | `insertColumn`                  | Inserts a new column in a sheet at a specific position in Google Spreadsheet |                |
-| `deleteColumn`                  |                                                                              |                |
+| `deleteColumn`                  | Deletes one or more columns in a sheet tab from Google Spreadsheet           |                |
 | `addChart`                      |                                                                              |                |
 | `sort`                          |                                                                              |                |
 | `filter`                        |                                                                              |                |

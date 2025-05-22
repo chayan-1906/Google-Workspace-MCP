@@ -9,6 +9,7 @@ import {registerTool as getFolderContentById} from '../tools/drives/get-folder-c
 import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
 import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsheet';
 import {registerTool as appendRow} from '../tools/sheets/append-row';
+import {registerTool as deleteRow} from '../tools/sheets/delete-row';
 import {registerTool as clearRanges} from '../tools/sheets/clear-ranges';
 import {registerTool as updateRanges} from '../tools/sheets/update-ranges';
 import {registerTool as getSheetContent} from '../tools/sheets/get-sheet-content';
@@ -17,6 +18,7 @@ import {registerTool as deleteSheet} from '../tools/sheets/delete-sheet';
 import {registerTool as addSheetContent} from '../tools/sheets/add-sheet-content';
 import {registerTool as updateSheetContent} from '../tools/sheets/update-sheet-content';
 import {registerTool as insertColumn} from '../tools/sheets/insert-column';
+import {registerTool as deleteColumn} from '../tools/sheets/delete-column';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -28,6 +30,7 @@ async function setupMcpTools(server: McpServer) {
     renameSpreadsheet(server, getOAuthClientForUser);
 
     appendRow(server, getOAuthClientForUser);
+    deleteRow(server, getOAuthClientForUser);
     clearRanges(server, getOAuthClientForUser);
     updateRanges(server, getOAuthClientForUser);
     getSheetContent(server, getOAuthClientForUser);
@@ -36,6 +39,7 @@ async function setupMcpTools(server: McpServer) {
     addSheetContent(server, getOAuthClientForUser);
     updateSheetContent(server, getOAuthClientForUser);
     insertColumn(server, getOAuthClientForUser);
+    deleteColumn(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
