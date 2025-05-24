@@ -20,13 +20,13 @@ const tools = {
     sort: 'sort',                                                       // TODO - 11
     filter: 'filter',                                                   // TODO - 12
     functions: 'functions',                                             // TODO - 13
-    addConditionalFormatting: 'add-conditional-formatting',             // TODO - 1
+    addConditionalFormatting: 'add-conditional-formatting',
     getAllConditionalFormatting: 'get-all-conditional-formatting',      // TODO - 14
-    clearAllConditionalFormatting: 'clear-all-conditional-formatting',  // TODO - 4
+    clearAllConditionalFormatting: 'clear-all-conditional-formatting',
     freezeRowsColumns: 'freeze-rows-columns',                           // TODO - 9
     unfreezeRowsColumns: 'unfreeze-rows-columns',                       // TODO - 10
-    customCellFormatting: 'custom-cell-formatting',                     // TODO - 2
-    duplicateSheet: 'duplicate-sheet',     // copySheet in remix        // TODO - 3
+    customCellFormatting: 'custom-cell-formatting',
+    duplicateSheet: 'duplicate-sheet',     // copySheet in remix
     mergeCells: 'merge-cells',                                          // TODO - 7
     unmergeCells: 'unmerge-cells',                                      // TODO - 8
     setHeightWidth: 'set-height-width',                                 // TODO - 5

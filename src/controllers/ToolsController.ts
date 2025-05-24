@@ -19,6 +19,10 @@ import {registerTool as addSheetContent} from '../tools/sheets/add-sheet-content
 import {registerTool as updateSheetContent} from '../tools/sheets/update-sheet-content';
 import {registerTool as insertColumn} from '../tools/sheets/insert-column';
 import {registerTool as deleteColumn} from '../tools/sheets/delete-column';
+import {registerTool as addConditionalFormatting} from '../tools/sheets/add-conditional-formatting';
+import {registerTool as clearAllConditionalFormatting} from '../tools/sheets/clear-all-conditional-formatting';
+import {registerTool as customCellFormatting} from '../tools/sheets/custom-cell-formatting';
+import {registerTool as duplicateSheet} from '../tools/sheets/duplicate-sheet';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -40,6 +44,10 @@ async function setupMcpTools(server: McpServer) {
     updateSheetContent(server, getOAuthClientForUser);
     insertColumn(server, getOAuthClientForUser);
     deleteColumn(server, getOAuthClientForUser);
+    addConditionalFormatting(server, getOAuthClientForUser);
+    clearAllConditionalFormatting(server, getOAuthClientForUser);
+    customCellFormatting(server, getOAuthClientForUser);
+    duplicateSheet(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }

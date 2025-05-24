@@ -77,11 +77,13 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `sort`                          |                                                                              |                |
 | `filter`                        |                                                                              |                |
 | `functions`                     |                                                                              |                |
-| `addConditionalFormatting`      |                                                                              |                |
+| `addConditionalFormatting`      | Adds conditional formatting to a range in a Google Sheet                     |                |
 | `getAllConditionalFormatting`   |                                                                              |                |
-| `clearAllConditionalFormatting` |                                                                              |                |
+| `clearAllConditionalFormatting` | Clears all conditional formatting rules in a sheet                           |                |
 | `freezeRowsColumns`             |                                                                              |                |
 | `unfreezeRowsColumns`           |                                                                              |                |
+| `customCellFormatting`          | Applies custom formatting to a specified cell range in a Google Spreadsheet  |                |
+| `duplicateSheet`                | Duplicates a sheet and assigns a new name                                    |                |
 
 
 ## 🧪 Run the MCP Server
