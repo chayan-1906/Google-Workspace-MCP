@@ -16,21 +16,22 @@ const tools = {
     updateSheetContent: 'update-sheet-content',
     insertColumn: 'insert-column',
     deleteColumn: 'delete-column',
-    addChart: 'add-chart',
+    addChart: 'add-chart',                                              // TODO - 15
     sort: 'sort',                                                       // TODO - 11
     filter: 'filter',                                                   // TODO - 12
     functions: 'functions',                                             // TODO - 13
     addConditionalFormatting: 'add-conditional-formatting',
     getAllConditionalFormatting: 'get-all-conditional-formatting',      // TODO - 14
     clearAllConditionalFormatting: 'clear-all-conditional-formatting',
-    freezeRowsColumns: 'freeze-rows-columns',                           // TODO - 9
-    unfreezeRowsColumns: 'unfreeze-rows-columns',                       // TODO - 10
+    freezeRowsColumns: 'freeze-rows-columns',
+    unfreezeRowsColumns: 'unfreeze-rows-columns',
     customCellFormatting: 'custom-cell-formatting',
     duplicateSheet: 'duplicate-sheet',     // copySheet in remix
-    mergeCells: 'merge-cells',                                          // TODO - 7
-    unmergeCells: 'unmerge-cells',                                      // TODO - 8
-    setHeightWidth: 'set-height-width',                                 // TODO - 5
-    protectCells: 'protect-cells',                                      // TODO - 6
+    mergeCells: 'merge-cells',
+    unmergeCells: 'unmerge-cells',
+    setHeightWidth: 'set-height-width',
+    protectCells: 'protect-cells',
+    insertLink: 'insert-link'                                           // TODO - 16
 }
 
 export {tools};
