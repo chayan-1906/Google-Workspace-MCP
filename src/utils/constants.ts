@@ -21,7 +21,7 @@ const tools = {
     filter: 'filter',                                                   // TODO - 12
     functions: 'functions',                                             // TODO - 13
     addConditionalFormatting: 'add-conditional-formatting',
-    getAllConditionalFormatting: 'get-all-conditional-formatting',      // TODO - 14
+    // getAllConditionalFormatting: 'get-all-conditional-formatting',
     clearAllConditionalFormatting: 'clear-all-conditional-formatting',
     freezeRowsColumns: 'freeze-rows-columns',
     unfreezeRowsColumns: 'unfreeze-rows-columns',
@@ -31,7 +31,7 @@ const tools = {
     unmergeCells: 'unmerge-cells',
     setHeightWidth: 'set-height-width',
     protectCells: 'protect-cells',
-    insertLink: 'insert-link'                                           // TODO - 16
+    insertLink: 'insert-link',                                           // TODO - 16
 }
 
 export {tools};
