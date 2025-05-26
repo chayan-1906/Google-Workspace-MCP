@@ -19,6 +19,9 @@ import {registerTool as addSheetContent} from '../tools/sheets/add-sheet-content
 import {registerTool as updateSheetContent} from '../tools/sheets/update-sheet-content';
 import {registerTool as insertColumn} from '../tools/sheets/insert-column';
 import {registerTool as deleteColumn} from '../tools/sheets/delete-column';
+import {registerTool as sort} from '../tools/sheets/sort';
+import {registerTool as filter} from '../tools/sheets/filter';
+import {registerTool as functions} from '../tools/sheets/functions';
 import {registerTool as addConditionalFormatting} from '../tools/sheets/add-conditional-formatting';
 import {registerTool as clearAllConditionalFormatting} from '../tools/sheets/clear-all-conditional-formatting';
 import {registerTool as freezeRowsColumns} from '../tools/sheets/freeze-rows-columns';
@@ -27,7 +30,9 @@ import {registerTool as customCellFormatting} from '../tools/sheets/custom-cell-
 import {registerTool as duplicateSheet} from '../tools/sheets/duplicate-sheet';
 import {registerTool as mergeCells} from '../tools/sheets/merge-cells';
 import {registerTool as unmergeCells} from '../tools/sheets/unmerge-cells';
+import {registerTool as setHeightWidth} from '../tools/sheets/set-height-width';
 import {registerTool as protectCells} from '../tools/sheets/protect-cells';
+import {registerTool as insertLink} from '../tools/sheets/insert-link';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -49,6 +54,9 @@ async function setupMcpTools(server: McpServer) {
     updateSheetContent(server, getOAuthClientForUser);
     insertColumn(server, getOAuthClientForUser);
     deleteColumn(server, getOAuthClientForUser);
+    sort(server, getOAuthClientForUser);
+    filter(server, getOAuthClientForUser);
+    functions(server, getOAuthClientForUser);
     addConditionalFormatting(server, getOAuthClientForUser);
     clearAllConditionalFormatting(server, getOAuthClientForUser);
     freezeRowsColumns(server, getOAuthClientForUser);
@@ -57,7 +65,9 @@ async function setupMcpTools(server: McpServer) {
     duplicateSheet(server, getOAuthClientForUser);
     mergeCells(server, getOAuthClientForUser);
     unmergeCells(server, getOAuthClientForUser);
+    setHeightWidth(server, getOAuthClientForUser);
     protectCells(server, getOAuthClientForUser);
+    insertLink(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
