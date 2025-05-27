@@ -6,6 +6,7 @@ import {printInConsole} from "../utils/printInConsole";
 import {MONGODB_URI} from "./config";
 
 let db: any;
+const dbName = 'google-workspace';
 
 async function connect(transport: StdioServerTransport) {
     try {
@@ -16,7 +17,7 @@ async function connect(transport: StdioServerTransport) {
 
         const client = new MongoClient(MONGODB_URI);
         await client.connect();
-        db = client.db('google-sheets');
+        db = client.db(dbName);
         await printInConsole(transport, 'Database connected');
     } catch (error: any) {
         sendError(transport, error instanceof Error ? error : new Error(String(error)), 'db-connection');

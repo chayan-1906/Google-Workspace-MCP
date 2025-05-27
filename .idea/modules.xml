@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/google-sheets-mcp.iml" filepath="$PROJECT_DIR$/google-sheets-mcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/google-workspace-mcp.iml" filepath="$PROJECT_DIR$/google-workspace-mcp.iml" />
     </modules>
   </component>
 </project>

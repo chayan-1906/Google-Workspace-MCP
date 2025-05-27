@@ -1,23 +1,24 @@
-# 🚀 Google Sheets MCP Server
+# 🚀 Google Workspace MCP Server
 
-An MCP-compliant server built with TypeScript to extend Claude and other AI agents with Google Sheets capabilities
+An MCP-compliant server built with TypeScript to extend Claude and other AI agents with Google Workspace (Drive, Spreadsheet, Docs) capabilities
 
 Supports:
 
-- 📊 Append rows to existing sheets
-- 📝 Add new sheets
+- 📊 All Google Drive operations
+- 📝 All Google Spreadsheet operations
+- 📝 All Google Docs operations
 
 ---
 
-Mongo DB - https://cloud.mongodb.com/v2/6828b54979c07a64b3c1f574#/metrics/replicaSet/6828b88376e9d8445de8b84a/explorer/google-sheets/user_tokens/find
-GCP - https://console.cloud.google.com/apis/credentials?authuser=2&project=cogent-wall-460113-t8
+Mongo DB - https://cloud.mongodb.com/v2/6828b54979c07a64b3c1f574#/metrics/replicaSet/6828b88376e9d8445de8b84a/explorer/google-workspace/sessions/find
+GCP - https://console.cloud.google.com/apis/credentials?inv=1&invt=Abyg2Q&authuser=3&project=cogent-wall-460113-t8
 
 ## ⚙️ Setup Instructions
 
 ### 1. 📁 Clone the repo
 ```
-git clone https://github.com/chayan1906/Google-Sheets-MCP.git
-cd Google-Sheets-MCP
+git clone https://github.com/chayan1906/Google-Workspace-MCP.git
+cd Google-Workspace-MCP
 ```
 
 ### 2. 📦 Install dependencies
@@ -25,26 +26,16 @@ cd Google-Sheets-MCP
 npm install
 ```
 
-### 3. 🔐 Add your Google API credentials
-Place your credentials.json file at the root level
-
-project-root/
-
-└── credentials.json
-
-🧾 Need help generating this file? Follow this guide:  
-👉 [How to create credentials.json for Google Sheets API (Notion)](https://curious-turnover-84b.notion.site/Google-Sheet-1eb1d464528f809f90e3f5d0ec35450b)
-
-### 4. 🧠 Upload `mcp.json` to Claude Desktop
+### 3. 🧠 Upload `mcp.json` to Claude Desktop
 Sample -
 
 ```
 {
     "mcpServers": {
-        "google-sheets": {
-            "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp/start_server.sh",
+        "google-workspace": {
+            "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/start_server.sh",
             "args": [],
-            "cwd": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-sheets-mcp"
+            "cwd": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp"
         }
     }
 }

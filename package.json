@@ -1,5 +1,5 @@
 {
-  "name": "google-sheets-mcp",
+  "name": "google-workspace-mcp",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
