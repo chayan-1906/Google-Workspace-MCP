@@ -17,7 +17,7 @@ app.use('/', AuthRoutes);
 
 // Create an MCP server
 const server = new McpServer({
-    name: 'Google Sheets',
+    name: 'Google Workspace',
     version: '1.0.0',
 });
 
