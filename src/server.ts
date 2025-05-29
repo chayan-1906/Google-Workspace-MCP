@@ -1,4 +1,3 @@
-import {sendError} from "./utils/sendError";
 import {setupMcpTools} from "./controllers/ToolsController";
 import 'dotenv/config';
 import express from 'express';
@@ -7,8 +6,7 @@ import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
 import {PORT} from "./config/config";
 import AuthRoutes from "./routes/AuthRoutes";
 import {printInConsole} from "./utils/printInConsole";
-import {exec} from 'child_process';
-import {promisify} from 'util';
+import {freezePortOnQuit, killPortOnLaunch} from "./utils/killPortOnLaunch";
 
 const startTime = Date.now();
 
@@ -24,51 +22,15 @@ const server = new McpServer({
     version: '1.0.0',
 });
 
+freezePortOnQuit();
+
 // Start receiving messages on stdin and sending messages on stdout
 async function startMcp() {
     await setupMcpTools(server);
     await server.connect(transport);
 }
 
-// startMcp();
-
-const sleep = async (ms: number) => {
-    await printInConsole(transport, 'Sleep start');
-    await new Promise(resolve => setTimeout(resolve, ms));
-    await printInConsole(transport, 'Sleep end');
-}
-
-async function killPort() {
-    await printInConsole(transport, `Attempting to kill port ${PORT}`);
-    const execAsync = promisify(exec);
-
-    try {
-        const {stdout} = await execAsync(`lsof -ti:${PORT} || true`);
-        const pids = stdout.trim().split('\n').filter(Boolean);
-        await printInConsole(transport, `Found PIDs: ${pids.join(', ')}, #of pids: ${pids.length}`);
-
-        if (!pids.length || pids.length === 0) {
-            await printInConsole(transport, `No process using port ${PORT}`);
-        } else {
-            for (const pid of pids) {
-                await execAsync(`kill -9 ${pid}`);
-                await printInConsole(transport, `Killed PID ${pid}`);
-            }
-
-            await sleep(1000);
-            await printInConsole(transport, `Port ${PORT} is now freed`);
-        }
-    } catch (error: any) {
-        if (error.code === 123) {
-            await printInConsole(transport, `Port ${PORT} is not in use`);
-        } else {
-            sendError(transport, error instanceof Error ? error : new Error(`Error killing port ${PORT}: ${error.message}`), 'port-killing');
-        }
-    }
-}
-
-killPort().then(async () => {
-    // await waitForPortToFree();
+killPortOnLaunch().then(async () => {
     app.listen(PORT, async () => {
         await printInConsole(transport, `OAuth server running on http://localhost:${PORT}, started in ${Date.now() - startTime}ms`);
         await startMcp();
