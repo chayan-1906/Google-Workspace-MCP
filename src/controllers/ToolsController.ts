@@ -3,6 +3,7 @@ import {transport} from "../server";
 import {printInConsole} from "../utils/printInConsole";
 import {getOAuthClientForUser} from "../services/OAuth";
 
+import {registerTool as myDetails} from '../tools/profile/my-details';
 import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
 import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
 import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
@@ -36,6 +37,8 @@ import {registerTool as insertLink} from '../tools/sheets/insert-link';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
+
+    myDetails(server);
 
     getSheetIdsByName(server, getOAuthClientForUser);
     getFolderIdsByName(server, getOAuthClientForUser);

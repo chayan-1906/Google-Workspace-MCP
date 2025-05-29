@@ -1,5 +1,5 @@
 import {Auth} from 'googleapis';
-import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI} from "../config/config";
+import {CLIENT_ID, CLIENT_SECRET, PORT, REDIRECT_URI} from "../config/config";
 import {connect} from "../config/db";
 import {transport} from "../server";
 import type {OAuth2Client} from 'google-auth-library';
@@ -74,10 +74,11 @@ export async function getAuthUrl() {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: [
-            'https://www.googleapis.com/auth/spreadsheets',
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/drive',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/docs',
         ],
         prompt: 'consent',
     });
@@ -163,7 +164,7 @@ export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: st
                 content: [
                     {
                         type: 'text',
-                        text: 'No session token provided. Please authenticate first.',
+                        text: `Please authenticate first in this link "http://localhost:${PORT}/auth". 🔑`,
                     },
                 ],
             },
@@ -179,7 +180,7 @@ export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: st
                 content: [
                     {
                         type: 'text',
-                        text: 'Invalid session. Please authenticate again. 🔑',
+                        text: `Please authenticate again in this link "http://localhost:${PORT}/auth" 🔑`,
                     },
                 ],
             },
@@ -194,7 +195,7 @@ export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: st
                 content: [
                     {
                         type: 'text',
-                        text: 'User not authenticated. Please authenticate first. 🔑',
+                        text: `Please authenticate first in this link "http://localhost:${PORT}/auth". 🔑`,
                     },
                 ],
             },

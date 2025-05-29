@@ -1,4 +1,6 @@
 const tools = {
+    myDetails: 'my-details',
+
     sheetIdsByName: 'sheet-ids-by-name',
     folderIdsByName: 'folder-ids-by-name',
     folderContentById: 'folder-content-by-id',
