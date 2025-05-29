@@ -11,7 +11,9 @@ Supports:
 ---
 
 Mongo DB - https://cloud.mongodb.com/v2/6828b54979c07a64b3c1f574#/metrics/replicaSet/6828b88376e9d8445de8b84a/explorer/google-workspace/sessions/find
+
 GCP - https://console.cloud.google.com/apis/credentials?inv=1&invt=Abyg2Q&authuser=3&project=cogent-wall-460113-t8
+
 Deployed Server: https://google-workspace-mcp.onrender.com
 
 ## ⚙️ Setup Instructions
@@ -48,6 +50,8 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 
 | Tool Name                       | Description                                                                                       | Sample Prompts |
 |---------------------------------|---------------------------------------------------------------------------------------------------|----------------| 
+| `myDetails`                     | Fetches the authenticated user's email address                                                    |                |
+|
 | `getSheetIdsByName`             | Finds the Google Spreadsheet IDs by spreadsheet name                                              |                |
 | `getFolderIdByName`             | Finds the Google Drive folder IDs by folder name                                                  |                |
 | `getFolderContentById`          | Finds the Google Drive folder contents by folder ID                                               |                |
