@@ -48,43 +48,71 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 
 ## 🧰 Available Tools
 
-| Tool Name                       | Description                                                                                       | Sample Prompts |
-|---------------------------------|---------------------------------------------------------------------------------------------------|----------------| 
-| `myDetails`                     | Fetches the authenticated user's email address                                                    |                |
+| Tool Name                           | Description                                                                                       | Sample Prompts |
+|-------------------------------------|---------------------------------------------------------------------------------------------------|----------------| 
+| `myDetails`                         | Fetches the authenticated user's email address                                                    |                |
 |
-| `getSheetIdsByName`             | Finds the Google Spreadsheet IDs by spreadsheet name                                              |                |
-| `getFolderIdByName`             | Finds the Google Drive folder IDs by folder name                                                  |                |
-| `getFolderContentById`          | Finds the Google Drive folder contents by folder ID                                               |                |
-| `createSpreadsheet`             | Creates a new Google Spreadsheet in the specified Drive folder                                    |                |
-| `renameSpreadsheet`             | Renames an existing Google Spreadsheet by the spreadsheet ID                                      |                |
+| `getFolderIdsByName`                | Finds the Google Drive folder IDs by folder name                                                  |                |
+| `getFolderContentById`              | Finds the Google Drive folder contents by folder ID                                               |                |
+| `getSheetIdsByName`                 | Finds the Google Spreadsheet IDs by spreadsheet name                                              |                |
+| `createSpreadsheet`                 | Creates a new Google Spreadsheet in the specified Drive folder                                    |                |
+| `deleteSpreadsheet`                 |                                                                                                   |                |
+| `renameSpreadsheet`                 | Renames an existing Google Spreadsheet by the spreadsheet ID                                      |                |
+| `getDocIdsByName`                   | Finds the Google Doc IDs by doc name                                                              |                |
+| `getDocMetadata`                    | Fetches basic metadata for a Google Doc (title, timestamps, owners)                               |                |
+| `createDoc`                         | Creates a new Google Doc in the specified Drive folder                                            |                |
+| `deleteDoc`                         |                                                                                                   |                |
+| `renameDoc`                         |                                                                                                   |                |
 |
-| `appendRow`                     | Appends a new row to an existing sheet                                                            |                |
-| `deleteRow`                     | Deletes one or more rows in a sheet tab                                                           |                |
-| `clearRanges`                   | Clears certain ranges from a Google Spreadsheet                                                   |                |
-| `updateRanges`                  | Updates specific ranges in a Google Spreadsheet                                                   |                |
-| `getSheetContent`               | Fetches values from a specific sheet range                                                        |                |
-| `addSheet`                      | Creates a new sheet tab in a Google Spreadsheet                                                   |                |
-| `deleteSheet`                   | Deletes a sheet tab by its numeric sheet ID                                                       |                |
-| `addSheetContent`               | Adds new content (rows) to a specified range in a Google Spreadsheet                              |                |
-| `updateSheetContent`            | Overwrites content in a specific Google Spreadsheet ranges                                        |                |
-| `insertColumn`                  | Inserts a new column in a sheet at a specific position in Google Spreadsheet                      |                |
-| `deleteColumn`                  | Deletes one or more columns in a sheet tab from Google Spreadsheet                                |                |
-| `addChart`                      |                                                                                                   |                |
-| `sort`                          | Sorts a row range by one or more column indexes in Google Spreadsheet                             |                |
-| `filter`                        | Applies filter view to a specified cell range in Google Spreadsheet                               |                |
-| `functions`                     | Applies spreadsheet function formulas (e.g., SUM, AVERAGE) to specific cell in Google Spreadsheet |                |
-| `addConditionalFormatting`      | Adds conditional formatting to a range in a Google Sheet                                          |                |
-| `clearAllConditionalFormatting` | Clears all conditional formatting rules in a sheet                                                |                |
-| `freezeRowsColumns`             | Freezes specified number of rows and columns in a sheet in Google Spreadsheet                     |                |
-| `unfreezeRowsColumns`           | Removes any frozen rows or columns from the Google Spreadsheet                                    |                |
-| `customCellFormatting`          | Applies custom formatting to a specified cell range in a Google Spreadsheet                       |                |
-| `duplicateSheet`                | Duplicates a sheet and assigns a new name                                                         |                |
-| `mergeCells`                    | Merges a specified cell range in a sheet using a selected merge type in Google Spreadsheet        |                |
-| `unmergeCells`                  | Unmerges cells in the given range on a Google Spreadsheet                                         |                |
-| `setHeightWidth`                | Sets row height or column width in a Google Spreadsheet                                           |                |
-| `protectCells`                  | Adds a protected range to specific cells with a warning in a Google Spreadsheet                   |                |
-| `insertLink`                    | Inserts a hyperlink into a specific cell in Google Spreadsheet                                    |                |
-
+| `appendRow`                         | Appends a new row to an existing sheet                                                            |                |
+| `deleteRow`                         | Deletes one or more rows in a sheet tab                                                           |                |
+| `clearRanges`                       | Clears certain ranges from a Google Spreadsheet                                                   |                |
+| `updateRanges`                      | Updates specific ranges in a Google Spreadsheet                                                   |                |
+| `getSheetContent`                   | Fetches values from a specific sheet range                                                        |                |
+| `addSheet`                          | Creates a new sheet tab in a Google Spreadsheet                                                   |                |
+| `deleteSheet`                       | Deletes a sheet tab by its numeric sheet ID                                                       |                |
+| `addSheetContent`                   | Adds new content (rows) to a specified range in a Google Spreadsheet                              |                |
+| `updateSheetContent`                | Overwrites content in a specific Google Spreadsheet ranges                                        |                |
+| `insertColumn`                      | Inserts a new column in a sheet at a specific position in Google Spreadsheet                      |                |
+| `deleteColumn`                      | Deletes one or more columns in a sheet tab from Google Spreadsheet                                |                |
+| `addChart`                          |                                                                                                   |                |
+| `sort`                              | Sorts a row range by one or more column indexes in Google Spreadsheet                             |                |
+| `filter`                            | Applies filter view to a specified cell range in Google Spreadsheet                               |                |
+| `functions`                         | Applies spreadsheet function formulas (e.g., SUM, AVERAGE) to specific cell in Google Spreadsheet |                |
+| `addConditionalFormatting`          | Adds conditional formatting to a range in a Google Sheet                                          |                |
+| `clearAllConditionalFormatting`     | Clears all conditional formatting rules in a sheet                                                |                |
+| `freezeRowsColumns`                 | Freezes specified number of rows and columns in a sheet in Google Spreadsheet                     |                |
+| `unfreezeRowsColumns`               | Removes any frozen rows or columns from the Google Spreadsheet                                    |                |
+| `customCellFormatting`              | Applies custom formatting to a specified cell range in a Google Spreadsheet                       |                |
+| `clearAllCustomCellFormattingSheet` |                                                                                                   |                |
+| `duplicateSheet`                    | Duplicates a sheet and assigns a new name                                                         |                |
+| `mergeCells`                        | Merges a specified cell range in a sheet using a selected merge type in Google Spreadsheet        |                |
+| `unmergeCells`                      | Unmerges cells in the given range on a Google Spreadsheet                                         |                |
+| `setHeightWidth`                    | Sets row height or column width in a Google Spreadsheet                                           |                |
+| `protectCells`                      | Adds a protected range to specific cells with a warning in a Google Spreadsheet                   |                |
+| `insertLinkSheet`                   | Inserts a hyperlink into a specific cell in Google Spreadsheet                                    |                |
+|
+| `exportDoc`                         |                                                                                                   |                |
+| `getDocContent`                     |                                                                                                   |                |
+| `appendDocText`                     |                                                                                                   |                |
+| `insertTextAtPosition`              |                                                                                                   |                |
+| `replaceText`                       |                                                                                                   |                |
+| `deleteTextRange`                   |                                                                                                   |                |
+| `insertLinkDoc`                     |                                                                                                   |                |
+| `insertImage`                       |                                                                                                   |                |
+| `insertTable`                       |                                                                                                   |                |
+| `deleteElement`                     |                                                                                                   |                |
+| `applyTextStyle`                    |                                                                                                   |                |
+| `applyParagraphStyle`               |                                                                                                   |                |
+| `applyNamedStyle`                   |                                                                                                   |                |
+| `setBackgroundColor`                |                                                                                                   |                |
+| `setListStyle`                      |                                                                                                   |                |
+| `clearAllFormattingDoc`             |                                                                                                   |                |
+| `addCommentDoc`                     |                                                                                                   |                |
+| `deleteCommentDoc`                  |                                                                                                   |                |
+| `listCommentsDoc`                   |                                                                                                   |                |
+| `shareDoc`                          |                                                                                                   |                |
+| `unshareDoc`                        |                                                                                                   |                |
 
 ## 🧪 Run the MCP Server
 ```

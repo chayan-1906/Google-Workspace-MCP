@@ -7,16 +7,16 @@ import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
-interface SheetsMetadata {
-    sheetId: string;
-    sheetName: string;
+interface DocMetadata {
+    docId: string;
+    docName: string;
 }
 
-const getSheetIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Promise<SheetsMetadata[]> => {
+const getDocIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Promise<DocMetadata[]> => {
     const {google} = await import('googleapis');
     const drive = google.drive({version: 'v3', auth});
 
-    const matchingSheets: SheetsMetadata[] = [];
+    const matchingDocs: DocMetadata[] = [];
 
     const response = await drive.files.list({
         q: `mimeType='application/vnd.google-apps.spreadsheet' and name contains '${sheetName}' and trashed=false`,
@@ -25,62 +25,61 @@ const getSheetIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Pr
     });
 
     if (response.data.files) {
-        matchingSheets.push(
-            ...response.data.files.map(sheet => ({
-                sheetId: sheet.id!,
-                sheetName: sheet.name!,
+        matchingDocs.push(
+            ...response.data.files.map(doc => ({
+                docId: doc.id!,
+                docName: doc.name!,
             }))
         );
     }
 
-    return matchingSheets;
+    return matchingDocs;
 }
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.getSheetIdsByName,
-        'Finds the Google Spreadsheet IDs by spreadsheet name',
+        tools.getDocIdsByName,
+        'Finds the Google Doc IDs by doc name',
         {
-            sheetName: z.string().describe('The name of the spreadsheet to find'),
+            docName: z.string().describe('The name of the doc to find'),
         },
-        async ({sheetName}) => {
+        async ({docName}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                const sheetsMetadata = await getSheetIdsByName(sheetName, oauth2Client);
+                const docMetadata = await getDocIdsByName(docName, oauth2Client);
 
-                if (!sheetsMetadata.length) {
+                if (!docMetadata.length) {
                     return {
                         content: [
                             {
                                 type: 'text',
-                                text: `No sheets found containing ${sheetName} 😕`,
+                                text: `No docs found containing ${docName} 😕`,
                             },
                         ],
                     };
                 }
 
-                const formattedSheets = sheetsMetadata
-                    .map(({sheetId, sheetName}, index) => `${index + 1}. 📁 ${sheetName} → \`${sheetId}\``)
+                const formattedDocs = docMetadata
+                    .map(({docId, docName}, index) => `${index + 1}. 📁 ${docName} → \`${docId}\``)
                     .join('\n');
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            // text: `${sheetName} found 🎉`,
-                            text: `Found ${sheetsMetadata.length} sheet(s) containing ${sheetName}: 🎉\n\n${formattedSheets}`,
+                            text: `Found ${docMetadata.length} doc(s) containing ${docName}: 🎉\n\n${formattedDocs}`,
                         },
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to get sheet IDs by name: ${error}`), 'get-sheet-ids-by-name');
+                sendError(transport, new Error(`Failed to get doc IDs by name: ${error}`), 'get-doc-ids-by-name');
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Failed to get sheet IDs by name ❌: ${error.message}`,
+                            text: `Failed to get doc IDs by name ❌: ${error.message}`,
                         },
                     ],
                 };

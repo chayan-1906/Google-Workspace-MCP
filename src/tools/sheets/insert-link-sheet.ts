@@ -7,7 +7,7 @@ import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
-const insertLink = async (spreadsheetId: string, sheetId: number, rowIndex: number, columnIndex: number, url: string, displayText: string, auth: Auth.OAuth2Client) => {
+const insertLinkSheet = async (spreadsheetId: string, sheetId: number, rowIndex: number, columnIndex: number, url: string, displayText: string, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -51,7 +51,7 @@ const insertLink = async (spreadsheetId: string, sheetId: number, rowIndex: numb
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.insertLink,
+        tools.insertLinkSheet,
         'Inserts a hyperlink into a specific cell in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -66,7 +66,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await insertLink(spreadsheetId, sheetId, rowIndex, columnIndex, url, displayText, oauth2Client);
+                await insertLinkSheet(spreadsheetId, sheetId, rowIndex, columnIndex, url, displayText, oauth2Client);
 
                 return {
                     content: [

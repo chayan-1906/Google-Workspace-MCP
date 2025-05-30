@@ -4,11 +4,16 @@ import {printInConsole} from "../utils/printInConsole";
 import {getOAuthClientForUser} from "../services/OAuth";
 
 import {registerTool as myDetails} from '../tools/profile/my-details';
-import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
+
 import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
 import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
+import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
 import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
 import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsheet';
+import {registerTool as getDocIdsByName} from '../tools/drives/get-doc-ids-by-name';
+import {registerTool as getDocMetadata} from '../tools/drives/get-doc-metadata';
+import {registerTool as createDoc} from '../tools/drives/create-doc';
+
 import {registerTool as appendRow} from '../tools/sheets/append-row';
 import {registerTool as deleteRow} from '../tools/sheets/delete-row';
 import {registerTool as clearRanges} from '../tools/sheets/clear-ranges';
@@ -33,18 +38,21 @@ import {registerTool as mergeCells} from '../tools/sheets/merge-cells';
 import {registerTool as unmergeCells} from '../tools/sheets/unmerge-cells';
 import {registerTool as setHeightWidth} from '../tools/sheets/set-height-width';
 import {registerTool as protectCells} from '../tools/sheets/protect-cells';
-import {registerTool as insertLink} from '../tools/sheets/insert-link';
+import {registerTool as insertLinkSheet} from '../tools/sheets/insert-link-sheet';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
 
     myDetails(server);
 
-    getSheetIdsByName(server, getOAuthClientForUser);
     getFolderIdsByName(server, getOAuthClientForUser);
     getFolderContentById(server, getOAuthClientForUser);
+    getSheetIdsByName(server, getOAuthClientForUser);
     createSpreadsheet(server, getOAuthClientForUser);
     renameSpreadsheet(server, getOAuthClientForUser);
+    getDocIdsByName(server, getOAuthClientForUser);
+    getDocMetadata(server, getOAuthClientForUser);
+    createDoc(server, getOAuthClientForUser);
 
     appendRow(server, getOAuthClientForUser);
     deleteRow(server, getOAuthClientForUser);
@@ -70,7 +78,7 @@ async function setupMcpTools(server: McpServer) {
     unmergeCells(server, getOAuthClientForUser);
     setHeightWidth(server, getOAuthClientForUser);
     protectCells(server, getOAuthClientForUser);
-    insertLink(server, getOAuthClientForUser);
+    insertLinkSheet(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
