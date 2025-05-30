@@ -41,7 +41,7 @@ const getFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): 
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.folderContentById,
+        tools.getFolderContentById,
         'Finds the Google Drive folder contents by folder ID',
         {
             folderId: z.string().describe('The ID of the Google Drive folder to list contents from'),

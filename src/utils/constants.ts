@@ -1,11 +1,17 @@
 const tools = {
     myDetails: 'my-details',
 
-    sheetIdsByName: 'sheet-ids-by-name',
-    folderIdsByName: 'folder-ids-by-name',
-    folderContentById: 'folder-content-by-id',
+    getFolderIdsByName: 'get-folder-ids-by-name',
+    getFolderContentById: 'get-folder-content-by-id',
+    getSheetIdsByName: 'get-sheet-ids-by-name',
     createSpreadsheet: 'create-spreadsheet',
+    deleteSpreadsheet: 'delete-spreadsheet',                            // TODO Future
     renameSpreadsheet: 'rename-spreadsheet',
+    getDocIdsByName: 'doc-ids-by-name',
+    getDocMetadata: 'get-doc-metadata',
+    createDoc: 'create-doc',
+    deleteDoc: 'delete-doc',
+    renameDoc: 'rename-doc',
 
     appendRow: 'append-row',
     deleteRow: 'delete-row',
@@ -19,21 +25,47 @@ const tools = {
     insertColumn: 'insert-column',
     deleteColumn: 'delete-column',
     addChart: 'add-chart',                                              // TODO - 15
-    sort: 'sort',                                                       // TODO - 11
-    filter: 'filter',                                                   // TODO - 12
-    functions: 'functions',                                             // TODO - 13
+    sort: 'sort',
+    filter: 'filter',
+    functions: 'functions',
     addConditionalFormatting: 'add-conditional-formatting',
     // getAllConditionalFormatting: 'get-all-conditional-formatting',
     clearAllConditionalFormatting: 'clear-all-conditional-formatting',
     freezeRowsColumns: 'freeze-rows-columns',
     unfreezeRowsColumns: 'unfreeze-rows-columns',
     customCellFormatting: 'custom-cell-formatting',
+    clearAllCustomCellFormattingSheet: 'clear-all-custom-cell-formatting-sheet',    // TODO Future
     duplicateSheet: 'duplicate-sheet',     // copySheet in remix
     mergeCells: 'merge-cells',
     unmergeCells: 'unmerge-cells',
     setHeightWidth: 'set-height-width',
     protectCells: 'protect-cells',
-    insertLink: 'insert-link',                                           // TODO - 16
+    insertLinkSheet: 'insert-link-sheet',
+    shareSheet: 'share-sheet',                                                      // TODO Future
+    unshareSheet: 'unshare-sheet',                                                  // TODO Future
+
+    exportDoc: 'export-doc',
+    getDocContent: 'get-doc-content',
+    appendDocText: 'append-doc-text',
+    insertTextAtPosition: 'insert-text-at-position',
+    replaceText: 'replace-text',
+    deleteTextRange: 'delete-text-range',
+    insertLinkDoc: 'insert-link-doc',
+    insertImage: 'insert-image',
+    insertTable: 'insert-table',
+    updateTable: 'update-table',
+    deleteElement: 'delete-element',
+    applyTextStyle: 'apply-text-style',
+    applyParagraphStyle: 'apply-paragraph-style',
+    applyNamedStyle: 'apply-named-style',
+    setBackgroundColor: 'set-background-color',
+    setListStyle: 'set-list-style',
+    clearAllFormattingDoc: 'remove-all-formatting-doc',
+    addCommentDoc: 'add-comment-doc',
+    deleteCommentDoc: 'delete-comment-doc',
+    listCommentsDoc: 'list-comments-doc',
+    shareDoc: 'share-doc',
+    unshareDoc: 'unshare-doc',
 }
 
 export {tools};
