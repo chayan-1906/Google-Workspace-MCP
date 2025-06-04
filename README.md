@@ -93,13 +93,12 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `protectCells`                      | Adds a protected range to specific cells with a warning in a Google Spreadsheet                   |
 | `insertLinkSheet`                   | Inserts a hyperlink into a specific cell in Google Spreadsheet                                    |
 |
-| `exportDoc`                         |                                                                                                   |
-| `getDocContent`                     |                                                                                                   |
-| `appendDocText`                     |                                                                                                   |
-| `insertTextAtPosition`              |                                                                                                   |
+| `getDocContent`                     | Retrieves the plain text content of a Google Docs document                                        |
+| `appendDocText`                     | Appends text to the end of a Google Docs document                                                 |
+| `insertTextAtPosition`              | Inserts text at a specific position in a Google Docs document'                                    |
 | `replaceText`                       |                                                                                                   |
 | `deleteTextRange`                   |                                                                                                   |
-| `insertLinkDoc`                     |                                                                                                   |
+| `insertLinkDoc`                     | Inserts a hyperlink into a Google Docs document at a specified position                           |
 | `insertImage`                       |                                                                                                   |
 | `insertTable`                       |                                                                                                   |
 | `deleteElement`                     |                                                                                                   |
@@ -112,6 +111,8 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `addCommentDoc`                     |                                                                                                   |
 | `deleteCommentDoc`                  |                                                                                                   |
 | `listCommentsDoc`                   |                                                                                                   |
+| `copyDoc`                           |                                                                                                   |
+| `exportDoc`                         |                                                                                                   |
 | `shareDoc`                          |                                                                                                   |
 | `unshareDoc`                        |                                                                                                   |
 
