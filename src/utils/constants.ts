@@ -19,6 +19,7 @@ const tools = {
     updateRanges: 'update-ranges',  // update in remix
     getSheetContent: 'get-sheet-content',
     addSheet: 'add-sheet',
+    renameSheet: 'rename-sheet',
     deleteSheet: 'delete-sheet',
     addSheetContent: 'add-sheet-content',
     updateSheetContent: 'update-sheet-content',
