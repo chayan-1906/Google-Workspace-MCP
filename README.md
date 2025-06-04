@@ -61,10 +61,10 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `getDocIdsByName`                   | Finds the Google Doc IDs by doc name                                                              |
 | `getDocMetadata`                    | Fetches basic metadata for a Google Doc (title, timestamps, owners)                               |
 | `createDoc`                         | Creates a new Google Doc in the specified Drive folder                                            |
-| `deleteDoc`                         |                                                                                                   |
-| `renameDoc`                         |                                                                                                   |
+| `deleteDoc`                         | Deletes a Google Docs document                                                                    |
+| `renameDoc`                         | Renames a Google Docs document                                                                    |
 |
-| `appendRow`                         | Appends a new row to an existing sheet                                                            |
+| `appendSheetRow`                    | Appends a new row to an existing sheet                                                            |
 | `deleteRow`                         | Deletes one or more rows in a sheet tab                                                           |
 | `clearRanges`                       | Clears certain ranges from a Google Spreadsheet                                                   |
 | `updateRanges`                      | Updates specific ranges in a Google Spreadsheet                                                   |

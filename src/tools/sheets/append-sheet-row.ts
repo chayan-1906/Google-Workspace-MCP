@@ -7,7 +7,7 @@ import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
-const appendRow = async (spreadsheetId: string, range: string, values: any[][], auth: Auth.OAuth2Client) => {
+const appendSheetRow = async (spreadsheetId: string, range: string, values: any[][], auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -37,7 +37,7 @@ const appendRow = async (spreadsheetId: string, range: string, values: any[][], 
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.appendRow,
+        tools.appendSheetRow,
         'Appends a new row in an existing spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -49,7 +49,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await appendRow(spreadsheetId, range, values, oauth2Client);
+                await appendSheetRow(spreadsheetId, range, values, oauth2Client);
 
                 return {
                     content: [
@@ -60,7 +60,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to append row: ${error}`), 'append-row');
+                sendError(transport, new Error(`Failed to append row: ${error}`), 'append-sheet-row');
                 return {
                     content: [
                         {

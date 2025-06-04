@@ -13,7 +13,7 @@ const tools = {
     deleteDoc: 'delete-doc',
     renameDoc: 'rename-doc',
 
-    appendRow: 'append-row',
+    appendSheetRow: 'append-sheet-row',
     deleteRow: 'delete-row',
     clearRanges: 'clear-ranges',    // batchClear in remix
     updateRanges: 'update-ranges',  // update in remix
@@ -25,7 +25,7 @@ const tools = {
     updateSheetContent: 'update-sheet-content',
     insertColumn: 'insert-column',
     deleteColumn: 'delete-column',
-    addChart: 'add-chart',                                              // TODO - 15
+    addChart: 'add-chart',
     sort: 'sort',
     filter: 'filter',
     functions: 'functions',
@@ -45,7 +45,6 @@ const tools = {
     shareSheet: 'share-sheet',                                                      // TODO Future
     unshareSheet: 'unshare-sheet',                                                  // TODO Future
 
-    exportDoc: 'export-doc',
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',
     insertTextAtPosition: 'insert-text-at-position',
@@ -65,6 +64,7 @@ const tools = {
     addCommentDoc: 'add-comment-doc',
     deleteCommentDoc: 'delete-comment-doc',
     listCommentsDoc: 'list-comments-doc',
+    exportDoc: 'export-doc',
     shareDoc: 'share-doc',
     unshareDoc: 'unshare-doc',
 }

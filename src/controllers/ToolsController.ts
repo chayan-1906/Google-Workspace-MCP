@@ -13,8 +13,10 @@ import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsh
 import {registerTool as getDocIdsByName} from '../tools/drives/get-doc-ids-by-name';
 import {registerTool as getDocMetadata} from '../tools/drives/get-doc-metadata';
 import {registerTool as createDoc} from '../tools/drives/create-doc';
+import {registerTool as deleteDoc} from '../tools/drives/delete-doc';
+import {registerTool as renameDoc} from '../tools/drives/rename-doc';
 
-import {registerTool as appendRow} from '../tools/sheets/append-row';
+import {registerTool as appendSheetRow} from '../tools/sheets/append-sheet-row';
 import {registerTool as deleteRow} from '../tools/sheets/delete-row';
 import {registerTool as clearRanges} from '../tools/sheets/clear-ranges';
 import {registerTool as updateRanges} from '../tools/sheets/update-ranges';
@@ -42,6 +44,8 @@ import {registerTool as setHeightWidth} from '../tools/sheets/set-height-width';
 import {registerTool as protectCells} from '../tools/sheets/protect-cells';
 import {registerTool as insertLinkSheet} from '../tools/sheets/insert-link-sheet';
 
+import {registerTool as appendDocText} from '../tools/docs/append-doc-text';
+
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
 
@@ -55,8 +59,10 @@ async function setupMcpTools(server: McpServer) {
     getDocIdsByName(server, getOAuthClientForUser);
     getDocMetadata(server, getOAuthClientForUser);
     createDoc(server, getOAuthClientForUser);
+    deleteDoc(server, getOAuthClientForUser);
+    renameDoc(server, getOAuthClientForUser);
 
-    appendRow(server, getOAuthClientForUser);
+    appendSheetRow(server, getOAuthClientForUser);
     deleteRow(server, getOAuthClientForUser);
     clearRanges(server, getOAuthClientForUser);
     updateRanges(server, getOAuthClientForUser);
@@ -83,6 +89,8 @@ async function setupMcpTools(server: McpServer) {
     setHeightWidth(server, getOAuthClientForUser);
     protectCells(server, getOAuthClientForUser);
     insertLinkSheet(server, getOAuthClientForUser);
+
+    appendDocText(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
