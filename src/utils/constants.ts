@@ -47,9 +47,12 @@ const tools = {
 
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',
+    addDocTab: 'add-doc-tab',   // should support adding subtab                     // @arka
+    renameDocTab: 'rename-doc-tab',                                                 // @arka
+    deleteDocTab: 'delete-doc-tab',                                                 // @arka
     insertTextAtPosition: 'insert-text-at-position',
-    replaceText: 'replace-text',
-    deleteTextRange: 'delete-text-range',
+    replaceText: 'replace-text',                                                    // TODO: 1
+    deleteTextRange: 'delete-text-range',                                           // TODO: 2
     insertLinkDoc: 'insert-link-doc',
     insertImage: 'insert-image',
     insertTable: 'insert-table',
@@ -64,6 +67,7 @@ const tools = {
     addCommentDoc: 'add-comment-doc',
     deleteCommentDoc: 'delete-comment-doc',
     listCommentsDoc: 'list-comments-doc',
+    copyDoc: 'copy-doc',
     exportDoc: 'export-doc',
     shareDoc: 'share-doc',
     unshareDoc: 'unshare-doc',
