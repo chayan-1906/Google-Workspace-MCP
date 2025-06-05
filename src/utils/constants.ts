@@ -51,9 +51,10 @@ const tools = {
     renameDocTab: 'rename-doc-tab',                                                 // @arka
     deleteDocTab: 'delete-doc-tab',                                                 // @arka
     insertTextAtPosition: 'insert-text-at-position',
-    replaceText: 'replace-text',                                                    // TODO: 1
+    findAndReplaceTextDoc: 'find-and-replace-text-doc',                             // TODO: 1
     deleteTextRange: 'delete-text-range',                                           // TODO: 2
-    insertLinkDoc: 'insert-link-doc',
+    insertLinkDoc: 'insert-link-doc',                                               // TODO: retry
+    unLinkDoc: 'unlink-doc',
     insertImage: 'insert-image',
     insertTable: 'insert-table',
     updateTable: 'update-table',
