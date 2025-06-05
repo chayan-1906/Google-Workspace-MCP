@@ -50,9 +50,10 @@ const tools = {
     addDocTab: 'add-doc-tab',   // should support adding subtab                     // @arka
     renameDocTab: 'rename-doc-tab',                                                 // @arka
     deleteDocTab: 'delete-doc-tab',                                                 // @arka
+    findTextIndices: 'find-text-indices',
     insertTextAtPosition: 'insert-text-at-position',
-    findAndReplaceTextDoc: 'find-and-replace-text-doc',                             // TODO: 1
-    deleteTextRange: 'delete-text-range',                                           // TODO: 2
+    findAndReplaceTextDoc: 'find-and-replace-text-doc',
+    deleteTextRange: 'delete-text-range',                                           // TODO: 1
     insertLinkDoc: 'insert-link-doc',                                               // TODO: retry
     unLinkDoc: 'unlink-doc',
     insertImage: 'insert-image',

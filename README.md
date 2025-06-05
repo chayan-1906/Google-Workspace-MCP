@@ -95,9 +95,10 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 |
 | `getDocContent`                     | Retrieves the plain text content of a Google Docs document                                        |
 | `appendDocText`                     | Appends text to the end of a Google Docs document                                                 |
+| `findTextIndices`                   |                                                                                                   |
 | `insertTextAtPosition`              | Inserts text at a specific position in a Google Docs document'                                    |
 | `findAndReplaceTextDoc`             | Finds and replaces a specific or all occurrences of a string in a Google Doc                      |
-| `deleteTextRange`                   |                                                                                                   |
+| `deleteTextRange`                   | Deletes text from a Google Docs document between two indices                                      |
 | `insertLinkDoc`                     | Inserts a hyperlink into a Google Docs document at a specified position                           |
 | `unLinkDoc`                         |                                                                                                   |
 | `insertImage`                       |                                                                                                   |
