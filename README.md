@@ -96,9 +96,10 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `getDocContent`                     | Retrieves the plain text content of a Google Docs document                                        |
 | `appendDocText`                     | Appends text to the end of a Google Docs document                                                 |
 | `insertTextAtPosition`              | Inserts text at a specific position in a Google Docs document'                                    |
-| `replaceText`                       |                                                                                                   |
+| `findAndReplaceTextDoc`             | Replaces a specific or all occurrences of a string in a Google Doc                                |
 | `deleteTextRange`                   |                                                                                                   |
 | `insertLinkDoc`                     | Inserts a hyperlink into a Google Docs document at a specified position                           |
+| `unLinkDoc`                         |                                                                                                   |
 | `insertImage`                       |                                                                                                   |
 | `insertTable`                       |                                                                                                   |
 | `deleteElement`                     |                                                                                                   |
@@ -137,3 +138,9 @@ node dist/server.js
 •✅ **Zod** – Input schema validation
 
 •🌱 **dotenv** – Environment variable management
+
+Issues -
+
+1. getDocIdsByName -- test again ✅
+2. getDocContent can't find table ✅
+3. Check if insertLink can make a table cell hyperlinked

@@ -8,8 +8,8 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
 interface DocMetadata {
-    docId: string;
-    docName: string;
+    documentId: string;
+    documentName: string;
 }
 
 const getDocIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Promise<DocMetadata[]> => {
@@ -19,16 +19,16 @@ const getDocIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Prom
     const matchingDocs: DocMetadata[] = [];
 
     const response = await drive.files.list({
-        q: `mimeType='application/vnd.google-apps.spreadsheet' and name contains '${sheetName}' and trashed=false`,
+        q: `mimeType='application/vnd.google-apps.document' and name contains '${sheetName}' and trashed=false`,
         fields: 'files(id, name)',
         spaces: 'drive',
     });
 
     if (response.data.files) {
         matchingDocs.push(
-            ...response.data.files.map(doc => ({
-                docId: doc.id!,
-                docName: doc.name!,
+            ...response.data.files.map(document => ({
+                documentId: document.id!,
+                documentName: document.name!,
             }))
         );
     }
@@ -41,35 +41,35 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         tools.getDocIdsByName,
         'Finds the Google Doc IDs by doc name',
         {
-            docName: z.string().describe('The name of the doc to find'),
+            documentName: z.string().describe('The name of the doc to find'),
         },
-        async ({docName}) => {
+        async ({documentName}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                const docMetadata = await getDocIdsByName(docName, oauth2Client);
+                const docMetadata = await getDocIdsByName(documentName, oauth2Client);
 
                 if (!docMetadata.length) {
                     return {
                         content: [
                             {
                                 type: 'text',
-                                text: `No docs found containing ${docName} 😕`,
+                                text: `No docs found containing ${documentName} 😕`,
                             },
                         ],
                     };
                 }
 
                 const formattedDocs = docMetadata
-                    .map(({docId, docName}, index) => `${index + 1}. 📁 ${docName} → \`${docId}\``)
+                    .map(({documentId, documentName}, index) => `${index + 1}. 📁 ${documentName} → \`${documentId}\``)
                     .join('\n');
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Found ${docMetadata.length} doc(s) containing ${docName}: 🎉\n\n${formattedDocs}`,
+                            text: `Found ${docMetadata.length} doc(s) containing ${documentName}: 🎉\n\n${formattedDocs}`,
                         },
                     ],
                 };
