@@ -7,7 +7,7 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const findTextIndices = async (documentId: string, searchText: string, caseSensitive: boolean = false, partialMatch: boolean = true, auth: Auth.OAuth2Client) => {
+const findTextIndices = async (documentId: string, searchText: string, caseSensitive: boolean = false, partialMatch: boolean = true, auth: Auth.OAuth2Client, occurrenceNumber?: number) => {
     const {google} = await import('googleapis');
     const docs = google.docs({version: 'v1', auth});
 
@@ -24,11 +24,12 @@ const findTextIndices = async (documentId: string, searchText: string, caseSensi
         while (true) {
             idx = fullText.indexOf(normSearch, idx);
             if (idx === -1) break;
-            const start = runStart + idx;
-            const end = start + searchLen;
-            matches.push({startIndex: start - 1, endIndex: end - 1, text: text.slice(idx, searchLen)});
+            const zeroBasedStart = runStart + idx;
+            const zeroBasedEnd = zeroBasedStart + searchLen;
+            matches.push({startIndex: zeroBasedStart, endIndex: zeroBasedEnd, text: text.substr(idx, searchLen)});
             idx += searchLen;
             if (!partialMatch) break;
+            if (occurrenceNumber && matches.length >= occurrenceNumber) break;
         }
     };
 
@@ -39,28 +40,36 @@ const findTextIndices = async (documentId: string, searchText: string, caseSensi
                 const runStart = elem.startIndex ?? 0;
                 if (text) {
                     searchInRun(text, runStart);
+                    if (occurrenceNumber && matches.length >= occurrenceNumber) return true;
                 }
             }
         }
+        return false;
     };
 
     const walkContent = (elements: any[]) => {
         for (const element of elements) {
             if (element.paragraph) {
-                walkElements(element.paragraph.elements || []);
+                if (walkElements(element.paragraph.elements || [])) return true;
             } else if (element.table) {
                 for (const row of element.table.tableRows || []) {
                     for (const cell of row.tableCells || []) {
-                        walkContent(cell.content || []);
+                        if (walkContent(cell.content || [])) return true;
                     }
                 }
             } else if (element.tableOfContents) {
-                walkContent(element.tableOfContents.content || []);
+                if (walkContent(element.tableOfContents.content || [])) return true;
             }
         }
+        return false;
     };
 
     walkContent(content);
+
+    if (occurrenceNumber) {
+        return matches.slice(occurrenceNumber - 1, occurrenceNumber);
+    }
+
     return matches;
 }
 
@@ -73,6 +82,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             searchText: z.string().describe('The text you want to search for inside the document'),
             caseSensitive: z.boolean().default(false).describe('Whether to match case exactly (default false)'),
             partialMatch: z.boolean().default(true).describe('Whether to allow partial matches (default true)'),
+            occurrenceNumber: z.number().int().positive().optional().describe('If provided, returns only the Nth match (1-based); otherwise returns all matches'),
         },
         async ({documentId, searchText, caseSensitive, partialMatch}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
