@@ -7,69 +7,55 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-// TODO: Use findTextIndices
-async function findAndReplaceTextDoc(documentId: string, searchString: string, replaceString: string, auth: Auth.OAuth2Client): Promise<void> {
-    if (!searchString) {
-        return;
-    }
+async function findAndReplaceTextDoc(documentId: string, ranges: { startIndex: number; endIndex: number }[], replaceString: string, auth: Auth.OAuth2Client): Promise<void> {
+    if (!ranges.length) return;
 
     const {google} = await import('googleapis');
     const docs = google.docs({version: 'v1', auth});
 
-    const doc = await docs.documents.get({documentId});
-    const content = doc.data.body?.content || [];
-
-    for (const element of content) {
-        if (element.paragraph && element.paragraph.elements) {
-            for (const paragraphElement of element.paragraph.elements) {
-                if (paragraphElement.textRun && paragraphElement.textRun.content && paragraphElement.startIndex !== undefined) {
-                    const text = paragraphElement.textRun.content;
-                    const startIndex = paragraphElement.startIndex;
-                }
-            }
-        }
+    const requests: any[] = [];
+    for (const {startIndex, endIndex} of ranges.slice().reverse()) {
+        requests.push({
+            deleteContentRange: {range: {startIndex, endIndex}},
+        });
+        requests.push({
+            insertText: {location: {index: startIndex}, text: replaceString},
+        });
     }
 
-    // Replace all occurrences
     await docs.documents.batchUpdate({
-            documentId,
-            requestBody: {
-                requests: [
-                    {
-                        replaceAllText: {
-                            containsText: {
-                                text: searchString,
-                                matchCase: true,
-                            },
-                            replaceText: replaceString,
-                        },
-                    },
-                ],
-            },
-        });
+        documentId,
+        requestBody: {requests},
+    });
 }
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.findAndReplaceTextDoc,
-        'Finds and replaces a specific or all occurrences of a string in a Google Doc',
+        'Replaces text at specified index ranges in a Google Docs document with a provided replacement string, using precomputed start/end indices',
         {
             documentId: z.string().describe('The ID of the Google Docs document'),
-            searchString: z.string().describe('Text to search for'),
-            newText: z.string().describe('Text to replace with'),
+            ranges: z
+                .array(
+                    z.object({
+                        startIndex: z.number().describe('Zero-based index where replacement begins (inclusive)'),
+                        endIndex: z.number().nonnegative().describe('Zero-based index where replacement ends (exclusive)')
+                    })
+                ).describe('Array of {startIndex, endIndex} pairs specifying exact ranges to replace'),
+            replaceString: z.string().describe('Text to replace with'),
         },
-        async ({documentId, searchString, newText}) => {
+        async ({documentId, ranges, replaceString}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                await findAndReplaceTextDoc(documentId, searchString, newText, oauth2Client);
+                await findAndReplaceTextDoc(documentId, ranges, replaceString, oauth2Client);
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Replaced all occurrences of ${searchString} with ${newText} ✅`,
+                            text: `Replaced with ${replaceString} ✅`,
                         },
                     ],
                 };
