@@ -7,6 +7,7 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
+// TODO: Use findTextIndices
 async function findAndReplaceTextDoc(documentId: string, searchString: string, replaceString: string, auth: Auth.OAuth2Client): Promise<void> {
     if (!searchString) {
         return;
