@@ -52,9 +52,9 @@ const tools = {
     deleteDocTab: 'delete-doc-tab',                                                 // @arka
     findTextIndices: 'find-text-indices',
     insertTextAtPosition: 'insert-text-at-position',
-    findAndReplaceTextDoc: 'find-and-replace-text-doc',
-    deleteTextRange: 'delete-text-range',                                           // TODO: 1
-    insertLinkDoc: 'insert-link-doc',                                               // TODO: retry
+    findAndReplaceTextDoc: 'find-and-replace-text-doc',                             // TODO: Use findTextIndices
+    deleteTextRange: 'delete-text-range',                                           // TODO: Use findTextIndices
+    insertLinkDoc: 'insert-link-doc',                                               // TODO: Use findTextIndices
     unLinkDoc: 'unlink-doc',
     insertImage: 'insert-image',
     insertTable: 'insert-table',
