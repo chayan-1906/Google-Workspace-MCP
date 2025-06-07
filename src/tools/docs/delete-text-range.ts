@@ -7,6 +7,7 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
+// TODO: Fix - use findTextIndices
 const flattenTextWithParagraphBreaks = (content: any[]): string => {
     let text = "";
 
