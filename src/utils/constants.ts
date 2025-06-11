@@ -75,4 +75,8 @@ const tools = {
     unshareDoc: 'unshare-doc',
 }
 
-export {tools};
+const constants = {
+    sessionTokenFile: 'google_workspace_session.json',
+}
+
+export {tools, constants};

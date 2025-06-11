@@ -34,7 +34,7 @@ router.get('/oauth2callback', async (req, res) => {
         /** Generate and save a session token (collection: sessions) */
         const sessionToken = await generateAndSaveSessionToken(email);
 
-        /** Save session token to a local file (.claude/session_token.json) */
+        /** Save session token to a local file ($HOME/Library/Application Support/Claude/google_workspace_session.json) */
         await createClaudeFileAndStoreSession(sessionToken, email);
 
         // res.send(`Authentication successful! Your session token: ${sessionToken}<br>Email: ${email}`);

@@ -5,11 +5,12 @@ import {transport} from "../server";
 import type {OAuth2Client} from 'google-auth-library';
 import {v4 as uuidv4} from "uuid";
 import path from "path";
-import os from "os";
 import {printInConsole} from "../utils/printInConsole";
 import fs from "fs/promises";
 import {decryptToken, encryptToken} from "../utils/encryption";
 import {sendError} from "../utils/sendError";
+import {getClaudeConfigDir} from "../utils/directory";
+import {constants} from "../utils/constants";
 
 let oauth2Client: OAuth2Client;
 
@@ -118,7 +119,22 @@ export async function getTokensForUser(email: string) {
     }
 }
 
-export async function getEmailFromSessionToken(sessionToken: string) {
+export async function getEmailFromSessionToken() {
+    const sessionToken = await getSessionTokenFromSessionFile();
+    await printInConsole(transport, `sessionToken in getEmailFromSessionToken: ${sessionToken}`);
+    if (!sessionToken) {
+        return {
+            oauth2Client: null,
+            response: {
+                content: [
+                    {
+                        type: 'text',
+                        text: `Please authenticate first in this link "http://localhost:${PORT}/auth". 🔑`,
+                    },
+                ],
+            },
+        };
+    }
     const db = await connect(transport);
     const collection = db.collection('sessions');
     const doc = await collection.findOne({sessionToken});
@@ -140,12 +156,13 @@ export async function generateAndSaveSessionToken(email: string): Promise<string
 }
 
 export async function createClaudeFileAndStoreSession(sessionToken: string, email: string) {
-    const tokenFilePath = path.join(os.homedir(), '.claude', 'session_token.json');
+    const claudeDir = getClaudeConfigDir();
+    const tokenFilePath = path.join(claudeDir, constants.sessionTokenFile);
     await printInConsole(transport, `tokenFilePath: ${tokenFilePath}`);
     await fs.mkdir(path.dirname(tokenFilePath), {recursive: true});
-    await printInConsole(transport, '.claude folder created');
+    await printInConsole(transport, `${claudeDir} folder created`);
     await fs.writeFile(tokenFilePath, JSON.stringify({sessionToken, email}, null, 2), 'utf8');
-    await printInConsole(transport, 'session token has been added/updated in session_token.json');
+    await printInConsole(transport, 'session token has been added/updated in google_workspace_session.json');
 }
 
 interface GetOAuthClientResult {
@@ -154,10 +171,9 @@ interface GetOAuthClientResult {
 }
 
 export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>): Promise<GetOAuthClientResult> {
-    await printInConsole(transport, `Received sessionToken: ${process.env.CLAUDE_SESSION_TOKEN}`);
-    const token = process.env.CLAUDE_SESSION_TOKEN;
-    await printInConsole(transport, `Using sessionToken: ${token}`);
-    if (!token) {
+    const sessionToken = await getSessionTokenFromSessionFile();
+    await printInConsole(transport, `Received sessionToken: ${sessionToken}`);
+    if (!sessionToken) {
         return {
             oauth2Client: null,
             response: {
@@ -171,7 +187,7 @@ export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: st
         };
     }
 
-    const email = await getEmailFromSessionToken(token);
+    const email = await getEmailFromSessionToken();
     await printInConsole(transport, `Email from token: ${email}`);
     if (!email) {
         return {
@@ -203,4 +219,16 @@ export async function getOAuth2ClientFromEmail(getOAuthClientForUser: (email: st
     }
 
     return {oauth2Client};
+}
+
+export async function getSessionTokenFromSessionFile() {
+    const filePath = path.join(getClaudeConfigDir(), constants.sessionTokenFile);
+
+    try {
+        const content = await fs.readFile(filePath, 'utf8');
+        const data = JSON.parse(content);
+        return data.sessionToken ?? null;
+    } catch (error) {
+        return null;
+    }
 }

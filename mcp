@@ -1,9 +1,23 @@
+// macOS
 {
   "mcpServers": {
     "google-workspace": {
       "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/start_server.sh",
       "args": [],
       "cwd": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp"
+    }
+  }
+}
+
+// Windows (WSL)
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "cd /d E:\\NodeJsProjects\\all-node-js-projects\\mcp-servers\\google-workspace-mcp && npx ts-node src/server.ts"
+      ]
     }
   }
 }
