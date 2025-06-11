@@ -51,7 +51,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | Tool Name                           | Description                                                                                       |
 |-------------------------------------|---------------------------------------------------------------------------------------------------| 
 | `myDetails`                         | Fetches the authenticated user's email address                                                    |
-|
+|                                     |                                                                                                   |
 | `getFolderIdsByName`                | Finds the Google Drive folder IDs by folder name                                                  |
 | `getFolderContentById`              | Finds the Google Drive folder contents by folder ID                                               |
 | `getSheetIdsByName`                 | Finds the Google Spreadsheet IDs by spreadsheet name                                              |
@@ -63,7 +63,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `createDoc`                         | Creates a new Google Doc in the specified Drive folder                                            |
 | `deleteDoc`                         | Deletes a Google Docs document                                                                    |
 | `renameDoc`                         | Renames a Google Docs document                                                                    |
-|
+|                                     |                                                                                                   |
 | `appendSheetRow`                    | Appends a new row to an existing sheet                                                            |
 | `deleteRow`                         | Deletes one or more rows in a sheet tab                                                           |
 | `clearRanges`                       | Clears certain ranges from a Google Spreadsheet                                                   |
@@ -92,7 +92,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `setHeightWidth`                    | Sets row height or column width in a Google Spreadsheet                                           |
 | `protectCells`                      | Adds a protected range to specific cells with a warning in a Google Spreadsheet                   |
 | `insertLinkSheet`                   | Inserts a hyperlink into a specific cell in Google Spreadsheet                                    |
-|
+|                                     |                                                                                                   |
 | `getDocContent`                     | Retrieves the plain text content of a Google Docs document                                        |
 | `appendDocText`                     | Appends text to the end of a Google Docs document                                                 |
 | `findTextIndices`                   |                                                                                                   |
@@ -140,8 +140,4 @@ node dist/server.js
 
 •🌱 **dotenv** – Environment variable management
 
-Issues -
-
-1. getDocIdsByName -- test again ✅
-2. getDocContent can't find table ✅
-3. Check if insertLink can make a table cell hyperlinked
+for /f "tokens=5" %a in ('netstat -aon ^| findstr :20251') do taskkill /F /PID %a

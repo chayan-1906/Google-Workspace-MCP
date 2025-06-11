@@ -2,7 +2,7 @@ import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
-import {getEmailFromSessionToken} from "../../services/OAuth";
+import {getEmailFromSessionToken, getSessionTokenFromSessionFile} from "../../services/OAuth";
 import {PORT} from "../../config/config";
 
 export const registerTool = (server: McpServer) => {
@@ -11,7 +11,8 @@ export const registerTool = (server: McpServer) => {
         'Fetches the authenticated user\'s email address',
         {},
         async ({}) => {
-            if (!process.env.CLAUDE_SESSION_TOKEN) {
+            const sessionToken = await getSessionTokenFromSessionFile();
+            if (!sessionToken) {
                 return {
                     content: [
                         {
@@ -22,7 +23,7 @@ export const registerTool = (server: McpServer) => {
                 };
             }
 
-            const email = await getEmailFromSessionToken(process.env.CLAUDE_SESSION_TOKEN || '');
+            const email = await getEmailFromSessionToken();
 
             try {
                 return {

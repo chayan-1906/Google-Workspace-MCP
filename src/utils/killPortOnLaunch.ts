@@ -14,17 +14,32 @@ const sleep = async (ms: number) => {
 async function killPortOnLaunch() {
     await printInConsole(transport, `Attempting to kill port ${PORT}`);
     const execAsync = promisify(exec);
+    const platform = process.platform;
 
     try {
-        const {stdout} = await execAsync(`lsof -ti:${PORT} || true`);
-        const pids = stdout.trim().split('\n').filter(Boolean);
+        let pids: string[] = [];
+        if (platform === 'win32') {
+            const {stdout} = await execAsync(`netstat -ano | findstr :${PORT}`);
+            const lines = stdout.trim().split('\n');
+            const pidSet = new Set<string>();
+            for (const line of lines) {
+                const parts = line.trim().split(/\s+/);
+                const pid = parts[parts.length - 1];
+                if (pid) pidSet.add(pid);
+            }
+            pids = [...pidSet];
+        } else {
+            const {stdout} = await execAsync(`lsof -ti:${PORT} || true`);
+            pids = stdout.trim().split('\n').filter(Boolean);
+        }
         await printInConsole(transport, `Found PIDs: ${pids.join(', ')}, #of pids: ${pids.length}`);
 
         if (!pids.length || pids.length === 0) {
             await printInConsole(transport, `No process using port ${PORT}`);
         } else {
             for (const pid of pids) {
-                await execAsync(`kill -9 ${pid}`);
+                const killCmd = platform === 'win32' ? `taskkill /F /PID ${pid}` : `kill -9 ${pid}`;
+                await execAsync(killCmd);
                 await printInConsole(transport, `Killed PID ${pid}`);
             }
 
