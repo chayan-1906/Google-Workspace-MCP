@@ -27,11 +27,6 @@ const server = new McpServer({
 freezePortOnQuit();
 
 const serverName = 'google-workspace';
-/*const entry = {
-    command: (process as any).pkg ? process.execPath : `${process.cwd()}/start_server.sh`,  // e.g. "C:\\Users\\USER\Downloads\\weather-mcp.exe" or "/Users/padmanabhadas"
-    args: [],
-    cwd: process.cwd(),         // wherever the user launched it from
-};*/
 
 // Start receiving messages on stdin and sending messages on stdout
 async function startMcp() {
@@ -57,7 +52,7 @@ killPortOnLaunch().then(async () => {
                 if (platform() === 'darwin') {
                     return {
                         entry: {
-                            'command': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/start_server.sh',
+                            'command': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/src/scripts/start_server.sh',
                             'args': [],
                             'cwd': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp'
                         },
