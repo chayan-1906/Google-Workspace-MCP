@@ -5,8 +5,10 @@ const tools = {
     getFolderContentById: 'get-folder-content-by-id',
     getSheetIdsByName: 'get-sheet-ids-by-name',
     createSpreadsheet: 'create-spreadsheet',
-    deleteSpreadsheet: 'delete-spreadsheet',                            // TODO Future
+    deleteSpreadsheet: 'delete-spreadsheet',
     renameSpreadsheet: 'rename-spreadsheet',
+    shareSpreadsheet: 'share-spreadsheet',
+    unshareSpreadsheet: 'unshare-spreadsheet',
     getDocIdsByName: 'doc-ids-by-name',
     getDocMetadata: 'get-doc-metadata',
     createDoc: 'create-doc',
@@ -35,15 +37,13 @@ const tools = {
     freezeRowsColumns: 'freeze-rows-columns',
     unfreezeRowsColumns: 'unfreeze-rows-columns',
     customCellFormatting: 'custom-cell-formatting',
-    clearAllCustomCellFormattingSheet: 'clear-all-custom-cell-formatting-sheet',    // TODO Future
+    clearAllCustomCellFormattingSheet: 'clear-all-custom-cell-formatting-sheet',
     duplicateSheet: 'duplicate-sheet',     // copySheet in remix
     mergeCells: 'merge-cells',
     unmergeCells: 'unmerge-cells',
     setHeightWidth: 'set-height-width',
     protectCells: 'protect-cells',
     insertLinkSheet: 'insert-link-sheet',
-    shareSheet: 'share-sheet',                                                      // TODO Future
-    unshareSheet: 'unshare-sheet',                                                  // TODO Future
 
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',

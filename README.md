@@ -46,6 +46,8 @@ Sample -
 
 Upload `mcp.json` content into the Claude Desktop app via Settings → Tools → Add tool
 
+## User Guide -- https://versed-blinker-33e.notion.site/User-Guide-20f0c027172280c8b84fd90fbe67596c
+
 ## 🧰 Available Tools
 
 | Tool Name                           | Description                                                                                       |
@@ -56,8 +58,10 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `getFolderContentById`              | Finds the Google Drive folder contents by folder ID                                               |
 | `getSheetIdsByName`                 | Finds the Google Spreadsheet IDs by spreadsheet name                                              |
 | `createSpreadsheet`                 | Creates a new Google Spreadsheet in the specified Drive folder                                    |
-| `deleteSpreadsheet`                 |                                                                                                   |
+| `deleteSpreadsheet`                 | The ID of the spreadsheet to delete                                                               |
 | `renameSpreadsheet`                 | Renames an existing Google Spreadsheet by the spreadsheet ID                                      |
+| `shareSpreadsheet`                  | Shares the Google Spreadsheet with one or more users                                              |
+| `unshareSpreadsheet`                | Unshares the spreadsheet from specific email addresses (ignores if not shared)                    |
 | `getDocIdsByName`                   | Finds the Google Doc IDs by doc name                                                              |
 | `getDocMetadata`                    | Fetches basic metadata for a Google Doc (title, timestamps, owners)                               |
 | `createDoc`                         | Creates a new Google Doc in the specified Drive folder                                            |
@@ -85,7 +89,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `freezeRowsColumns`                 | Freezes specified number of rows and columns in a sheet in Google Spreadsheet                     |
 | `unfreezeRowsColumns`               | Removes any frozen rows or columns from the Google Spreadsheet                                    |
 | `customCellFormatting`              | Applies custom formatting to a specified cell range in a Google Spreadsheet                       |
-| `clearAllCustomCellFormattingSheet` |                                                                                                   |
+| `clearAllCustomCellFormattingSheet` | Clears all custom cell formatting (like font, color, alignment) from the given Google SpreadSheet |
 | `duplicateSheet`                    | Duplicates a sheet and assigns a new name                                                         |
 | `mergeCells`                        | Merges a specified cell range in a sheet using a selected merge type in Google Spreadsheet        |
 | `unmergeCells`                      | Unmerges cells in the given range on a Google Spreadsheet                                         |
