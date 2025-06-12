@@ -36,7 +36,7 @@ Sample -
 {
     "mcpServers": {
         "google-workspace": {
-            "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/start_server.sh",
+            "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/src/scripts/start_server.sh",
             "args": [],
             "cwd": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp"
         }
