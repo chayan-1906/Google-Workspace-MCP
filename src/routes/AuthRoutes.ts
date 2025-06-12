@@ -1,9 +1,8 @@
 import {Router} from 'express';
-import path from "path";
-import fs from "fs/promises";
 import {sendError} from "../utils/sendError";
 import {transport} from "../server";
 import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, getOAuth2Client, saveTokens} from "../services/OAuth";
+import {successHtml} from "../templates/successHTML";
 
 const router = Router();
 
@@ -37,14 +36,8 @@ router.get('/oauth2callback', async (req, res) => {
         /** Save session token to a local file ($HOME/Library/Application Support/Claude/google_workspace_session.json) */
         await createClaudeFileAndStoreSession(sessionToken, email);
 
-        // res.send(`Authentication successful! Your session token: ${sessionToken}<br>Email: ${email}`);
-        /** return views/success.html */
-        const filePath = path.join(__dirname, '..', 'views', 'success.html');
-
         try {
-            const html = await fs.readFile(filePath, 'utf8');
-
-            const filledHtml = html
+            const filledHtml = successHtml
                 .replace('{{email}}', email)
                 .replace('{{token}}', sessionToken);
 
