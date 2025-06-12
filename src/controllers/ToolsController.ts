@@ -9,7 +9,10 @@ import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids
 import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
 import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
 import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
+import {registerTool as deleteSpreadsheet} from '../tools/drives/delete-spreadsheet';
 import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsheet';
+import {registerTool as shareSpreadsheet} from '../tools/drives/share-spreadsheet';
+import {registerTool as unshareSpreadsheet} from '../tools/drives/unshare-spreadsheet';
 import {registerTool as getDocIdsByName} from '../tools/drives/get-doc-ids-by-name';
 import {registerTool as getDocMetadata} from '../tools/drives/get-doc-metadata';
 import {registerTool as createDoc} from '../tools/drives/create-doc';
@@ -37,6 +40,7 @@ import {registerTool as clearAllConditionalFormatting} from '../tools/sheets/cle
 import {registerTool as freezeRowsColumns} from '../tools/sheets/freeze-rows-columns';
 import {registerTool as unfreezeRowsColumns} from '../tools/sheets/unfreeze-rows-columns';
 import {registerTool as customCellFormatting} from '../tools/sheets/custom-cell-formatting';
+import {registerTool as clearAllCustomCellFormattingSheet} from '../tools/sheets/clear-all-custom-cell-formatting-sheet';
 import {registerTool as duplicateSheet} from '../tools/sheets/duplicate-sheet';
 import {registerTool as mergeCells} from '../tools/sheets/merge-cells';
 import {registerTool as unmergeCells} from '../tools/sheets/unmerge-cells';
@@ -61,7 +65,10 @@ async function setupMcpTools(server: McpServer) {
     getFolderContentById(server, getOAuthClientForUser);
     getSheetIdsByName(server, getOAuthClientForUser);
     createSpreadsheet(server, getOAuthClientForUser);
+    deleteSpreadsheet(server, getOAuthClientForUser);
     renameSpreadsheet(server, getOAuthClientForUser);
+    shareSpreadsheet(server, getOAuthClientForUser);
+    unshareSpreadsheet(server, getOAuthClientForUser);
     getDocIdsByName(server, getOAuthClientForUser);
     getDocMetadata(server, getOAuthClientForUser);
     createDoc(server, getOAuthClientForUser);
@@ -89,6 +96,7 @@ async function setupMcpTools(server: McpServer) {
     freezeRowsColumns(server, getOAuthClientForUser);
     unfreezeRowsColumns(server, getOAuthClientForUser);
     customCellFormatting(server, getOAuthClientForUser);
+    clearAllCustomCellFormattingSheet(server, getOAuthClientForUser);
     duplicateSheet(server, getOAuthClientForUser);
     mergeCells(server, getOAuthClientForUser);
     unmergeCells(server, getOAuthClientForUser);
