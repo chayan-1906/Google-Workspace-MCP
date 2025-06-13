@@ -102,7 +102,7 @@ Upload `mcp.json` content into the Claude Desktop app via Settings → Tools →
 | `findTextIndices`                   |                                                                                                   |
 | `insertTextAtPosition`              | Inserts text at a specific position in a Google Docs document'                                    |
 | `findAndReplaceTextDoc`             | Finds and replaces a specific or all occurrences of a string in a Google Doc                      |
-| `deleteTextRange`                   | Deletes text from a Google Docs document between two indices                                      |
+| `deleteTextRange`                   | Deletes specific content ranges in a Google Docs document using precomputed start and end indices |
 | `insertLinkDoc`                     | Inserts a hyperlink into a Google Docs document at a specified position                           |
 | `unLinkDoc`                         |                                                                                                   |
 | `insertImage`                       |                                                                                                   |

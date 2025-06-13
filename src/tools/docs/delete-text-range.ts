@@ -7,82 +7,23 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-// TODO: Use findTextIndices
-const flattenTextWithParagraphBreaks = (content: any[]): string => {
-    let text = "";
-
-    for (const element of content) {
-        // If it’s a normal paragraph, collect its textRuns
-        if (element.paragraph) {
-            for (const elem of element.paragraph.elements || []) {
-                if (elem.textRun?.content) {
-                    text += elem.textRun.content;
-                }
-            }
-            // Append a "\n" to mark the end of this paragraph
-            text += "\n";
-        }
-
-        // If it’s a table, recurse into each cell
-        if (element.table) {
-            for (const row of element.table.tableRows || []) {
-                for (const cell of row.tableCells || []) {
-                    text += flattenTextWithParagraphBreaks(cell.content || []);
-                }
-            }
-        }
-
-        // If it’s a table of contents, recurse
-        if (element.tableOfContents) {
-            text += flattenTextWithParagraphBreaks(element.tableOfContents.content || []);
-        }
-    }
-
-    return text;
-}
-
-const deleteParagraphByNumber = async (documentId: string, paragraphNumber: number, auth: Auth.OAuth2Client): Promise<{ startIndex: number; endIndex: number }> => {
-    const {google} = await import("googleapis");
-    const docs = google.docs({version: "v1", auth});
-    const doc = await docs.documents.get({documentId});
-    const body = doc.data.body?.content || [];
-
-    let count = 0;
-    for (const element of body) {
-        if (element.paragraph) {
-            // Check if paragraph has non-whitespace text
-            const paraText = (element.paragraph.elements || [])
-                .map((e: any) => e.textRun?.content || "")
-                .join("")
-                .trim();
-            if (paraText.length > 0 && typeof element.startIndex === "number" && typeof element.endIndex === "number") {
-                count += 1;
-                if (count === paragraphNumber) {
-                    // For the first paragraph, startIndex 0 is section break; use 1 instead
-                    const safeStart = paragraphNumber === 1 ? 1 : element.startIndex;
-                    return {startIndex: safeStart, endIndex: element.endIndex};
-                }
-            }
-        }
-    }
-
-    throw new Error(`Paragraph number ${paragraphNumber} not found`);
-}
-
-const deleteTextRange = async (documentId: string, startIndex: number, endIndex: number, auth: Auth.OAuth2Client, paragraphNumber?: number) => {
+const deleteTextRange = async (documentId: string, ranges: { startIndex: number; endIndex: number }[], auth: Auth.OAuth2Client, paragraphNumber?: number) => {
     const {google} = await import('googleapis');
     const docs = google.docs({version: 'v1', auth});
+
+    const requests = ranges.map(({startIndex, endIndex}) => ({
+        deleteContentRange: {
+            range: {
+                startIndex,
+                endIndex,
+            },
+        },
+    }));
 
     await docs.documents.batchUpdate({
         documentId,
         requestBody: {
-            requests: [
-                {
-                    deleteContentRange: {
-                        range: {startIndex, endIndex},
-                    },
-                },
-            ],
+            requests,
         },
     });
 }
@@ -90,65 +31,31 @@ const deleteTextRange = async (documentId: string, startIndex: number, endIndex:
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.deleteTextRange,
-        'Deletes text from a Google Docs document between two indices',
+        'Deletes specific content ranges in a Google Docs document using precomputed start and end indices',
         {
             documentId: z.string().describe('The ID of the Google Docs document'),
-            startIndex: z
-                .number()
-                .nonnegative()
-                .optional()
-                .describe("Start index of the range to delete (ignored if paragraphNumber is provided)"),
-            endIndex: z
-                .number()
-                .nonnegative()
-                .optional()
-                .describe("End index of the range to delete (ignored if paragraphNumber is provided)"),
-            paragraphNumber: z
-                .number()
-                .int()
-                .positive()
-                .optional()
-                .describe("If provided, deletes the Nth non-empty paragraph"),
+            ranges: z
+                .array(
+                    z.object({
+                        startIndex: z.number().describe('Inclusive index where deletion starts'),
+                        endIndex: z.number().describe('Exclusive index where deletion ends'),
+                    })
+                )
+                .min(1)
+                .describe('One or more index ranges where content should be deleted'),
         },
-        async ({documentId, startIndex = 0, endIndex = 0, paragraphNumber}) => {
+        async ({documentId, ranges}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                let safeStart: number, safeEnd: number;
-                if (paragraphNumber) {
-                    const indices = await deleteParagraphByNumber(documentId, paragraphNumber, oauth2Client);
-                    safeStart = indices.startIndex || 0;
-                    safeEnd = indices.endIndex || 0;
-                } else {
-                    // If startIndex = 0, treat as delete first paragraph
-                    if (startIndex === 0) {
-                        const {startIndex: p1Start, endIndex: p1End} = await deleteParagraphByNumber(documentId, 1, oauth2Client);
-                        safeStart = p1Start;
-                        safeEnd = p1End;
-                    } else {
-                        safeStart = startIndex;
-                        safeEnd = endIndex;
-                    }
-                }
-
-                if (safeStart >= safeEnd) {
-                    throw new Error(`Invalid range: startIndex (${safeStart}) must be < endIndex (${safeEnd})`);
-                }
-
-                await deleteTextRange(documentId, safeStart, safeEnd, oauth2Client);
-
-                const message = paragraphNumber
-                    ? `Paragraph ${paragraphNumber} deleted ✅`
-                    : startIndex === 0
-                        ? `First paragraph deleted ✅`
-                        : `Text deleted from index ${safeStart} to ${safeEnd} ✅`;
+                await deleteTextRange(documentId, ranges, oauth2Client);
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: message,
+                            text: `Text deleted within ${ranges} ✅`,
                         },
                     ],
                 };

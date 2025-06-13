@@ -53,9 +53,7 @@ const tools = {
     findTextIndices: 'find-text-indices',
     insertTextAtPosition: 'insert-text-at-position',
     findAndReplaceTextDoc: 'find-and-replace-text-doc',
-    deleteTextRange: 'delete-text-range',                                           // TODO: Use findTextIndices
-    insertLinkDoc: 'insert-link-doc',                                               // TODO: Use findTextIndices
-    unLinkDoc: 'unlink-doc',
+    deleteTextRange: 'delete-text-range',
     insertImage: 'insert-image',
     insertTable: 'insert-table',
     updateTable: 'update-table',
@@ -66,6 +64,8 @@ const tools = {
     setBackgroundColor: 'set-background-color',
     setListStyle: 'set-list-style',
     clearAllFormattingDoc: 'remove-all-formatting-doc',
+    insertLinkDoc: 'insert-link-doc',                                               // TODO: Use findTextIndices, add support of table
+    unLinkDoc: 'unlink-doc',
     addCommentDoc: 'add-comment-doc',
     deleteCommentDoc: 'delete-comment-doc',
     listCommentsDoc: 'list-comments-doc',

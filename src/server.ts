@@ -7,7 +7,7 @@ import {PORT} from "./config/config";
 import AuthRoutes from "./routes/AuthRoutes";
 import {printInConsole} from "./utils/printInConsole";
 import {freezePortOnQuit, killPortOnLaunch} from "./utils/killPortOnLaunch";
-import {addOrUpdateMCPServer} from "./config/updateClaudeConfig";
+import {addOrUpdateMCPServer, setEntry} from "./config/updateClaudeConfig";
 import {platform} from "os";
 
 const startTime = Date.now();
@@ -37,39 +37,6 @@ async function startMcp() {
 killPortOnLaunch().then(async () => {
     app.listen(PORT, async () => {
         await printInConsole(transport, `OAuth server running on http://localhost:${PORT}, started in ${Date.now() - startTime}ms`);
-
-        const setEntry = () => {
-            if ((process as any).pkg) {
-                return {
-                    entry: {
-                        command: process.execPath,
-                        args: [],
-                        cwd: process.cwd(),
-                    },
-                };
-            } else {
-                // development
-                if (platform() === 'darwin') {
-                    return {
-                        entry: {
-                            'command': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/src/scripts/start_server.sh',
-                            'args': [],
-                            'cwd': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp'
-                        },
-                    };
-                } else if (platform() === 'win32') {
-                    return {
-                        entry: {
-                            'command': 'cmd',
-                            'args': [
-                                '/c',
-                                'cd /d E:\\NodeJsProjects\\all-node-js-projects\\mcp-servers\\google-workspace-mcp && npx ts-node src/server.ts'
-                            ]
-                        },
-                    };
-                }
-            }
-        }
 
         const {entry} = setEntry() as any;
         addOrUpdateMCPServer(serverName, entry);
