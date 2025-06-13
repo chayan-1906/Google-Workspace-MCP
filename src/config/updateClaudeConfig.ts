@@ -1,9 +1,10 @@
 import {existsSync, readFileSync, writeFileSync} from 'fs';
 import {join} from 'path';
-import os from 'os';
+import os, {platform} from 'os';
 import {printInConsole} from '../utils/printInConsole';
 import {sendError} from "../utils/sendError";
 import {transport} from "../server";
+import process from "process";
 
 type MCPConfig = {
     mcpServers: Record<
@@ -69,4 +70,37 @@ export async function addOrUpdateMCPServer(name: string, serverEntry: MCPConfig[
 
     saveConfig(configPath, config);
     await printInConsole(transport, `Updated "${name}" in ${configPath}`);
+}
+
+export function setEntry() {
+    if ((process as any).pkg) {
+        return {
+            entry: {
+                command: process.execPath,
+                args: [],
+                cwd: process.cwd(),
+            },
+        };
+    } else {
+        // development
+        if (platform() === 'darwin') {
+            return {
+                entry: {
+                    'command': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/src/scripts/start_server.sh',
+                    'args': [],
+                    'cwd': '/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp'
+                },
+            };
+        } else if (platform() === 'win32') {
+            return {
+                entry: {
+                    'command': 'cmd',
+                    'args': [
+                        '/c',
+                        'cd /d E:\\NodeJsProjects\\all-node-js-projects\\mcp-servers\\google-workspace-mcp && npx ts-node src/server.ts'
+                    ]
+                },
+            };
+        }
+    }
 }
