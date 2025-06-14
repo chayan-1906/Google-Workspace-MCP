@@ -3,7 +3,22 @@
   "version": "1.0.1",
   "description": "",
   "main": "src/server.js",
-  "keywords": [],
+  "keywords": [
+    "model-context-protocol",
+    "google-oauth",
+    "nodejs",
+    "typescript",
+    "mongodb",
+    "claude-llm",
+    "llm-integration",
+    "llm-backend",
+    "google-drive",
+    "google-drive-api-v3",
+    "google-sheets",
+    "google-sheets-api-v4",
+    "google-docs",
+    "google-docs-api"
+  ],
   "author": "",
   "license": "ISC",
   "scripts": {

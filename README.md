@@ -2,25 +2,13 @@
 
 An MCP-compliant server built with TypeScript to extend Claude and other AI agents with Google Workspace (Drive, Spreadsheet, Docs) capabilities
 
-Supports:
-
-- 📊 All Google Drive operations
-- 📝 All Google Spreadsheet operations
-- 📝 All Google Docs operations
-
 ---
 
-Mongo DB - https://cloud.mongodb.com/v2/6828b54979c07a64b3c1f574#/metrics/replicaSet/6828b88376e9d8445de8b84a/explorer/google-workspace/sessions/find
-
-GCP - https://console.cloud.google.com/apis/credentials?inv=1&invt=Abyg2Q&authuser=3&project=cogent-wall-460113-t8
-
-Deployed Server: https://google-workspace-mcp.onrender.com
-
-## ⚙️ Setup Instructions
+## ⚙️ Quick Start
 
 ### 1. 📁 Clone the repo
 ```
-git clone https://github.com/chayan1906/Google-Workspace-MCP.git
+git clone https://github.com/chayan-1906/Google-Workspace-MCP.git
 cd Google-Workspace-MCP
 ```
 
@@ -29,24 +17,7 @@ cd Google-Workspace-MCP
 npm install
 ```
 
-### 3. 🧠 Upload `mcp.json` to Claude Desktop
-Sample -
-
-```
-{
-    "mcpServers": {
-        "google-workspace": {
-            "command": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp/src/scripts/start_server.sh",
-            "args": [],
-            "cwd": "/Users/padmanabhadas/Chayan_Personal/NodeJs/mcp-servers/google-workspace-mcp"
-        }
-    }
-}
-```
-
-Upload `mcp.json` content into the Claude Desktop app via Settings → Tools → Add tool
-
-## User Guide -- https://versed-blinker-33e.notion.site/User-Guide-20f0c027172280c8b84fd90fbe67596c
+## User Guide -- https://versed-blinker-33e.notion.site/Google-Workspace-MCP-User-Guide-20f0c027172280c8b84fd90fbe67596c
 
 ## 🧰 Available Tools
 
@@ -128,19 +99,22 @@ npm run dev
 ```
 Or compile and run:
 ```
-npm run build
-node dist/server.js
+npm run package
 ```
 
 ## 👨‍💻 Tech Stack
 
-• 🟦 **TypeScript** – Type-safe development
+• 🟦 **TypeScript** – Type-safe application development
 
-•📄 **Google Sheets API v4** – Spreadsheet manipulation
+*📁 **Google Drive API v1** – Folder and file operations (fetch folders/files, create, delete, rename)
+
+•📄 **Google Sheets API v4** – Full spreadsheet automation: create/delete/rename spreadsheets, manipulate sheets, rows, columns, charts, formatting, and access control
+
+•📄 **Google Docs API v3** – Advanced document operations: content editing, structure manipulation (tabs, tables, images), formatting, commenting, sharing, and exporting
 
 •🧠 **MCP SDK** – Model Context Protocol server framework
 
-•✅ **Zod** – Input schema validation
+•✅ **Zod** – Schema-based input validation
 
 •🌱 **dotenv** – Environment variable management
 

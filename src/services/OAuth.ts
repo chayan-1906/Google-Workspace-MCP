@@ -162,7 +162,7 @@ export async function createClaudeFileAndStoreSession(sessionToken: string, emai
     await fs.mkdir(path.dirname(tokenFilePath), {recursive: true});
     await printInConsole(transport, `${claudeDir} folder created`);
     await fs.writeFile(tokenFilePath, JSON.stringify({sessionToken, email}, null, 2), 'utf8');
-    await printInConsole(transport, 'session token has been added/updated in google_workspace_session.json');
+    await printInConsole(transport, `session token has been added/updated in ${constants.sessionTokenFile}`);
 }
 
 interface GetOAuthClientResult {
