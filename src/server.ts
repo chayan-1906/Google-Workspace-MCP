@@ -1,16 +1,14 @@
+const startTime = Date.now();
+
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
-import {setupMcpTools} from "./controllers/ToolsController";
-import process from 'process';
 import express from 'express';
+import {setupMcpTools} from "./controllers/ToolsController";
 import {PORT} from "./config/config";
 import AuthRoutes from "./routes/AuthRoutes";
 import {printInConsole} from "./utils/printInConsole";
 import {freezePortOnQuit, killPortOnLaunch} from "./utils/killPortOnLaunch";
 import {addOrUpdateMCPServer, setEntry} from "./config/updateClaudeConfig";
-import {platform} from "os";
-
-const startTime = Date.now();
 
 const app = express();
 export const transport = new StdioServerTransport();
@@ -39,7 +37,7 @@ killPortOnLaunch().then(async () => {
         await printInConsole(transport, `OAuth server running on http://localhost:${PORT}, started in ${Date.now() - startTime}ms`);
 
         const {entry} = setEntry() as any;
-        addOrUpdateMCPServer(serverName, entry);
+        await addOrUpdateMCPServer(serverName, entry);
         await startMcp();
         await printInConsole(transport, `All tools loaded in ${Date.now() - startTime}ms`);
     });
