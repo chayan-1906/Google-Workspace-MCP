@@ -63,7 +63,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: text.trim() || '[Document is empty]',
+                            text: `Doc *${documentId}* content retrieved successfully! ✅\n\n${text.trim() || '[Document is empty]'}`,
                         },
                     ],
                 };

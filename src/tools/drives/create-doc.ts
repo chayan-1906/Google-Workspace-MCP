@@ -50,7 +50,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `📄 Doc *${docName}* created successfully! 🎉\n\n🔗 [Open Doc](${url})\n🆔 \`${docId}\``,
+                            text: `Doc *${docName}* created successfully! ✅\n\n🔗 [Open Doc](${url})\n🆔 \`${docId}\``,
                         },
                     ],
                 };

@@ -39,7 +39,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `📄 Spreadsheet ${sheetName} renamed successfully! 🎉`,
+                            text: `Spreadsheet *${spreadsheetId}* renamed to *${sheetName}* successfully! ✅`,
                         },
                     ],
                 };

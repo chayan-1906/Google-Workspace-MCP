@@ -48,7 +48,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Text inserted at ${insertIndex} ✅`,
+                            text: `Doc *${documentId}* text inserted successfully! ✅`,
                         },
                     ],
                 };

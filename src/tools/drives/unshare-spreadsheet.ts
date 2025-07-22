@@ -61,8 +61,8 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                         {
                             type: 'text',
                             text: removed.length > 0
-                                ? `Unshared from: ${removed.join(', ')} ✅`
-                                : `No matching emails found to unshare ℹ️`,
+                                ? `Spreadsheet *${spreadsheetId}* unshared successfully! ✅\n\nRemoved access for: ${removed.join(', ')}`
+                                : `Spreadsheet *${spreadsheetId}* unshare completed successfully! ✅\n\nNo matching emails found to remove.`,
                         },
                     ],
                 };

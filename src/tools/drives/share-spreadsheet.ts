@@ -57,7 +57,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Spreadsheet shared with: ${sharedWith.join(', ')} ✅`,
+                            text: `Spreadsheet *${spreadsheetId}* shared successfully! ✅\n\nShared with: ${sharedWith.join(', ')}`,
                         },
                     ],
                 };

@@ -42,7 +42,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `📄 Title: ${title}\n🆔 ID: ${id}\n🕒 Created: ${createdTime}\n🕒 Modified: ${modifiedTime}\n👤 Owners: ${owners.join(', ')}`,
+                            text: `Doc *${documentId}* metadata retrieved successfully! ✅\n\n📄 Title: ${title}\n🆔 ID: ${id}\n🕒 Created: ${createdTime}\n🕒 Modified: ${modifiedTime}\n👤 Owners: ${owners.join(', ')}`,
                         },
                     ],
                 };

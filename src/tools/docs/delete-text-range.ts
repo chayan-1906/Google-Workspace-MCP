@@ -55,7 +55,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Text deleted within ${ranges} ✅`,
+                            text: `Doc *${documentId}* text ranges deleted successfully! ✅`,
                         },
                     ],
                 };
