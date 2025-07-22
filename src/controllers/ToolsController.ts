@@ -5,19 +5,19 @@ import {getOAuthClientForUser} from "../services/OAuth";
 
 import {registerTool as myGoogleAccount} from '../tools/profile/my-google-account';
 
-import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
-import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
-import {registerTool as getSheetIdsByName} from '../tools/drives/get-sheet-ids-by-name';
-import {registerTool as createSpreadsheet} from '../tools/drives/create-spreadsheet';
-import {registerTool as deleteSpreadsheet} from '../tools/drives/delete-spreadsheet';
-import {registerTool as renameSpreadsheet} from '../tools/drives/rename-spreadsheet';
-import {registerTool as shareSpreadsheet} from '../tools/drives/share-spreadsheet';
-import {registerTool as unshareSpreadsheet} from '../tools/drives/unshare-spreadsheet';
-import {registerTool as getDocIdsByName} from '../tools/drives/get-doc-ids-by-name';
-import {registerTool as getDocMetadata} from '../tools/drives/get-doc-metadata';
-import {registerTool as createDoc} from '../tools/drives/create-doc';
-import {registerTool as deleteDoc} from '../tools/drives/delete-doc';
-import {registerTool as renameDoc} from '../tools/drives/rename-doc';
+import {registerTool as getFolderIdsByName} from '../tools/drive/get-folder-ids-by-name';
+import {registerTool as getFolderContentById} from '../tools/drive/get-folder-content-by-id';
+import {registerTool as getSheetIdsByName} from '../tools/drive/get-sheet-ids-by-name';
+import {registerTool as createSpreadsheet} from '../tools/drive/create-spreadsheet';
+import {registerTool as deleteSpreadsheet} from '../tools/drive/delete-spreadsheet';
+import {registerTool as renameSpreadsheet} from '../tools/drive/rename-spreadsheet';
+import {registerTool as shareSpreadsheet} from '../tools/drive/share-spreadsheet';
+import {registerTool as unshareSpreadsheet} from '../tools/drive/unshare-spreadsheet';
+import {registerTool as getDocIdsByName} from '../tools/drive/get-doc-ids-by-name';
+import {registerTool as getDocMetadata} from '../tools/drive/get-doc-metadata';
+import {registerTool as createDoc} from '../tools/drive/create-doc';
+import {registerTool as deleteDoc} from '../tools/drive/delete-doc';
+import {registerTool as renameDoc} from '../tools/drive/rename-doc';
 
 import {registerTool as appendSheetTabRow} from '../tools/sheets/append-sheet-tab-row';
 import {registerTool as deleteRow} from '../tools/sheets/delete-row';
