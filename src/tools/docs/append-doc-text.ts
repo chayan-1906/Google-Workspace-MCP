@@ -54,7 +54,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Text appended to document! ✅',
+                            text: `Doc *${documentId}* text appended successfully! ✅`,
                         },
                     ],
                 };

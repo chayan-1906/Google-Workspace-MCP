@@ -55,7 +55,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                         content: [
                             {
                                 type: 'text',
-                                text: `No sheets found containing ${sheetName} 😕`,
+                                text: `Sheets search for *${sheetName}* completed successfully! ✅\n\nFound 0 matches.`,
                             },
                         ],
                     };
@@ -69,8 +69,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            // text: `${sheetName} found 🎉`,
-                            text: `Found ${sheetsMetadata.length} sheet(s) containing ${sheetName}: 🎉\n\n${formattedSheets}`,
+                            text: `Sheets search for *${sheetName}* completed successfully! ✅\n\nFound ${sheetsMetadata.length} match${sheetsMetadata.length !== 1 ? 'es' : ''}:\n${formattedSheets}`,
                         },
                     ],
                 };

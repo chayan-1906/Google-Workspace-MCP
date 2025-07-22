@@ -58,7 +58,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                         content: [
                             {
                                 type: 'text',
-                                text: 'No files found in this folder',
+                                text: `Folder *${folderId}* content retrieved successfully! ✅\n\nFound 0 files.`,
                             },
                         ],
                     };
@@ -72,8 +72,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            // text: `${folderName} found 🎉`,
-                            text: `Here are the contents of the folder: 🎉\n\n${formattedFolderContent}`,
+                            text: `Folder *${folderId}* content retrieved successfully! ✅\n\nFound ${folderMetadata.length} file${folderMetadata.length !== 1 ? 's' : ''}:\n${formattedFolderContent}`,
                         },
                     ],
                 };

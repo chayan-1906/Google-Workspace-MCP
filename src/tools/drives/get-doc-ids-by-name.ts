@@ -55,7 +55,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                         content: [
                             {
                                 type: 'text',
-                                text: `No docs found containing ${documentName} 😕`,
+                                text: `Docs search for *${documentName}* completed successfully! ✅\n\nFound 0 matches.`,
                             },
                         ],
                     };
@@ -69,7 +69,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Found ${docMetadata.length} doc(s) containing ${documentName}: 🎉\n\n${formattedDocs}`,
+                            text: `Docs search for *${documentName}* completed successfully! ✅\n\nFound ${docMetadata.length} match${docMetadata.length !== 1 ? 'es' : ''}:\n${formattedDocs}`,
                         },
                     ],
                 };

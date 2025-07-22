@@ -50,7 +50,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `📄 Spreadsheet *"${sheetName}"* created successfully! 🎉\n\n🔗 [Open Spreadsheet](${url})\n🆔 \`${spreadsheetId}\``,
+                            text: `Spreadsheet *${sheetName}* created successfully! ✅\n\n🔗 [Open Spreadsheet](${url})\n🆔 \`${spreadsheetId}\``,
                         },
                     ],
                 };

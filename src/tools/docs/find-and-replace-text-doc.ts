@@ -55,7 +55,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Replaced with ${replaceString} ✅`,
+                            text: `Doc *${documentId}* text replaced successfully! ✅`,
                         },
                     ],
                 };

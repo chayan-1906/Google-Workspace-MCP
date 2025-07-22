@@ -34,7 +34,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Spreadsheet deleted successfully! ✅',
+                            text: `Spreadsheet *${spreadsheetId}* deleted successfully! ✅`,
                         },
                     ],
                 };

@@ -38,7 +38,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Document renamed to *${documentName}* successfully! ✅`,
+                            text: `Doc *${documentId}* renamed to *${documentName}* successfully! ✅`,
                         },
                     ],
                 };

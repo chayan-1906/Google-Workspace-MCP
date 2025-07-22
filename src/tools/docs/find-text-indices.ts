@@ -95,7 +95,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Found ${indices.length} match${indices.length > 1 ? 'es' : ''}:\n\n${indices
+                            text: `Doc *${documentId}* text search completed successfully! ✅\n\nFound ${indices.length} match${indices.length !== 1 ? 'es' : ''}:\n${indices
                                 .map((range, i) => `${i + 1}. startIndex: ${range.startIndex}, endIndex: ${range.endIndex}`)
                                 .join('\n')}`,
                         },

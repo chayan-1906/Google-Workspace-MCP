@@ -141,7 +141,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Successfully added link "${url}" to text range ${finalStartIndex}-${finalEndIndex} ✅`,
+                            text: `Doc *${documentId}* hyperlink inserted successfully! ✅`,
                         },
                     ],
                 };
