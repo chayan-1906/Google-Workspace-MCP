@@ -1,10 +1,10 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {z} from "zod";
 import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
-import {z} from "zod";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
-import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 async function findAndReplaceTextDoc(documentId: string, ranges: { startIndex: number; endIndex: number }[], replaceString: string, auth: Auth.OAuth2Client): Promise<void> {
@@ -60,7 +60,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to replace text: ${error}`), 'find-and-replace-text-doc');
+                sendError(transport, new Error(`Failed to replace text: ${error}`), tools.findAndReplaceTextDoc);
                 return {
                     content: [
                         {

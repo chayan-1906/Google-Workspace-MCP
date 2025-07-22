@@ -1,11 +1,11 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {z} from "zod";
 import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
-import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 interface DocMetadata {
     documentId: string;
@@ -74,7 +74,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to get doc IDs by name: ${error}`), 'get-doc-ids-by-name');
+                sendError(transport, new Error(`Failed to get doc IDs by name: ${error}`), tools.getDocIdsByName);
                 return {
                     content: [
                         {

@@ -1,10 +1,10 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {z} from "zod";
 import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
-import {z} from "zod";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
-import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const insertTextAtPosition = async (documentId: string, insertIndex: number, textToInsert: string, auth: Auth.OAuth2Client) => {
@@ -53,7 +53,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to insert text: ${error}`), 'insert-text-at-position');
+                sendError(transport, new Error(`Failed to insert text: ${error}`), tools.insertTextAtPosition);
                 return {
                     content: [
                         {

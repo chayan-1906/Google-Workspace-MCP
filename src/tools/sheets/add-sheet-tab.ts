@@ -7,7 +7,7 @@ import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 
-const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
+const addSheetTab = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -29,7 +29,7 @@ const addSheet = async (spreadsheetId: string, sheetName: string, auth: Auth.OAu
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.addSheet,
+        tools.addSheetTab,
         'Creates a new sheet tab in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -40,7 +40,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await addSheet(spreadsheetId, sheetName, oauth2Client);
+                await addSheetTab(spreadsheetId, sheetName, oauth2Client);
 
                 return {
                     content: [
@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to add sheet: ${error}`), 'add-sheet');
+                sendError(transport, new Error(`Failed to add sheet tab: ${error}`), tools.addSheetTab);
                 return {
                     content: [
                         {

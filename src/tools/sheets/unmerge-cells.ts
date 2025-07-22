@@ -1,11 +1,11 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const unmergeCells = async (spreadsheetId: string, sheetId: number, startRowIndex: number, endRowIndex: number, startColumnIndex: number, endColumnIndex: number, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
@@ -59,7 +59,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to unmerge cells: ${error}`), 'unmerge-cells');
+                sendError(transport, new Error(`Failed to unmerge cells: ${error}`), tools.unmergeCells);
                 return {
                     content: [
                         {

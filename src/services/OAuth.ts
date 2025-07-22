@@ -1,16 +1,16 @@
-import {Auth} from 'googleapis';
-import {CLIENT_ID, CLIENT_SECRET, PORT, REDIRECT_URI} from "../config/config";
-import {connect} from "../config/db";
-import {transport} from "../server";
-import type {OAuth2Client} from 'google-auth-library';
-import {v4 as uuidv4} from "uuid";
 import path from "path";
-import {printInConsole} from "../utils/printInConsole";
 import fs from "fs/promises";
-import {decryptToken, encryptToken} from "../utils/encryption";
+import {Auth} from 'googleapis';
+import {v4 as uuidv4} from "uuid";
+import type {OAuth2Client} from 'google-auth-library';
+import {transport} from "../server";
+import {connect} from "../config/db";
 import {sendError} from "../utils/sendError";
-import {getClaudeConfigDir} from "../utils/directory";
 import {constants} from "../utils/constants";
+import {getClaudeConfigDir} from "../utils/directory";
+import {printInConsole} from "../utils/printInConsole";
+import {decryptToken, encryptToken} from "../utils/encryption";
+import {CLIENT_ID, CLIENT_SECRET, PORT, REDIRECT_URI} from "../config/config";
 
 let oauth2Client: OAuth2Client;
 

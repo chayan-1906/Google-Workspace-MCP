@@ -1,10 +1,10 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {z} from "zod";
 import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
-import {z} from "zod";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
-import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 // TODO: Fix
@@ -30,7 +30,7 @@ const getDocContent = async (documentId: string, auth: Auth.OAuth2Client) => {
     return extractTextFromContent(content);
 }
 
-const findWordBoundaries = (text: string, searchTerm: string): {startIndex: number, endIndex: number} | null => {
+const findWordBoundaries = (text: string, searchTerm: string): { startIndex: number, endIndex: number } | null => {
     let searchIndex = 0;
 
     while (searchIndex < text.length) {
@@ -54,13 +54,7 @@ const findWordBoundaries = (text: string, searchTerm: string): {startIndex: numb
     return null;
 }
 
-const insertLinkInDoc = async (
-    documentId: string,
-    url: string,
-    startIndex: number,
-    endIndex: number,
-    auth: Auth.OAuth2Client
-) => {
+const insertLinkInDoc = async (documentId: string, url: string, startIndex: number, endIndex: number, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const docs = google.docs({version: 'v1', auth});
 
@@ -152,7 +146,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to insert link: ${error}`), 'insert-link');
+                sendError(transport, new Error(`Failed to insert link: ${error}`), tools.insertLinkDoc);
                 return {
                     content: [
                         {

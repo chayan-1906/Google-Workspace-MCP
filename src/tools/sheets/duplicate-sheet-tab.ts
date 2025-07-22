@@ -1,13 +1,13 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
-import {OAuth2Client} from "googleapis-common";
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const duplicateSheet = async (spreadsheetId: string, sourceSheetId: number, newSheetName: string, auth: Auth.OAuth2Client) => {
+const duplicateSheetTab = async (spreadsheetId: string, sourceSheetId: number, newSheetName: string, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -28,8 +28,8 @@ const duplicateSheet = async (spreadsheetId: string, sourceSheetId: number, newS
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.duplicateSheet,
-        'Duplicates a sheet and assigns a new name',
+        tools.duplicateSheetTab,
+        'Duplicates a sheet and assigns a new name in given Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sourceSheetId: z.number().describe('ID of the sheet to duplicate'),
@@ -40,7 +40,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await duplicateSheet(spreadsheetId, sourceSheetId, newSheetName, oauth2Client);
+                await duplicateSheetTab(spreadsheetId, sourceSheetId, newSheetName, oauth2Client);
 
                 return {
                     content: [
@@ -51,12 +51,12 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to duplicate sheet: ${error}`), 'duplicate-sheet');
+                sendError(transport, new Error(`Failed to duplicate sheet: ${error}`), tools.duplicateSheetTab);
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Failed to duplicate sheet ❌: ${error.message}`,
+                            text: `Failed to duplicate sheet tab ❌: ${error.message}`,
                         },
                     ],
                 };

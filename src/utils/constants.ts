@@ -1,30 +1,46 @@
 const tools = {
-    myDetails: 'my-details',
+    myGoogleAccount: 'my-google-account',
 
+    /** google drive */
     getFolderIdsByName: 'get-folder-ids-by-name',
     getFolderContentById: 'get-folder-content-by-id',
+    createFolder: 'create-folder',
+    copyFolder: 'copy-folder',
+    moveFolder: 'move-folder',
+
+    getFileMetadata: 'get-file-metadata',
+    getFilePermissions: 'get-file-permissions',
+    updateFilePermissions: 'update-file-permissions',
+    copyFile: 'copy-file',
+    moveFile: 'move-file',
+    searchFiles: 'search-files',
+    removeFileAccess: 'remove-file-access',
+    setLinkPermission: 'set-link-permission',
+
     getSheetIdsByName: 'get-sheet-ids-by-name',
     createSpreadsheet: 'create-spreadsheet',
     deleteSpreadsheet: 'delete-spreadsheet',
     renameSpreadsheet: 'rename-spreadsheet',
     shareSpreadsheet: 'share-spreadsheet',
     unshareSpreadsheet: 'unshare-spreadsheet',
+
     getDocIdsByName: 'doc-ids-by-name',
     getDocMetadata: 'get-doc-metadata',
     createDoc: 'create-doc',
     deleteDoc: 'delete-doc',
     renameDoc: 'rename-doc',
 
-    appendSheetRow: 'append-sheet-row',
+    /** google sheet */
+    appendSheetTabRow: 'append-sheet-tab-row',
     deleteRow: 'delete-row',
     clearRanges: 'clear-ranges',    // batchClear in remix
     updateRanges: 'update-ranges',  // update in remix
-    getSheetContent: 'get-sheet-content',
-    addSheet: 'add-sheet',
-    renameSheet: 'rename-sheet',
-    deleteSheet: 'delete-sheet',
-    addSheetContent: 'add-sheet-content',
-    updateSheetContent: 'update-sheet-content',
+    getSheetTabContent: 'get-sheet-tab-content',
+    addSheetTab: 'add-sheet-tab',
+    renameSheetTab: 'rename-sheet-tab',
+    deleteSheetTab: 'delete-sheet-tab',
+    addSheetTabContent: 'add-sheet-tab-content',
+    updateSheetTabContent: 'update-sheet-tab-content',
     insertColumn: 'insert-column',
     deleteColumn: 'delete-column',
     addChart: 'add-chart',
@@ -38,13 +54,14 @@ const tools = {
     unfreezeRowsColumns: 'unfreeze-rows-columns',
     customCellFormatting: 'custom-cell-formatting',
     clearAllCustomCellFormattingSheet: 'clear-all-custom-cell-formatting-sheet',
-    duplicateSheet: 'duplicate-sheet',     // copySheet in remix
+    duplicateSheetTab: 'duplicate-sheet-tab',     // copySheet in remix
     mergeCells: 'merge-cells',
     unmergeCells: 'unmerge-cells',
     setHeightWidth: 'set-height-width',
     protectCells: 'protect-cells',
-    insertLinkSheet: 'insert-link-sheet',
+    insertLinkSheetTab: 'insert-link-sheet-tab',
 
+    /** google doc */
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',
     addDocTab: 'add-doc-tab',   // should support adding subtab                     // @arka

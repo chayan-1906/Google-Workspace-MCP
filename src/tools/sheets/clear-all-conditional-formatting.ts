@@ -1,11 +1,11 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const clearAllConditionalFormatting = async (spreadsheetId: string, sheetId: number, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
@@ -35,7 +35,7 @@ const clearAllConditionalFormatting = async (spreadsheetId: string, sheetId: num
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.clearAllConditionalFormatting,
-        'Clears all conditional formatting rules in a sheet',
+        'Clears all conditional formatting rules in a sheet tab in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetId: z.number().describe('Numeric ID of the sheet tab'),
@@ -56,7 +56,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to clear conditional formatting: ${error}`), 'clear-all-conditional-formatting');
+                sendError(transport, new Error(`Failed to clear conditional formatting: ${error}`), tools.clearAllConditionalFormatting);
                 return {
                     content: [
                         {

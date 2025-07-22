@@ -1,14 +1,14 @@
 const startTime = Date.now();
 
+import express from 'express';
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
-import express from 'express';
-import {setupMcpTools} from "./controllers/ToolsController";
 import {PORT} from "./config/config";
 import AuthRoutes from "./routes/AuthRoutes";
 import {printInConsole} from "./utils/printInConsole";
-import {freezePortOnQuit, killPortOnLaunch} from "./utils/killPortOnLaunch";
+import {setupMcpTools} from "./controllers/ToolsController";
 import {addOrUpdateMCPServer, setEntry} from "./config/updateClaudeConfig";
+import {freezePortOnQuit, killPortOnLaunch} from "./utils/killPortOnLaunch";
 
 const app = express();
 export const transport = new StdioServerTransport();

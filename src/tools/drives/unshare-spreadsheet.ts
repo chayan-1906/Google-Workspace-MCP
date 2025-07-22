@@ -1,10 +1,10 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {z} from "zod";
 import type {Auth} from 'googleapis';
 import {OAuth2Client} from 'googleapis-common';
-import {z} from "zod";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
-import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const unshareSpreadsheet = async (spreadsheetId: string, emailAddresses: string[] | 'ALL', auth: Auth.OAuth2Client,) => {
@@ -67,7 +67,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to unshare spreadsheet: ${error}`), 'unshare-spreadsheet');
+                sendError(transport, new Error(`Failed to unshare spreadsheet: ${error}`), tools.unshareSpreadsheet);
                 return {
                     content: [
                         {
