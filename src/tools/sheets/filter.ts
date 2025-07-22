@@ -1,11 +1,11 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
 const filter = async (spreadsheetId: string, sheetId: number, startRowIndex: number, criteria: Record<string, any>, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
@@ -85,7 +85,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to filter: ${error}`), 'filter');
+                sendError(transport, new Error(`Failed to filter: ${error}`), tools.filter);
                 return {
                     content: [
                         {

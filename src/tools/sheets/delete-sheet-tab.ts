@@ -1,13 +1,13 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const deleteSheet = async (spreadsheetId: string, sheetId: number, auth: Auth.OAuth2Client) => {
+const deleteSheetTab = async (spreadsheetId: string, sheetId: number, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -27,7 +27,7 @@ const deleteSheet = async (spreadsheetId: string, sheetId: number, auth: Auth.OA
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.deleteSheet,
+        tools.deleteSheetTab,
         'Deletes a sheet tab by its numeric sheet ID',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -38,7 +38,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await deleteSheet(spreadsheetId, sheetId, oauth2Client);
+                await deleteSheetTab(spreadsheetId, sheetId, oauth2Client);
 
                 return {
                     content: [
@@ -49,7 +49,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to delete sheet: ${error}`), 'delete-sheet');
+                sendError(transport, new Error(`Failed to delete sheet: ${error}`), tools.deleteSheetTab);
                 return {
                     content: [
                         {

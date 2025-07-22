@@ -1,8 +1,8 @@
 import {Router} from 'express';
-import {sendError} from "../utils/sendError";
 import {transport} from "../server";
-import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, getOAuth2Client, saveTokens} from "../services/OAuth";
+import {sendError} from "../utils/sendError";
 import {successHtml} from "../templates/successHTML";
+import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, getOAuth2Client, saveTokens} from "../services/OAuth";
 
 const router = Router();
 

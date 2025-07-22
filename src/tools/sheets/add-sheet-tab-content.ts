@@ -1,13 +1,13 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const addSheetContent = async (spreadsheetId: string, range: string, values: string[][], auth: Auth.OAuth2Client) => {
+const addSheetTabContent = async (spreadsheetId: string, range: string, values: string[][], auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -26,7 +26,7 @@ const addSheetContent = async (spreadsheetId: string, range: string, values: str
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.addSheetContent,
+        tools.addSheetTabContent,
         'Adds new content (rows) to a specified range in a Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -38,7 +38,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await addSheetContent(spreadsheetId, range, values, oauth2Client);
+                await addSheetTabContent(spreadsheetId, range, values, oauth2Client);
 
                 return {
                     content: [
@@ -49,7 +49,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to add sheet content: ${error}`), 'add-sheet-content');
+                sendError(transport, new Error(`Failed to add sheet content: ${error}`), tools.addSheetTabContent);
                 return {
                     content: [
                         {

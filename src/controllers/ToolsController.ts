@@ -3,7 +3,7 @@ import {transport} from "../server";
 import {printInConsole} from "../utils/printInConsole";
 import {getOAuthClientForUser} from "../services/OAuth";
 
-import {registerTool as myDetails} from '../tools/profile/my-details';
+import {registerTool as myGoogleAccount} from '../tools/profile/my-google-account';
 
 import {registerTool as getFolderIdsByName} from '../tools/drives/get-folder-ids-by-name';
 import {registerTool as getFolderContentById} from '../tools/drives/get-folder-content-by-id';
@@ -19,16 +19,16 @@ import {registerTool as createDoc} from '../tools/drives/create-doc';
 import {registerTool as deleteDoc} from '../tools/drives/delete-doc';
 import {registerTool as renameDoc} from '../tools/drives/rename-doc';
 
-import {registerTool as appendSheetRow} from '../tools/sheets/append-sheet-row';
+import {registerTool as appendSheetTabRow} from '../tools/sheets/append-sheet-tab-row';
 import {registerTool as deleteRow} from '../tools/sheets/delete-row';
 import {registerTool as clearRanges} from '../tools/sheets/clear-ranges';
 import {registerTool as updateRanges} from '../tools/sheets/update-ranges';
-import {registerTool as getSheetContent} from '../tools/sheets/get-sheet-content';
-import {registerTool as addSheet} from '../tools/sheets/add-sheet';
-import {registerTool as renameSheet} from '../tools/sheets/rename-sheet';
-import {registerTool as deleteSheet} from '../tools/sheets/delete-sheet';
-import {registerTool as addSheetContent} from '../tools/sheets/add-sheet-content';
-import {registerTool as updateSheetContent} from '../tools/sheets/update-sheet-content';
+import {registerTool as getSheetTabContent} from '../tools/sheets/get-sheet-tab-content';
+import {registerTool as addSheetTab} from '../tools/sheets/add-sheet-tab';
+import {registerTool as renameSheetTab} from '../tools/sheets/rename-sheet-tab';
+import {registerTool as deleteSheetTab} from '../tools/sheets/delete-sheet-tab';
+import {registerTool as addSheetTabContent} from '../tools/sheets/add-sheet-tab-content';
+import {registerTool as updateSheetTabContent} from '../tools/sheets/update-sheet-tab-content';
 import {registerTool as insertColumn} from '../tools/sheets/insert-column';
 import {registerTool as deleteColumn} from '../tools/sheets/delete-column';
 import {registerTool as addChart} from '../tools/sheets/add-chart';
@@ -41,7 +41,7 @@ import {registerTool as freezeRowsColumns} from '../tools/sheets/freeze-rows-col
 import {registerTool as unfreezeRowsColumns} from '../tools/sheets/unfreeze-rows-columns';
 import {registerTool as customCellFormatting} from '../tools/sheets/custom-cell-formatting';
 import {registerTool as clearAllCustomCellFormattingSheet} from '../tools/sheets/clear-all-custom-cell-formatting-sheet';
-import {registerTool as duplicateSheet} from '../tools/sheets/duplicate-sheet';
+import {registerTool as duplicateSheetTab} from '../tools/sheets/duplicate-sheet-tab';
 import {registerTool as mergeCells} from '../tools/sheets/merge-cells';
 import {registerTool as unmergeCells} from '../tools/sheets/unmerge-cells';
 import {registerTool as setHeightWidth} from '../tools/sheets/set-height-width';
@@ -59,7 +59,7 @@ import {registerTool as insertLinkDoc} from '../tools/docs/insert-link-doc';
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
 
-    myDetails(server);
+    myGoogleAccount(server);
 
     getFolderIdsByName(server, getOAuthClientForUser);
     getFolderContentById(server, getOAuthClientForUser);
@@ -75,16 +75,16 @@ async function setupMcpTools(server: McpServer) {
     deleteDoc(server, getOAuthClientForUser);
     renameDoc(server, getOAuthClientForUser);
 
-    appendSheetRow(server, getOAuthClientForUser);
+    appendSheetTabRow(server, getOAuthClientForUser);
     deleteRow(server, getOAuthClientForUser);
     clearRanges(server, getOAuthClientForUser);
     updateRanges(server, getOAuthClientForUser);
-    getSheetContent(server, getOAuthClientForUser);
-    addSheet(server, getOAuthClientForUser);
-    renameSheet(server, getOAuthClientForUser);
-    deleteSheet(server, getOAuthClientForUser);
-    addSheetContent(server, getOAuthClientForUser);
-    updateSheetContent(server, getOAuthClientForUser);
+    getSheetTabContent(server, getOAuthClientForUser);
+    addSheetTab(server, getOAuthClientForUser);
+    renameSheetTab(server, getOAuthClientForUser);
+    deleteSheetTab(server, getOAuthClientForUser);
+    addSheetTabContent(server, getOAuthClientForUser);
+    updateSheetTabContent(server, getOAuthClientForUser);
     insertColumn(server, getOAuthClientForUser);
     deleteColumn(server, getOAuthClientForUser);
     addChart(server, getOAuthClientForUser);
@@ -97,7 +97,7 @@ async function setupMcpTools(server: McpServer) {
     unfreezeRowsColumns(server, getOAuthClientForUser);
     customCellFormatting(server, getOAuthClientForUser);
     clearAllCustomCellFormattingSheet(server, getOAuthClientForUser);
-    duplicateSheet(server, getOAuthClientForUser);
+    duplicateSheetTab(server, getOAuthClientForUser);
     mergeCells(server, getOAuthClientForUser);
     unmergeCells(server, getOAuthClientForUser);
     setHeightWidth(server, getOAuthClientForUser);
@@ -115,4 +115,4 @@ async function setupMcpTools(server: McpServer) {
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
 
-export {setupMcpTools}
+export {setupMcpTools};

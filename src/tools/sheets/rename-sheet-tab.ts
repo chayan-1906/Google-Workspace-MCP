@@ -1,13 +1,13 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {getOAuth2ClientFromEmail} from "../../services/OAuth";
-import {sendError} from "../../utils/sendError";
+import type {Auth} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
+import {sendError} from "../../utils/sendError";
+import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const renameSheet = async (spreadsheetId: string, sheetId: number, sheetName: string, auth: Auth.OAuth2Client) => {
+const renameSheetTab = async (spreadsheetId: string, sheetId: number, sheetName: string, auth: Auth.OAuth2Client) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -31,7 +31,7 @@ const renameSheet = async (spreadsheetId: string, sheetId: number, sheetName: st
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.renameSheet,
+        tools.renameSheetTab,
         'Renames a sheet tab in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -43,7 +43,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await renameSheet(spreadsheetId, sheetId, sheetName, oauth2Client);
+                await renameSheetTab(spreadsheetId, sheetId, sheetName, oauth2Client);
 
                 return {
                     content: [
@@ -54,7 +54,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to rename sheet: ${error}`), 'rename-sheet');
+                sendError(transport, new Error(`Failed to rename sheet: ${error}`), tools.renameSheetTab);
                 return {
                     content: [
                         {

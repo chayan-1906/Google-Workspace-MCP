@@ -7,7 +7,7 @@ import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 
-const getSheetContent = async (spreadsheetId: string, auth: Auth.OAuth2Client, ranges?: string[]) => {
+const getSheetTabContent = async (spreadsheetId: string, auth: Auth.OAuth2Client, ranges?: string[]) => {
     const {google} = await import('googleapis');
     const sheets = google.sheets({version: 'v4', auth});
 
@@ -23,8 +23,8 @@ const getSheetContent = async (spreadsheetId: string, auth: Auth.OAuth2Client, r
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.getSheetContent,
-        'Fetches values from a specific sheet range',
+        tools.getSheetTabContent,
+        'Fetches values from a specific sheet range in given Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             ranges: z.array(z.string()).optional().describe('Optional list of A1-style ranges like ["Sheet1!A1:B2", "Sheet2!A5:C9"]'),
@@ -34,7 +34,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                const sheets = await getSheetContent(spreadsheetId, oauth2Client, ranges);
+                const sheets = await getSheetTabContent(spreadsheetId, oauth2Client, ranges);
                 const tabs = sheets?.map((sheet, i) => {
                     const title = sheet.properties?.title || 'Untitled';
                     const id = sheet.properties?.sheetId || 'unknown';
@@ -79,7 +79,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to fetch content: ${error}`), 'get-sheet-content');
+                sendError(transport, new Error(`Failed to fetch sheet tab content: ${error}`), tools.getSheetTabContent);
                 return {
                     content: [
                         {
