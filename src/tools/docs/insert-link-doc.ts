@@ -6,6 +6,7 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 // TODO: Fix
 const extractTextFromContent = (content: any[]): string => {
@@ -23,8 +24,7 @@ const extractTextFromContent = (content: any[]): string => {
 }
 
 const getDocContent = async (documentId: string, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const docs = google.docs({version: 'v1', auth});
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
     const res = await docs.documents.get({documentId});
     const content = res.data.body?.content || [];
     return extractTextFromContent(content);
@@ -55,8 +55,7 @@ const findWordBoundaries = (text: string, searchTerm: string): { startIndex: num
 }
 
 const insertLinkInDoc = async (documentId: string, url: string, startIndex: number, endIndex: number, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const docs = google.docs({version: 'v1', auth});
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
 
     // Ensure we don't try to format the section break (index 0)
     const safeStartIndex = Math.max(1, startIndex);

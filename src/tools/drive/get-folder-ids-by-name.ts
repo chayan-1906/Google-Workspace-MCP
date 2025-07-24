@@ -6,6 +6,7 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 interface FolderMetadata {
     folderId: string;
@@ -13,8 +14,7 @@ interface FolderMetadata {
 }
 
 const getFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const matchingFolders: FolderMetadata[] = [];
 
@@ -26,7 +26,7 @@ const getFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): 
 
     if (response.data.files) {
         matchingFolders.push(
-            ...response.data.files.map(folder => ({
+            ...response.data.files.map((folder: { id?: string | null; name?: string | null }) => ({
                 folderId: folder.id!,
                 folderName: folder.name!,
             }))

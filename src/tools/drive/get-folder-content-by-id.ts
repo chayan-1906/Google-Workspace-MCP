@@ -6,6 +6,7 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 interface FolderMetadata {
     fileId: string;
@@ -24,15 +25,14 @@ function getReadableMimeType(mimeType: string): string {
 }
 
 const getFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const response = await drive.files.list({
         q: `'${folderId}' in parents and trashed=false`,
         fields: 'files(id, mimeType, name)',
     });
 
-    return response.data.files?.map(file => ({
+    return response.data.files?.map((file: { id?: string | null; mimeType?: string | null; name?: string | null }) => ({
         fileId: file.id!,
         mimeType: getReadableMimeType(file.mimeType!),
         fileName: file.name!,

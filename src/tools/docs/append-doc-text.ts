@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const appendDocText = async (documentId: string, text: string, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const docs = google.docs({version: 'v1', auth});
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
 
     const doc = await docs.documents.get({documentId});
     const endIndex = doc.data.body?.content?.slice(-1)[0]?.endIndex;
