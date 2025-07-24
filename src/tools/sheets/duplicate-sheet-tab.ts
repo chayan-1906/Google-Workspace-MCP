@@ -46,7 +46,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Sheet duplicated successfully as ${newSheetName} ✅`,
+                            text: `Sheet tab *${newSheetName}* duplicated successfully! ✅`,
                         },
                     ],
                 };

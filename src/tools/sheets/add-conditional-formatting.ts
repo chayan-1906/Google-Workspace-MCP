@@ -83,7 +83,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Conditional formatting applied successfully ✅',
+                            text: `Sheet *${spreadsheetId}* conditional formatting added successfully! ✅`,
                         },
                     ],
                 };

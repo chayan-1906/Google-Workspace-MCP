@@ -43,11 +43,12 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
 
             try {
                 await clearAllCustomCellFormattingSheet(spreadsheetId, sheetId, oauth2Client);
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Cleared all custom cell formatting in the sheet ✅`,
+                            text: `Sheet *${spreadsheetId}* cell formatting cleared successfully! ✅`,
                         },
                     ],
                 };

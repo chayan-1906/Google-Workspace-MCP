@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Inserted a column at index ${columnIndex} in sheet ${sheetId} ✅`,
+                            text: `Sheet *${spreadsheetId}* column inserted successfully! ✅`,
                         },
                     ],
                 };

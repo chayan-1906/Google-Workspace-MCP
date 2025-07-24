@@ -56,7 +56,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Cells merged successfully using ${mergeType} ✅`,
+                            text: `Sheet *${spreadsheetId}* cells merged successfully! ✅`,
                         },
                     ],
                 };

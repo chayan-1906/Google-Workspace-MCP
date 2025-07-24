@@ -30,7 +30,7 @@ export const registerTool = (server: McpServer) => {
                     content: [
                         {
                             type: 'text',
-                            text: `📋 I\'m ${email}`,
+                            text: `Google account retrieved successfully! ✅\n\n📧 ${email}`,
                         },
                     ],
                 };

@@ -67,7 +67,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Specified ranges have been protected successfully ✅',
+                            text: `Sheet *${spreadsheetId}* cells protected successfully! ✅`,
                         },
                     ],
                 };

@@ -55,7 +55,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Row added to ${range} ✅`,
+                            text: `Sheet *${spreadsheetId}* row appended successfully! ✅`,
                         },
                     ],
                 };
