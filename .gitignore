@@ -1,12 +1,11 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+.idea/
 
 # dependencies
 node_modules/
 build/
 dist/
-
-# credentials
-credentials.json
+package-lock.json
 
 # debug
 npm-debug.*
