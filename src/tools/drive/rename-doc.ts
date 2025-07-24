@@ -25,7 +25,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         'Renames a Google Docs document',
         {
             documentId: z.string().describe('The ID of the Google Docs document to rename'),
-            documentName: z.string().describe('TThe new title of the document'),
+            documentName: z.string().describe('The new title of the document'),
         },
         async ({documentId, documentName}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);

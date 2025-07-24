@@ -38,10 +38,10 @@ const appendDocText = async (documentId: string, text: string, auth: Auth.OAuth2
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.appendDocText,
-        'Appends text to the end of a Google Docs document',
+        'Appends text content to the end of a Google Docs document',
         {
-            documentId: z.string().describe('The ID of the Google Docs document'),
-            text: z.string().describe('The text content to append at the end'),
+            documentId: z.string().describe('The ID for the Google Docs document to modify'),
+            text: z.string().describe('The text content to append at the document end (newline automatically added)'),
         },
         async ({documentId, text}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);

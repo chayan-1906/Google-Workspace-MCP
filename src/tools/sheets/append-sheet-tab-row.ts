@@ -42,7 +42,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             range: z.string().describe('The range in the spreadsheet where the data will be inserted'),
-            values: z.array(z.array(z.any())).describe('A list where each inner list represents a row of the spreadsheet, and each string within a row corresponds to a cell value'),
+            values: z.array(z.array(z.any())).describe('A list where each inner list represents a row of the spreadsheet, and each item within a row corresponds to a cell value'),
         },
         async ({spreadsheetId, range, values}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);

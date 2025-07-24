@@ -31,7 +31,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
         'Deletes a sheet tab by its numeric sheet tab ID',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
-            sheetId: z.number().describe('Deletes a sheet tab by its numeric sheet ID'),
+            sheetId: z.number().describe('The numeric ID of the sheet tab to delete'),
         },
         async ({spreadsheetId, sheetId}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
