@@ -93,22 +93,34 @@ export async function saveTokens(email: string, tokens: any) {
 
     await collection.updateOne(
         {email},
-        {$set: {tokens: encrypted}},
+        {
+            $set: {
+                updatedAt: new Date()
+            },
+            $push: {
+                tokens: {
+                    $each: [{value: encrypted, createdAt: new Date()}],
+                    $slice: -4,
+                },
+            },
+        },
         {upsert: true}
     );
-
-    // await getTokensForUser(email);
 }
 
 export async function getTokensForUser(email: string) {
     const db = await connect(transport);
     const collection = db.collection('user_tokens');
-    const doc = await collection.findOne({email});
+    const doc = await collection.findOne(
+        {email},
+        {projection: {tokens: {$slice: -1}}}
+    );
 
-    if (!doc || !doc.tokens) return null;
+    if (!doc || !doc.tokens || doc.tokens.length === 0) return null;
 
     try {
-        const decrypted = decryptToken(doc.tokens);
+        const latestToken = doc.tokens[0];
+        const decrypted = decryptToken(latestToken.value);
         const parsedDecrypted = JSON.parse(decrypted);
         await printInConsole(transport, parsedDecrypted);
 
@@ -137,7 +149,10 @@ export async function getEmailFromSessionToken() {
     }
     const db = await connect(transport);
     const collection = db.collection('sessions');
-    const doc = await collection.findOne({sessionToken});
+    const doc = await collection.findOne(
+        {'sessions.value': sessionToken},
+        {projection: {email: 1}}
+    );
 
     return doc ? doc.email : null;
 }
@@ -148,7 +163,18 @@ export async function generateAndSaveSessionToken(email: string): Promise<string
     const collection = db.collection('sessions');
     await collection.updateOne(
         {email},
-        {$set: {sessionToken, email}},
+        {
+            $set: {
+                email,
+                updatedAt: new Date()
+            },
+            $push: {
+                sessions: {
+                    $each: [{value: sessionToken, createdAt: new Date()}],
+                    $slice: -4,
+                },
+            },
+        },
         {upsert: true},
     );
 
