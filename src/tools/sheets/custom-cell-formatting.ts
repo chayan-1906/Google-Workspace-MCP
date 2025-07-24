@@ -217,7 +217,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Custom Formatting applied successfully ✅`,
+                            text: `Sheet *${spreadsheetId}* cell formatting applied successfully! ✅`,
                         },
                     ],
                 };

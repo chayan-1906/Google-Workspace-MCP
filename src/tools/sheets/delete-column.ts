@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Deleted columns ${startIndex} to ${endIndex - 1} from sheet ${sheetId} ✅`,
+                            text: `Sheet *${spreadsheetId}* columns deleted successfully! ✅`,
                         },
                     ],
                 };

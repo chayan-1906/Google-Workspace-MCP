@@ -142,7 +142,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Chart *${chartTitle}* of type *${chartType}* added ✅`,
+                            text: `Sheet *${spreadsheetId}* chart added successfully! ✅`,
                         },
                     ],
                 };

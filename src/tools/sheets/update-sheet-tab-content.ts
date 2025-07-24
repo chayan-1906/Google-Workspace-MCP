@@ -41,7 +41,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Successfully updated range ${range} ✅`,
+                            text: `Sheet *${spreadsheetId}* content updated successfully! ✅`,
                         },
                     ],
                 };

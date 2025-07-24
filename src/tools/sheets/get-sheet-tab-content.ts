@@ -35,47 +35,13 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
 
             try {
                 const sheets = await getSheetTabContent(spreadsheetId, oauth2Client, ranges);
-                const tabs = sheets?.map((sheet, i) => {
-                    const title = sheet.properties?.title || 'Untitled';
-                    const id = sheet.properties?.sheetId || 'unknown';
-                    return `${i + 1}. 📄 ${title} → \`${id}\``;
-                }) || [];
-
-                if (sheets.length === 0) {
-                    return {
-                        content: [
-                            {
-                                type: 'text',
-                                text: 'No sheets found 😕',
-                            },
-                        ],
-                    };
-                }
-
-                const contentBlocks = sheets?.map((sheet, sheetIndex) => {
-                    const title = sheet.properties?.title || `Sheet${sheetIndex + 1}`;
-                    const rowData = sheet.data?.flatMap(d => d.rowData || []) || [];
-
-                    const lines = rowData.map((row, i) => {
-                        const cells = (row.values || []).map(cell => cell.formattedValue || '').join(' | ');
-                        return `${i + 1}. ${cells}`;
-                    });
-
-                    return {
-                        type: 'text' as const,
-                        text: lines.length
-                            ? `📊 Contents from sheet ${title}:\n\n${lines.join('\n')}`
-                            : `No content found in ${title}.`,
-                    };
-                }) || [];
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `📋 Spreadsheet Tabs:\n${tabs.join('\n')}`,
+                            text: `Sheet *${spreadsheetId}* content retrieved successfully! ✅\n\n${sheets.length} sheet${sheets.length !== 1 ? 's' : ''} found`,
                         },
-                        ...contentBlocks,
                     ],
                 };
             } catch (error: any) {

@@ -70,7 +70,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Rows sorted successfully ✅',
+                            text: `Sheet *${spreadsheetId}* sorted successfully! ✅`,
                         },
                     ],
                 };

@@ -38,7 +38,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Cleared ${ranges.length} range(s) successfully from the spreadsheet ✅`,
+                            text: `Sheet *${spreadsheetId}* ranges cleared successfully! ✅`,
                         },
                     ],
                 };

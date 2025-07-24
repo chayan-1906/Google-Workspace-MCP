@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'All conditional formatting rules cleared from sheet ✅',
+                            text: `Sheet *${spreadsheetId}* conditional formatting cleared successfully! ✅`,
                         },
                     ],
                 };

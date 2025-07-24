@@ -28,7 +28,7 @@ const deleteSheetTab = async (spreadsheetId: string, sheetId: number, auth: Auth
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.deleteSheetTab,
-        'Deletes a sheet tab by its numeric sheet ID',
+        'Deletes a sheet tab by its numeric sheet tab ID',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetId: z.number().describe('Deletes a sheet tab by its numeric sheet ID'),
@@ -44,7 +44,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `Deleted sheet with ID ${sheetId} ✅`,
+                            text: `Sheet *${spreadsheetId}* tab deleted successfully! ✅`,
                         },
                     ],
                 };

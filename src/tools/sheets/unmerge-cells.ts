@@ -54,7 +54,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: 'Cells unmerged successfully ✅',
+                            text: `Sheet *${spreadsheetId}* cells unmerged successfully! ✅`,
                         },
                     ],
                 };
