@@ -32,9 +32,9 @@ const clearAllCustomCellFormattingSheet = async (spreadsheetId: string, sheetId:
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.clearAllCustomCellFormattingSheet,
-        'Clears all custom cell formatting (like font, color, alignment) from the given Google SpreadSheet',
+        'Clears all custom cell formatting (like font, color, alignment) from the given Google Spreadsheet',
         {
-            spreadsheetId: z.string().describe('The spreadsheet ID'),
+            spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetId: z.number().describe('The sheet tab ID whose formatting should be cleared'),
         },
         async ({spreadsheetId, sheetId}) => {

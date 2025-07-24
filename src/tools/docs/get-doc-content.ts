@@ -48,9 +48,9 @@ const getDocContent = async (documentId: string, auth: Auth.OAuth2Client) => {
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.getDocContent,
-        'Retrieves the plain text content of a Google Docs document',
+        'Retrieves the complete plain text content from a Google Docs document, including text from tables and other elements',
         {
-            documentId: z.string().describe('The ID of the Google Docs document'),
+            documentId: z.string().describe('The ID for the Google Docs document to retrieve content from'),
         },
         async ({documentId}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);

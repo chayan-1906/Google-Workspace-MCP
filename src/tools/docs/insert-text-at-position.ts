@@ -29,11 +29,11 @@ const insertTextAtPosition = async (documentId: string, insertIndex: number, tex
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.insertTextAtPosition,
-        'Inserts text at a specific position in a Google Docs document',
+        'Inserts text at a specific character position in a Google Docs document',
         {
-            documentId: z.string().describe('The ID of the Google Docs document'),
-            insertIndex: z.number().describe('The index where the text to be inserted'),
-            textToInsert: z.string().describe('The text to insert'),
+            documentId: z.string().describe('The ID for the Google Docs document to modify'),
+            insertIndex: z.number().describe('The zero-based character index position where text will be inserted'),
+            textToInsert: z.string().describe('The text content to insert at the specified position'),
         },
         async ({documentId, insertIndex, textToInsert}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);

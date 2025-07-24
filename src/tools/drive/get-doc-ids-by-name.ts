@@ -13,13 +13,13 @@ interface DocMetadata {
     documentName: string;
 }
 
-const getDocIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Promise<DocMetadata[]> => {
+const getDocIdsByName = async (documentName: string, auth: Auth.OAuth2Client): Promise<DocMetadata[]> => {
     const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const matchingDocs: DocMetadata[] = [];
 
     const response = await drive.files.list({
-        q: `mimeType='application/vnd.google-apps.document' and name contains '${sheetName}' and trashed=false`,
+        q: `mimeType='application/vnd.google-apps.document' and name contains '${documentName}' and trashed=false`,
         fields: 'files(id, name)',
         spaces: 'drive',
     });
