@@ -6,10 +6,10 @@ import {OAuth2Client} from "googleapis-common";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {sendError} from "../../utils/sendError";
 import {transport} from "../../server";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const addSheetTab = async (spreadsheetId: string, sheetName: string, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const sheets = google.sheets({version: 'v4', auth});
+    const sheets = GoogleApiClientFactory.createSheetsClient(auth);
 
     await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
