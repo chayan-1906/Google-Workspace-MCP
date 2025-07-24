@@ -1,8 +1,3 @@
-// config();
-
-// export const {PORT, CLIENT_ID, CLIENT_SECRET, GOOGLE_REDIRECT_URI: REDIRECT_URI, MONGODB_URI, TOKEN_SECRET} = process.env;
-
-
 export const PORT = 20251
 export const CLIENT_ID = "426503477689-h0fhctv6uhe2f11dv2nb12j40h56o9u9.apps.googleusercontent.com"
 export const CLIENT_SECRET = "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"
