@@ -6,6 +6,7 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 interface SheetsMetadata {
     sheetId: string;
@@ -13,8 +14,7 @@ interface SheetsMetadata {
 }
 
 const getSheetIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Promise<SheetsMetadata[]> => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const matchingSheets: SheetsMetadata[] = [];
 
@@ -26,7 +26,7 @@ const getSheetIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Pr
 
     if (response.data.files) {
         matchingSheets.push(
-            ...response.data.files.map(sheet => ({
+            ...response.data.files.map((sheet: { id?: string | null; name?: string | null }) => ({
                 sheetId: sheet.id!,
                 sheetName: sheet.name!,
             }))

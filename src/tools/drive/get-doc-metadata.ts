@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const getDocMetadata = async (documentId: string, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
     const res = await drive.files.get({
         fileId: documentId,
         fields: "id, name, createdTime, modifiedTime, owners(emailAddress)",
@@ -18,7 +18,7 @@ const getDocMetadata = async (documentId: string, auth: Auth.OAuth2Client) => {
     return {
         id: res.data.id,
         title: res.data.name,
-        owners: res.data.owners?.map(owner => owner.emailAddress) || [],
+        owners: res.data.owners?.map((owner: { emailAddress?: string | null }) => owner.emailAddress) || [],
         createdTime: res.data.createdTime,
         modifiedTime: res.data.modifiedTime,
     };

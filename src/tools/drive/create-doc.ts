@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const createDoc = async (docName: string, auth: Auth.OAuth2Client, parentFolderId?: string) => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const fileMetadata: any = {
         name: docName,

@@ -6,12 +6,12 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 async function findAndReplaceTextDoc(documentId: string, ranges: { startIndex: number; endIndex: number }[], replaceString: string, auth: Auth.OAuth2Client): Promise<void> {
     if (!ranges.length) return;
 
-    const {google} = await import('googleapis');
-    const docs = google.docs({version: 'v1', auth});
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
 
     const requests: any[] = [];
     for (const {startIndex, endIndex} of ranges.slice().reverse()) {

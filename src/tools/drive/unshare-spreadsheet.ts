@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const unshareSpreadsheet = async (spreadsheetId: string, emailAddresses: string[] | 'ALL', auth: Auth.OAuth2Client,) => {
-    const {google} = await import('googleapis');
-    const drive = google.drive({version: 'v3', auth});
+    const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const permissions = await drive.permissions.list({
         fileId: spreadsheetId,
