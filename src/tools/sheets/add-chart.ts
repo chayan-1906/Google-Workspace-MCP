@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const addChart = async (spreadsheetId: string, sheetId: number, chartTitle: string, chartType: 'COLUMN' | 'BAR' | 'LINE' | 'PIE' | 'AREA' | 'SCATTER' | 'STEPPED_AREA', startRowIndex: number, endRowIndex: number, xAxisColumnIndex: number, yAxisColumnIndices: number[], anchorRowIndex: number, anchorColumnIndex: number, widthPixels: number, heightPixels: number, auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const sheets = google.sheets({version: 'v4', auth});
+    const sheets = GoogleApiClientFactory.createSheetsClient(auth);
 
     const chartSpec: any = {title: chartTitle};
 

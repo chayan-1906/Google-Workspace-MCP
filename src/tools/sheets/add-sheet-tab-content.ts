@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const addSheetTabContent = async (spreadsheetId: string, range: string, values: string[][], auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const sheets = google.sheets({version: 'v4', auth});
+    const sheets = GoogleApiClientFactory.createSheetsClient(auth);
 
     const response = await sheets.spreadsheets.values.append({
         spreadsheetId,

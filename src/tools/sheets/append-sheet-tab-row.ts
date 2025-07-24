@@ -6,10 +6,10 @@ import {transport} from "../../server";
 import {tools} from "../../utils/constants";
 import {sendError} from "../../utils/sendError";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
+import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const appendSheetTabRow = async (spreadsheetId: string, range: string, values: any[][], auth: Auth.OAuth2Client) => {
-    const {google} = await import('googleapis');
-    const sheets = google.sheets({version: 'v4', auth});
+    const sheets = GoogleApiClientFactory.createSheetsClient(auth);
 
     function formatIfDate(value: any): any {
         if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
