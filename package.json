@@ -22,15 +22,15 @@
     "google-docs-api"
   ],
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "ts-node src/server.ts",
     "build": "tsc",
     "bundle": "ncc build dist/server.js -o build",
     "package": "ts-node src/scripts/package-script.ts"
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "dotenv": "^17.2.0",
     "express": "^5.1.0",
+    "mcp-utils": "github:pdas9647/MCP-Utils#master",
     "googleapis": "^154.0.0",
     "mongodb": "^6.18.0",
     "nodemon": "^3.1.10",

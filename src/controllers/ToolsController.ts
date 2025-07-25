@@ -1,6 +1,6 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {printInConsole} from "mcp-utils/utils";
 import {transport} from "../server";
-import {printInConsole} from "../utils/printInConsole";
 import {getOAuthClientForUser} from "../services/OAuth";
 
 import {registerTool as myGoogleAccount} from '../tools/profile/my-google-account';

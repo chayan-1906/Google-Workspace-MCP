@@ -1,10 +1,10 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import type {Auth} from 'googleapis';
 import {z} from "zod";
-import {tools} from "../../utils/constants";
-import {OAuth2Client} from "googleapis-common";
-import {sendError} from "../../utils/sendError";
+import {Auth, sheets_v4} from 'googleapis';
+import {OAuth2Client} from 'googleapis-common';
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {sendError} from "mcp-utils/utils";
 import {transport} from "../../server";
+import {tools} from "../../utils/constants";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
@@ -36,23 +36,56 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             try {
                 const sheets = await getSheetTabContent(spreadsheetId, oauth2Client, ranges);
 
+                if (sheets.length === 0) {
+                    return {
+                        content: [{
+                            type: 'text',
+                            text: 'No sheets found 😕',
+                        }],
+                    };
+                }
+
+                const tabs = sheets?.map((sheet: sheets_v4.Schema$Sheet, i: number) => {
+                    const title = sheet.properties?.title || 'Untitled';
+                    const id = sheet.properties?.sheetId || 0;
+                    return `${i + 1}. 📄 ${title} → \`${id}\``;
+                }) || [];
+
+                const contentBlocks = sheets.map((sheet: sheets_v4.Schema$Sheet, sheetIndex: number) => {
+                    const title = sheet.properties?.title || `Sheet${sheetIndex + 1}`;
+                    const sheetId = sheet.properties?.sheetId;
+                    const rowData = sheet.data?.flatMap((d: sheets_v4.Schema$GridData) => d.rowData || []) || [];
+
+                    const lines = rowData.map((row: sheets_v4.Schema$RowData, i: number) => {
+                        const cells = (row.values || []).map((cell: sheets_v4.Schema$CellData) => cell.formattedValue || '').join(' | ');
+                        return `${i + 1}. ${cells}`;
+                    });
+
+                    return {
+                        type: 'text' as const,
+                        text: lines.length
+                            ? `📊 Contents from sheet ${title}:\n\n${lines.join('\n')}`
+                            : `No content found in ${title}.`,
+                    };
+                });
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Sheet *${spreadsheetId}* content retrieved successfully! ✅\n\n${sheets.length} sheet${sheets.length !== 1 ? 's' : ''} found`,
+                            text: `Sheet *${spreadsheetId}* content retrieved successfully! ✅\nTabs:\n${tabs.join('\n')}`,
                         },
+                        ...contentBlocks,
                     ],
                 };
-            } catch (error: any) {
+            } catch (error: unknown) {
+                const errorMessage = error instanceof Error ? error.message : String(error);
                 sendError(transport, new Error(`Failed to fetch sheet tab content: ${error}`), tools.getSheetTabContent);
                 return {
-                    content: [
-                        {
-                            type: 'text',
-                            text: `Failed to fetch content ❌: ${error.message}`,
-                        },
-                    ],
+                    content: [{
+                        type: 'text',
+                        text: `Failed to fetch content ❌: ${errorMessage}`,
+                    }],
                 };
             }
         },

@@ -4,13 +4,9 @@ import {Auth} from 'googleapis';
 import {v4 as uuidv4} from "uuid";
 import type {OAuth2Client} from 'google-auth-library';
 import {transport} from "../server";
-import {connect} from "../config/db";
-import {sendError} from "../utils/sendError";
 import {constants} from "../utils/constants";
-import {getClaudeConfigDir} from "../utils/directory";
-import {printInConsole} from "../utils/printInConsole";
-import {decryptToken, encryptToken} from "../utils/encryption";
-import {CLIENT_ID, CLIENT_SECRET, PORT, REDIRECT_URI} from "../config/config";
+import {CLIENT_ID, CLIENT_SECRET, DB_NAME, MONGODB_URI, PORT, REDIRECT_URI, TOKEN_SECRET} from "../config/config";
+import {connect, decryptToken, encryptToken, getClaudeConfigDir, printInConsole, sendError} from "mcp-utils/utils";
 
 let oauth2Client: OAuth2Client;
 
@@ -86,10 +82,10 @@ export async function getAuthUrl() {
 }
 
 export async function saveTokens(email: string, tokens: any) {
-    const db = await connect(transport);
+    const db = await connect(transport, MONGODB_URI, DB_NAME);
     const collection = db.collection('user_tokens');
 
-    const encrypted = encryptToken(JSON.stringify(tokens));
+    const encrypted = encryptToken(TOKEN_SECRET, JSON.stringify(tokens));
 
     await collection.updateOne(
         {email},
@@ -109,7 +105,7 @@ export async function saveTokens(email: string, tokens: any) {
 }
 
 export async function getTokensForUser(email: string) {
-    const db = await connect(transport);
+    const db = await connect(transport, MONGODB_URI, DB_NAME);
     const collection = db.collection('user_tokens');
     const doc = await collection.findOne(
         {email},
@@ -120,7 +116,7 @@ export async function getTokensForUser(email: string) {
 
     try {
         const latestToken = doc.tokens[0];
-        const decrypted = decryptToken(latestToken.value);
+        const decrypted = decryptToken(TOKEN_SECRET, latestToken.value);
         const parsedDecrypted = JSON.parse(decrypted);
         await printInConsole(transport, parsedDecrypted);
 
@@ -147,7 +143,7 @@ export async function getEmailFromSessionToken() {
             },
         };
     }
-    const db = await connect(transport);
+    const db = await connect(transport, MONGODB_URI, DB_NAME);
     const collection = db.collection('sessions');
     const doc = await collection.findOne(
         {'sessions.value': sessionToken},
@@ -159,7 +155,7 @@ export async function getEmailFromSessionToken() {
 
 export async function generateAndSaveSessionToken(email: string): Promise<string> {
     const sessionToken = uuidv4();
-    const db = await connect(transport);
+    const db = await connect(transport, MONGODB_URI, DB_NAME);
     const collection = db.collection('sessions');
     await collection.updateOne(
         {email},

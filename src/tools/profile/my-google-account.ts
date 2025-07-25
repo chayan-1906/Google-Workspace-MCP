@@ -1,8 +1,8 @@
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {sendError} from "mcp-utils/utils";
 import {transport} from "../../server";
 import {PORT} from "../../config/config";
 import {tools} from "../../utils/constants";
-import {sendError} from "../../utils/sendError";
 import {getEmailFromSessionToken, getSessionTokenFromSessionFile} from "../../services/OAuth";
 
 export const registerTool = (server: McpServer) => {
