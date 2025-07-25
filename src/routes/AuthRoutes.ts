@@ -1,6 +1,6 @@
 import {Router} from 'express';
+import {sendError} from "mcp-utils/utils";
 import {transport} from "../server";
-import {sendError} from "../utils/sendError";
 import {successHtml} from "../templates/successHTML";
 import {createClaudeFileAndStoreSession, generateAndSaveSessionToken, getAuthUrl, getOAuth2Client, saveTokens} from "../services/OAuth";
 
