@@ -25,8 +25,8 @@ npm install
 |-------------------------------------|---------------------------------------------------------------------------------------------------| 
 | `myDetails`                         | Fetches the authenticated user's email address                                                    |
 |                                     |                                                                                                   |
-| `getFolderIdsByName`                | Finds the Google Drive folder IDs by folder name                                                  |
-| `getFolderContentById`              | Finds the Google Drive folder contents by folder ID                                               |
+| `getDriveFolderIdsByName`           | Finds the Google Drive folder IDs by folder name                                                  |
+| `getDriveFolderContentById`         | Finds the Google Drive folder contents by folder ID                                               |
 | `getSheetIdsByName`                 | Finds the Google Spreadsheet IDs by spreadsheet name                                              |
 | `createSpreadsheet`                 | Creates a new Google Spreadsheet in the specified Drive folder                                    |
 | `deleteSpreadsheet`                 | The ID of the spreadsheet to delete                                                               |

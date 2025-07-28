@@ -5,8 +5,25 @@ import {getOAuthClientForUser} from "../services/OAuth";
 
 import {registerTool as myGoogleAccount} from '../tools/profile/my-google-account';
 
-import {registerTool as getFolderIdsByName} from '../tools/drive/get-folder-ids-by-name';
-import {registerTool as getFolderContentById} from '../tools/drive/get-folder-content-by-id';
+import {registerTool as getDriveFolderIdsByName} from '../tools/drive/get-drive-folder-ids-by-name';
+import {registerTool as getDriveFolderContentById} from '../tools/drive/get-drive-folder-content-by-id';
+import {registerTool as createDriveFolder} from '../tools/drive/createDriveFolder';
+import {registerTool as copyDriveFolder} from '../tools/drive/copyDriveFolder';
+import {registerTool as moveDriveFolder} from '../tools/drive/moveDriveFolder';
+import {registerTool as getDriveStorageQuota} from '../tools/drive/getDriveStorageQuota';
+import {registerTool as getDriveSharedWithMe} from '../tools/drive/getDriveSharedWithMe';
+
+import {registerTool as getDriveFileMetadata} from '../tools/drive/getDriveFileMetadata';
+import {registerTool as getDriveFilePermissions} from '../tools/drive/getDriveFilePermissions';
+import {registerTool as updateDriveFilePermissions} from '../tools/drive/updateDriveFilePermissions';
+import {registerTool as copyDriveFile} from '../tools/drive/copyDriveFile';
+import {registerTool as moveDriveFile} from '../tools/drive/moveDriveFile';
+import {registerTool as searchDriveFiles} from '../tools/drive/searchDriveFiles';
+import {registerTool as removeDriveFileAccess} from '../tools/drive/removeDriveFileAccess';
+import {registerTool as setDriveLinkPermission} from '../tools/drive/setDriveLinkPermission';
+import {registerTool as deleteDriveFile} from '../tools/drive/deleteDriveFile';
+import {registerTool as duplicateDriveFile} from '../tools/drive/duplicateDriveFile';
+
 import {registerTool as getSheetIdsByName} from '../tools/drive/get-sheet-ids-by-name';
 import {registerTool as createSpreadsheet} from '../tools/drive/create-spreadsheet';
 import {registerTool as deleteSpreadsheet} from '../tools/drive/delete-spreadsheet';
@@ -61,8 +78,25 @@ async function setupMcpTools(server: McpServer) {
 
     myGoogleAccount(server);
 
-    getFolderIdsByName(server, getOAuthClientForUser);
-    getFolderContentById(server, getOAuthClientForUser);
+    getDriveFolderIdsByName(server, getOAuthClientForUser);
+    getDriveFolderContentById(server, getOAuthClientForUser);
+    createDriveFolder(server, getOAuthClientForUser);
+    copyDriveFolder(server, getOAuthClientForUser);
+    moveDriveFolder(server, getOAuthClientForUser);
+    getDriveStorageQuota(server, getOAuthClientForUser);
+    getDriveSharedWithMe(server, getOAuthClientForUser);
+
+    getDriveFileMetadata(server, getOAuthClientForUser);
+    getDriveFilePermissions(server, getOAuthClientForUser);
+    updateDriveFilePermissions(server, getOAuthClientForUser);
+    copyDriveFile(server, getOAuthClientForUser);
+    moveDriveFile(server, getOAuthClientForUser);
+    searchDriveFiles(server, getOAuthClientForUser);
+    removeDriveFileAccess(server, getOAuthClientForUser);
+    setDriveLinkPermission(server, getOAuthClientForUser);
+    deleteDriveFile(server, getOAuthClientForUser);
+    duplicateDriveFile(server, getOAuthClientForUser);
+
     getSheetIdsByName(server, getOAuthClientForUser);
     createSpreadsheet(server, getOAuthClientForUser);
     deleteSpreadsheet(server, getOAuthClientForUser);

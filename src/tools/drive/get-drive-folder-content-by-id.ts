@@ -24,7 +24,7 @@ function getReadableMimeType(mimeType: string): string {
     return map[mimeType] ?? mimeType ?? 'unknown';
 }
 
-const getFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
+const getDriveFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
     const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const response = await drive.files.list({
@@ -41,7 +41,7 @@ const getFolderContentById = async (folderId: string, auth: Auth.OAuth2Client): 
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.getFolderContentById,
+        tools.getDriveFolderContentById,
         'Finds the Google Drive folder contents by folder ID',
         {
             folderId: z.string().describe('The ID of the Google Drive folder to list contents from'),
@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                const folderMetadata = await getFolderContentById(folderId, oauth2Client);
+                const folderMetadata = await getDriveFolderContentById(folderId, oauth2Client);
 
                 if (!folderMetadata.length) {
                     return {
@@ -77,7 +77,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to fetch content of folder: ${error}`), tools.getFolderContentById);
+                sendError(transport, new Error(`Failed to fetch content of folder: ${error}`), tools.getDriveFolderContentById);
                 return {
                     content: [
                         {

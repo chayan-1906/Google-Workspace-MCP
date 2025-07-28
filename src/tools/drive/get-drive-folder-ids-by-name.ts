@@ -13,7 +13,7 @@ interface FolderMetadata {
     folderName: string;
 }
 
-const getFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
+const getDriveFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): Promise<FolderMetadata[]> => {
     const drive = GoogleApiClientFactory.createDriveClient(auth);
 
     const matchingFolders: FolderMetadata[] = [];
@@ -38,7 +38,7 @@ const getFolderIdsByName = async (folderName: string, auth: Auth.OAuth2Client): 
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.getFolderIdsByName,
+        tools.getDriveFolderIdsByName,
         'Finds the Google Drive folder IDs by folder name',
         {
             folderName: z.string().describe('The name of the Google Drive folder to find'),
@@ -48,7 +48,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                const folderMetadata = await getFolderIdsByName(folderName, oauth2Client);
+                const folderMetadata = await getDriveFolderIdsByName(folderName, oauth2Client);
 
                 if (!folderMetadata.length) {
                     return {
@@ -74,7 +74,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to fetch IDs of folder by name: ${error}`), tools.getFolderIdsByName);
+                sendError(transport, new Error(`Failed to fetch IDs of folder by name: ${error}`), tools.getDriveFolderIdsByName);
                 return {
                     content: [
                         {
