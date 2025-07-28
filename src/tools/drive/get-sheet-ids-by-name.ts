@@ -18,8 +18,11 @@ const getSheetIdsByName = async (sheetName: string, auth: Auth.OAuth2Client): Pr
 
     const matchingSheets: SheetsMetadata[] = [];
 
+    // Escape single quotes for Google Drive API query
+    const escapedSheetName = sheetName.replace(/'/g, "\\'");
+
     const response = await drive.files.list({
-        q: `mimeType='application/vnd.google-apps.spreadsheet' and name contains '${sheetName}' and trashed=false`,
+        q: `mimeType='application/vnd.google-apps.spreadsheet' and name contains '${escapedSheetName}' and trashed=false`,
         fields: 'files(id, name)',
         spaces: 'drive',
     });
