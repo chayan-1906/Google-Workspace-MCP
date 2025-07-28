@@ -7,6 +7,7 @@ const tools = {
     createDriveFolder: 'create-drive-folder',
     copyDriveFolder: 'copy-drive-folder',
     moveDriveFolder: 'move-drive-folder',
+    deleteDriveFolder: 'delete-drive-folder',
     getDriveStorageQuota: 'get-drive-storage-quota',
     getDriveSharedWithMe: 'get-drive-shared-with-me',
 
@@ -15,10 +16,10 @@ const tools = {
     updateDriveFilePermissions: 'update-drive-file-permissions',
     copyDriveFile: 'copy-drive-file',
     moveDriveFile: 'move-drive-file',
+    deleteDriveFile: 'delete-drive-file',
     searchDriveFiles: 'search-drive-files',
     removeDriveFileAccess: 'remove-drive-file-access',
     setDriveLinkPermission: 'set-drive-link-permission',
-    deleteDriveFile: 'delete-drive-file',
     duplicateDriveFile: 'duplicate-drive-file',
 
     getSheetIdsByName: 'get-sheet-ids-by-name',
