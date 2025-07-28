@@ -35,7 +35,7 @@ const tools = {
     deleteDoc: 'delete-doc',
     renameDoc: 'rename-doc',
 
-    /** google sheet */
+    /** google sheets */
     appendSheetTabRow: 'append-sheet-tab-row',
     deleteRow: 'delete-row',
     clearRanges: 'clear-ranges',    // batchClear in remix
@@ -49,8 +49,8 @@ const tools = {
     insertColumn: 'insert-column',
     deleteColumn: 'delete-column',
     addChart: 'add-chart',
-    sort: 'sort',
-    filter: 'filter',
+    sortSheet: 'sort-sheet',
+    filterSheet: 'filter-sheet',
     functions: 'functions',
     addConditionalFormatting: 'add-conditional-formatting',
     // getAllConditionalFormatting: 'get-all-conditional-formatting',
@@ -66,7 +66,7 @@ const tools = {
     protectCells: 'protect-cells',
     insertLinkSheetTab: 'insert-link-sheet-tab',
 
-    /** google doc */
+    /** google docs */
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',
     addDocTab: 'add-doc-tab',   // should support adding subtab                     // @arka

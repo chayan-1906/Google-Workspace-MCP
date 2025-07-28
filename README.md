@@ -52,8 +52,8 @@ npm install
 | `insertColumn`                      | Inserts a new column in a sheet at a specific position in Google Spreadsheet                      |
 | `deleteColumn`                      | Deletes one or more columns in a sheet tab from Google Spreadsheet                                |
 | `addChart`                          | Adds a chart to the specified sheet in Google Spreadsheet                                         |
-| `sort`                              | Sorts a row range by one or more column indexes in Google Spreadsheet                             |
-| `filter`                            | Applies filter view to a specified cell range in Google Spreadsheet                               |
+| `sortSheet`                         | Sorts a row range by one or more column indexes in Google Spreadsheet                             |
+| `filterSheet`                       | Applies filterSheet view to a specified cell range in Google Spreadsheet                          |
 | `functions`                         | Applies spreadsheet function formulas (e.g., SUM, AVERAGE) to specific cell in Google Spreadsheet |
 | `addConditionalFormatting`          | Adds conditional formatting to a range in a Google Sheet                                          |
 | `clearAllConditionalFormatting`     | Clears all conditional formatting rules in a sheet                                                |

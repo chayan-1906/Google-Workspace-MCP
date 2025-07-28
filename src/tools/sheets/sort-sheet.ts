@@ -8,7 +8,7 @@ import {tools} from "../../utils/constants";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
-const sort = async (spreadsheetId: string, sheetId: number, startRowIndex: number, endRowIndex: number, startColumnIndex: number, endColumnIndex: number, sortSpecs: {
+const sortSheet = async (spreadsheetId: string, sheetId: number, startRowIndex: number, endRowIndex: number, startColumnIndex: number, endColumnIndex: number, sortSpecs: {
     dimensionIndex: number;
     sortOrder: 'ASCENDING' | 'DESCENDING'
 }[], auth: Auth.OAuth2Client) => {
@@ -37,7 +37,7 @@ const sort = async (spreadsheetId: string, sheetId: number, startRowIndex: numbe
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.sort,
+        tools.sortSheet,
         'Sorts a row range by one or more column indexes in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
@@ -51,20 +51,20 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     z.object({
                         dimensionIndex: z
                             .number()
-                            .describe('Zero-based index of the column to sort by'),
+                            .describe('Zero-based index of the column to sortSheet by'),
                         sortOrder: z
                             .enum(['ASCENDING', 'DESCENDING'])
                             .describe('Sort direction'),
                     })
                 )
-                .describe('One or more column sort specifications'),
+                .describe('One or more column sortSheet specifications'),
         },
         async ({spreadsheetId, sheetId, startRowIndex, endRowIndex, startColumnIndex, endColumnIndex, sortSpecs}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                await sort(spreadsheetId, sheetId, startRowIndex, endRowIndex, startColumnIndex, endColumnIndex, sortSpecs, oauth2Client);
+                await sortSheet(spreadsheetId, sheetId, startRowIndex, endRowIndex, startColumnIndex, endColumnIndex, sortSpecs, oauth2Client);
 
                 return {
                     content: [
@@ -75,7 +75,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to sort: ${error}`), tools.sort);
+                sendError(transport, new Error(`Failed to sort: ${error}`), tools.sortSheet);
                 return {
                     content: [
                         {

@@ -8,7 +8,7 @@ import {tools} from "../../utils/constants";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
-const filter = async (spreadsheetId: string, sheetId: number, startRowIndex: number, criteria: Record<string, any>, auth: Auth.OAuth2Client) => {
+const filterSheet = async (spreadsheetId: string, sheetId: number, startRowIndex: number, criteria: Record<string, any>, auth: Auth.OAuth2Client) => {
     const sheets = GoogleApiClientFactory.createSheetsClient(auth);
 
     const request = {
@@ -35,8 +35,8 @@ const filter = async (spreadsheetId: string, sheetId: number, startRowIndex: num
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.filter,
-        'Applies filter view to a specified cell range in Google Spreadsheet',
+        tools.filterSheet,
+        'Applies filterSheet view to a specified cell range in Google Spreadsheet',
         {
             spreadsheetId: z.string().describe('The ID of the Google Spreadsheet'),
             sheetId: z.number().describe('The numeric ID of the sheet tab'),
@@ -74,7 +74,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             if (!oauth2Client) return response;
 
             try {
-                await filter(spreadsheetId, sheetId, startRowIndex, criteria, oauth2Client);
+                await filterSheet(spreadsheetId, sheetId, startRowIndex, criteria, oauth2Client);
 
                 return {
                     content: [
@@ -85,7 +85,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to filter: ${error}`), tools.filter);
+                sendError(transport, new Error(`Failed to filter: ${error}`), tools.filterSheet);
                 return {
                     content: [
                         {

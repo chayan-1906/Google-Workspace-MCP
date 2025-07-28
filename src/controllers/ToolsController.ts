@@ -50,8 +50,8 @@ import {registerTool as updateSheetTabContent} from '../tools/sheets/update-shee
 import {registerTool as insertColumn} from '../tools/sheets/insert-column';
 import {registerTool as deleteColumn} from '../tools/sheets/delete-column';
 import {registerTool as addChart} from '../tools/sheets/add-chart';
-import {registerTool as sort} from '../tools/sheets/sort';
-import {registerTool as filter} from '../tools/sheets/filter';
+import {registerTool as sort} from '../tools/sheets/sort-sheet';
+import {registerTool as filter} from '../tools/sheets/filter-sheet';
 import {registerTool as functions} from '../tools/sheets/functions';
 import {registerTool as addConditionalFormatting} from '../tools/sheets/add-conditional-formatting';
 import {registerTool as clearAllConditionalFormatting} from '../tools/sheets/clear-all-conditional-formatting';
