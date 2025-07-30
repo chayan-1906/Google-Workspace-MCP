@@ -68,6 +68,7 @@ import {registerTool as insertLinkSheet} from '../tools/sheets/insert-link-sheet
 
 import {registerTool as appendDocText} from '../tools/docs/append-doc-text';
 import {registerTool as getDocContent} from '../tools/docs/get-doc-content';
+import {registerTool as findTextIndices} from '../tools/docs/find-text-indices';
 import {registerTool as insertTextAtPosition} from '../tools/docs/insert-text-at-position';
 import {registerTool as deleteTextRange} from '../tools/docs/delete-text-range';
 import {registerTool as getParagraphRanges} from '../tools/docs/get-paragraph-ranges';
@@ -141,6 +142,7 @@ async function setupMcpTools(server: McpServer) {
 
     appendDocText(server, getOAuthClientForUser);
     getDocContent(server, getOAuthClientForUser);
+    findTextIndices(server, getOAuthClientForUser);
     insertTextAtPosition(server, getOAuthClientForUser);
     deleteTextRange(server, getOAuthClientForUser);
     getParagraphRanges(server, getOAuthClientForUser);

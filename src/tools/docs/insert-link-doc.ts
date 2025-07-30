@@ -8,60 +8,57 @@ import {tools} from "../../utils/constants";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
-// TODO: Fix
-const extractTextFromContent = (content: any[]): string => {
-    let text = '';
-    for (const element of content) {
-        if (element.paragraph) {
-            for (const elem of element.paragraph.elements) {
-                if (elem.textRun?.content) {
-                    text += elem.textRun.content;
+const findTextInDoc = async (documentId: string, searchText: string, auth: Auth.OAuth2Client): Promise<{ startIndex: number, endIndex: number }[]> => {
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
+    const res = await docs.documents.get({documentId});
+
+    const matches: { startIndex: number, endIndex: number }[] = [];
+    const content = res.data.body?.content || [];
+
+    const processContent = (elements: any[], baseIndex: number = 0) => {
+        let currentIndex = baseIndex;
+
+        for (const element of elements) {
+            if (element.paragraph) {
+                for (const elem of element.paragraph.elements || []) {
+                    if (elem.textRun?.content) {
+                        const text = elem.textRun.content;
+                        const searchLower = searchText.toLowerCase();
+                        const textLower = text.toLowerCase();
+
+                        let searchIndex = 0;
+                        while (searchIndex < text.length) {
+                            const index = textLower.indexOf(searchLower, searchIndex);
+                            if (index === -1) break;
+
+                            matches.push({
+                                startIndex: Math.max(1, currentIndex + index),
+                                endIndex: currentIndex + index + searchText.length
+                            });
+
+                            searchIndex = index + 1;
+                        }
+                        currentIndex += text.length;
+                    }
+                }
+            }
+            if (element.table) {
+                for (const row of element.table.tableRows || []) {
+                    for (const cell of row.tableCells || []) {
+                        processContent(cell.content || [], currentIndex);
+                    }
                 }
             }
         }
-    }
-    return text;
-}
+    };
 
-const getDocContent = async (documentId: string, auth: Auth.OAuth2Client) => {
-    const docs = GoogleApiClientFactory.createDocsClient(auth);
-    const res = await docs.documents.get({documentId});
-    const content = res.data.body?.content || [];
-    return extractTextFromContent(content);
-}
-
-const findWordBoundaries = (text: string, searchTerm: string): { startIndex: number, endIndex: number } | null => {
-    let searchIndex = 0;
-
-    while (searchIndex < text.length) {
-        const index = text.toLowerCase().indexOf(searchTerm.toLowerCase(), searchIndex);
-        if (index === -1) return null;
-
-        // Check if this is a word boundary (not part of another word)
-        const beforeChar = index > 0 ? text[index - 1] : ' ';
-        const afterChar = index + searchTerm.length < text.length ? text[index + searchTerm.length] : ' ';
-
-        if (!/[a-zA-Z0-9]/.test(beforeChar) && !/[a-zA-Z0-9]/.test(afterChar)) {
-            return {
-                startIndex: Math.max(1, index),
-                endIndex: index + searchTerm.length
-            };
-        }
-
-        searchIndex = index + 1;
-    }
-
-    return null;
+    processContent(content, 1);
+    return matches;
 }
 
 const insertLinkInDoc = async (documentId: string, url: string, startIndex: number, endIndex: number, auth: Auth.OAuth2Client) => {
     const docs = GoogleApiClientFactory.createDocsClient(auth);
 
-    // Ensure we don't try to format the section break (index 0)
-    const safeStartIndex = Math.max(1, startIndex);
-    const safeEndIndex = Math.max(safeStartIndex + 1, endIndex);
-
-    // Apply the link formatting to existing text
     await docs.documents.batchUpdate({
         documentId,
         requestBody: {
@@ -69,8 +66,8 @@ const insertLinkInDoc = async (documentId: string, url: string, startIndex: numb
                 {
                     updateTextStyle: {
                         range: {
-                            startIndex: safeStartIndex,
-                            endIndex: safeEndIndex
+                            startIndex,
+                            endIndex
                         },
                         textStyle: {
                             link: {
@@ -88,59 +85,64 @@ const insertLinkInDoc = async (documentId: string, url: string, startIndex: numb
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
         tools.insertLinkDoc,
-        'Adds a hyperlink to existing text in a Google Docs document. Can either use specific indices or search for text to link.',
+        'Adds a hyperlink to existing text in a Google Docs document. Links ALL occurrences of searchText or specific range.',
         {
             documentId: z.string().describe('The ID of the Google Docs document'),
             url: z.string().describe('The URL to link to'),
             startIndex: z.number().optional().describe('The start index of the text to link (0-based, inclusive)'),
             endIndex: z.number().optional().describe('The end index of the text to link (0-based, exclusive)'),
-            searchText: z.string().optional().describe('Text to search for and convert to link (alternative to using indices)'),
+            searchText: z.string().optional().describe('Text to search for - links ALL occurrences found'),
         },
         async ({documentId, url, startIndex, endIndex, searchText}) => {
             const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
             if (!oauth2Client) return response;
 
             try {
-                let finalStartIndex = startIndex;
-                let finalEndIndex = endIndex;
+                if (searchText) {
+                    const matches = await findTextInDoc(documentId, searchText, oauth2Client);
 
-                // If searchText is provided, find the word boundaries
-                if (searchText && (!startIndex || !endIndex)) {
-                    const docText = await getDocContent(documentId, oauth2Client);
-                    const boundaries = findWordBoundaries(docText, searchText);
-
-                    if (!boundaries) {
+                    if (matches.length === 0) {
                         return {
                             content: [
                                 {
                                     type: 'text',
-                                    text: `Text "${searchText}" not found in document ❌`,
+                                    text: `Text "${searchText}" not found ❌`,
                                 },
                             ],
                         };
                     }
 
-                    finalStartIndex = boundaries.startIndex;
-                    finalEndIndex = boundaries.endIndex;
-                }
+                    for (const match of matches.reverse()) {
+                        await insertLinkInDoc(documentId, url, match.startIndex, match.endIndex, oauth2Client);
+                    }
 
-                if (finalStartIndex === undefined || finalEndIndex === undefined) {
                     return {
                         content: [
                             {
                                 type: 'text',
-                                text: `Either provide startIndex/endIndex or searchText ❌`,
+                                text: `${matches.length} occurrence(s) of "${searchText}" linked ✅`,
                             },
                         ],
                     };
                 }
 
-                await insertLinkInDoc(documentId, url, finalStartIndex, finalEndIndex, oauth2Client);
+                if (startIndex !== undefined && endIndex !== undefined) {
+                    await insertLinkInDoc(documentId, url, startIndex, endIndex, oauth2Client);
+                    return {
+                        content: [
+                            {
+                                type: 'text',
+                                text: `Range [${startIndex}:${endIndex}] linked ✅`,
+                            },
+                        ],
+                    };
+                }
+
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Doc *${documentId}* hyperlink inserted successfully! ✅`,
+                            text: `Provide startIndex/endIndex or searchText ❌`,
                         },
                     ],
                 };
