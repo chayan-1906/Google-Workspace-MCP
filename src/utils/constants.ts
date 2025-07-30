@@ -76,6 +76,7 @@ const tools = {
     insertTextAtPosition: 'insert-text-at-position',
     findAndReplaceTextDoc: 'find-and-replace-text-doc',
     deleteTextRange: 'delete-text-range',
+    getParagraphRanges: 'get-paragraph-ranges',
     insertImage: 'insert-image',
     insertTable: 'insert-table',
     updateTable: 'update-table',

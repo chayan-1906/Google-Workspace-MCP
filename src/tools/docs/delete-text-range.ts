@@ -11,7 +11,10 @@ import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 const deleteTextRange = async (documentId: string, ranges: { startIndex: number; endIndex: number }[], auth: Auth.OAuth2Client) => {
     const docs = GoogleApiClientFactory.createDocsClient(auth);
 
-    const requests = ranges.map(({startIndex, endIndex}) => ({
+    // Sort ranges in reverse order by startIndex to maintain index validity
+    const sortedRanges = ranges.slice().sort((a, b) => b.startIndex - a.startIndex);
+
+    const requests = sortedRanges.map(({startIndex, endIndex}) => ({
         deleteContentRange: {
             range: {
                 startIndex,
