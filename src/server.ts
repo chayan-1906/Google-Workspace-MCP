@@ -3,7 +3,7 @@ const startTime = Date.now();
 import express from 'express';
 import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {StdioServerTransport} from "@modelcontextprotocol/sdk/server/stdio.js";
-import {addOrUpdateMCPServer, freezePortOnQuit, killPortOnLaunch, printInConsole, setEntry} from "mcp-utils/utils";
+import {addOrUpdateMCPServer, closeConnection, freezePortOnQuit, killPortOnLaunch, printInConsole, setEntry} from "mcp-utils/utils";
 import {PORT} from "./config/config";
 import AuthRoutes from "./routes/AuthRoutes";
 import {setupMcpTools} from "./controllers/ToolsController";
@@ -23,6 +23,19 @@ const server = new McpServer({
 freezePortOnQuit();
 
 const serverName = 'google-workspace';
+
+// Graceful shutdown handling
+process.on('SIGTERM', async () => {
+    await printInConsole(transport, 'SIGTERM received, closing MongoDB connection...');
+    await closeConnection();
+    process.exit(0);
+});
+
+process.on('SIGINT', async () => {
+    await printInConsole(transport, 'SIGINT received, closing MongoDB connection...');
+    await closeConnection();
+    process.exit(0);
+});
 
 // Start receiving messages on stdin and sending messages on stdout
 async function startMcp() {

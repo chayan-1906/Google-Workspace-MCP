@@ -83,8 +83,12 @@ export async function getAuthUrl() {
 
 export async function saveTokens(email: string, tokens: any) {
     const db = await connect(transport, MONGODB_URI, DB_NAME);
-    const collection = db.collection('user_tokens');
+    if (!db) {
+        sendError(transport, new Error('Failed to connect to database'), 'db-connection');
+        return;
+    }
 
+    const collection = db.collection('user_tokens');
     const encrypted = encryptToken(TOKEN_SECRET, JSON.stringify(tokens));
 
     await collection.updateOne(
@@ -97,19 +101,24 @@ export async function saveTokens(email: string, tokens: any) {
                 tokens: {
                     $each: [{value: encrypted, createdAt: new Date()}],
                     $slice: -4,
-                },
-            },
+                } as object,
+            } as any,
         },
-        {upsert: true}
+        {upsert: true},
     );
 }
 
 export async function getTokensForUser(email: string) {
     const db = await connect(transport, MONGODB_URI, DB_NAME);
+    if (!db) {
+        sendError(transport, new Error('Failed to connect to database'), 'db-connection');
+        return null;
+    }
+
     const collection = db.collection('user_tokens');
     const doc = await collection.findOne(
         {email},
-        {projection: {tokens: {$slice: -1}}}
+        {projection: {tokens: {$slice: -1}}},
     );
 
     if (!doc || !doc.tokens || doc.tokens.length === 0) return null;
@@ -144,10 +153,15 @@ export async function getEmailFromSessionToken() {
         };
     }
     const db = await connect(transport, MONGODB_URI, DB_NAME);
+    if (!db) {
+        sendError(transport, new Error('Failed to connect to database'), 'db-connection');
+        return null;
+    }
+
     const collection = db.collection('sessions');
     const doc = await collection.findOne(
         {'sessions.value': sessionToken},
-        {projection: {email: 1}}
+        {projection: {email: 1}},
     );
 
     return doc ? doc.email : null;
@@ -156,6 +170,11 @@ export async function getEmailFromSessionToken() {
 export async function generateAndSaveSessionToken(email: string): Promise<string> {
     const sessionToken = uuidv4();
     const db = await connect(transport, MONGODB_URI, DB_NAME);
+    if (!db) {
+        sendError(transport, new Error('Failed to connect to database'), 'db-connection');
+        return sessionToken;
+    }
+
     const collection = db.collection('sessions');
     await collection.updateOne(
         {email},
@@ -169,7 +188,7 @@ export async function generateAndSaveSessionToken(email: string): Promise<string
                     $each: [{value: sessionToken, createdAt: new Date()}],
                     $slice: -4,
                 },
-            },
+            } as object,
         },
         {upsert: true},
     );
