@@ -84,8 +84,8 @@ const insertLinkInDoc = async (documentId: string, url: string, startIndex: numb
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.insertLinkDoc,
-        'Adds a hyperlink to existing text in a Google Docs document. Links ALL occurrences of searchText or specific range.',
+        tools.insertDocHyperlink,
+        'Adds a hyperlink to existing text in a Google Docs document. Links ALL occurrences of searchText or specific range',
         {
             documentId: z.string().describe('The ID of the Google Docs document'),
             url: z.string().describe('The URL to link to'),
@@ -147,7 +147,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to insert link: ${error}`), tools.insertLinkDoc);
+                sendError(transport, new Error(`Failed to insert link: ${error}`), tools.insertDocHyperlink);
                 return {
                     content: [
                         {

@@ -72,7 +72,8 @@ import {registerTool as findTextIndices} from '../tools/docs/find-text-indices';
 import {registerTool as insertTextAtPosition} from '../tools/docs/insert-text-at-position';
 import {registerTool as deleteTextRange} from '../tools/docs/delete-text-range';
 import {registerTool as getParagraphRanges} from '../tools/docs/get-paragraph-ranges';
-import {registerTool as insertLinkDoc} from '../tools/docs/insert-link-doc';
+import {registerTool as insertDocHyperlink} from '../tools/docs/insert-doc-hyperlink';
+import {registerTool as removeDocHyperlinks} from '../tools/docs/remove-doc-hyperlinks';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -146,7 +147,8 @@ async function setupMcpTools(server: McpServer) {
     insertTextAtPosition(server, getOAuthClientForUser);
     deleteTextRange(server, getOAuthClientForUser);
     getParagraphRanges(server, getOAuthClientForUser);
-    insertLinkDoc(server, getOAuthClientForUser);
+    insertDocHyperlink(server, getOAuthClientForUser);
+    removeDocHyperlinks(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }

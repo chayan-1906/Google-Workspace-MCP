@@ -87,8 +87,8 @@ const tools = {
     setBackgroundColor: 'set-background-color',
     setListStyle: 'set-list-style',
     clearAllFormattingDoc: 'remove-all-formatting-doc',
-    insertLinkDoc: 'insert-link-doc',                                               // TODO: Use findTextIndices, add support of table
-    unLinkDoc: 'unlink-doc',
+    insertDocHyperlink: 'insert-doc-hyperlink',
+    removeDocHyperlinks: 'remove-doc-hyperlinks',
     addCommentDoc: 'add-comment-doc',
     deleteCommentDoc: 'delete-comment-doc',
     listCommentsDoc: 'list-comments-doc',
