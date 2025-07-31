@@ -69,9 +69,9 @@ const tools = {
     /** google docs */
     getDocContent: 'get-doc-content',
     appendDocText: 'append-doc-text',
-    addDocTab: 'add-doc-tab',   // should support adding subtab                     // @arka
-    renameDocTab: 'rename-doc-tab',                                                 // @arka
-    deleteDocTab: 'delete-doc-tab',                                                 // @arka
+    // addDocTab: 'add-doc-tab',
+    // renameDocTab: 'rename-doc-tab',
+    // deleteDocTab: 'delete-doc-tab',
     findTextIndices: 'find-text-indices',
     insertTextAtPosition: 'insert-text-at-position',
     findAndReplaceTextDoc: 'find-and-replace-text-doc',
@@ -89,13 +89,10 @@ const tools = {
     clearAllFormattingDoc: 'remove-all-formatting-doc',
     insertDocHyperlink: 'insert-doc-hyperlink',
     removeDocHyperlinks: 'remove-doc-hyperlinks',
-    addCommentDoc: 'add-comment-doc',
-    deleteCommentDoc: 'delete-comment-doc',
-    listCommentsDoc: 'list-comments-doc',
-    copyDoc: 'copy-doc',
+    // addCommentDoc: 'add-comment-doc',
+    // deleteCommentDoc: 'delete-comment-doc',
+    // listCommentsDoc: 'list-comments-doc',
     exportDoc: 'export-doc',
-    shareDoc: 'share-doc',
-    unshareDoc: 'unshare-doc',
 }
 
 const constants = {

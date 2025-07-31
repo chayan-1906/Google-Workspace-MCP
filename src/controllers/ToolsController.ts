@@ -74,6 +74,7 @@ import {registerTool as deleteTextRange} from '../tools/docs/delete-text-range';
 import {registerTool as getParagraphRanges} from '../tools/docs/get-paragraph-ranges';
 import {registerTool as insertDocHyperlink} from '../tools/docs/insert-doc-hyperlink';
 import {registerTool as removeDocHyperlinks} from '../tools/docs/remove-doc-hyperlinks';
+import {registerTool as exportDoc} from '../tools/docs/export-doc';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -149,6 +150,7 @@ async function setupMcpTools(server: McpServer) {
     getParagraphRanges(server, getOAuthClientForUser);
     insertDocHyperlink(server, getOAuthClientForUser);
     removeDocHyperlinks(server, getOAuthClientForUser);
+    exportDoc(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
