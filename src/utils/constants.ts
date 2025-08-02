@@ -86,7 +86,7 @@ const tools = {
     applyTextStyle: 'apply-text-style',
     applyParagraphStyle: 'apply-paragraph-style',
     setListStyle: 'set-list-style',
-    clearAllFormattingDoc: 'remove-all-formatting-doc',
+    removeAllFormattingDoc: 'remove-all-formatting-doc',
 
     insertImage: 'insert-image',
     insertTable: 'insert-table',

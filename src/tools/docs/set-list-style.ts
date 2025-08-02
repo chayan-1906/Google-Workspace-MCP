@@ -66,7 +66,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     content: [
                         {
                             type: 'text',
-                            text: `List style applied successfully! ✅`,
+                            text: `List style applied successfully! ✅\n\n📄 Document: \`${documentId}\`\n📍 Range: ${startIndex}-${endIndex}\n🎨 Style: ${listType}${tabId ? `\n📑 Tab: ${tabId}` : ''}`,
                         },
                     ],
                 };

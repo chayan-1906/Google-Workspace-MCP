@@ -78,6 +78,7 @@ import {registerTool as exportDoc} from '../tools/docs/export-doc';
 import {registerTool as applyTextStyle} from '../tools/docs/apply-text-style';
 import {registerTool as applyParagraphStyle} from '../tools/docs/apply-paragraph-style';
 import {registerTool as setListStyle} from '../tools/docs/set-list-style';
+import {registerTool as removeAllFormattingDoc} from '../tools/docs/remove-all-formatting-doc';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -157,6 +158,7 @@ async function setupMcpTools(server: McpServer) {
     applyTextStyle(server, getOAuthClientForUser);
     applyParagraphStyle(server, getOAuthClientForUser);
     setListStyle(server, getOAuthClientForUser);
+    removeAllFormattingDoc(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
