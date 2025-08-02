@@ -74,25 +74,29 @@ const tools = {
     // deleteDocTab: 'delete-doc-tab',
     findTextIndices: 'find-text-indices',
     insertTextAtPosition: 'insert-text-at-position',
-    findAndReplaceTextDoc: 'find-and-replace-text-doc',
+    // findAndReplaceTextDoc: 'find-and-replace-text-doc',
     deleteTextRange: 'delete-text-range',
     getParagraphRanges: 'get-paragraph-ranges',
-    insertImage: 'insert-image',
-    insertTable: 'insert-table',
-    updateTable: 'update-table',
-    deleteElement: 'delete-element',
+
+    insertDocHyperlink: 'insert-doc-hyperlink',
+    removeDocHyperlinks: 'remove-doc-hyperlinks',
+
+    exportDoc: 'export-doc',
+
     applyTextStyle: 'apply-text-style',
     applyParagraphStyle: 'apply-paragraph-style',
     applyNamedStyle: 'apply-named-style',
     setBackgroundColor: 'set-background-color',
     setListStyle: 'set-list-style',
     clearAllFormattingDoc: 'remove-all-formatting-doc',
-    insertDocHyperlink: 'insert-doc-hyperlink',
-    removeDocHyperlinks: 'remove-doc-hyperlinks',
+
+    insertImage: 'insert-image',
+    insertTable: 'insert-table',
+    updateTable: 'update-table',
+    deleteElement: 'delete-element',
     // addCommentDoc: 'add-comment-doc',
     // deleteCommentDoc: 'delete-comment-doc',
     // listCommentsDoc: 'list-comments-doc',
-    exportDoc: 'export-doc',
 }
 
 const constants = {

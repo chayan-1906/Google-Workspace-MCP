@@ -75,6 +75,7 @@ import {registerTool as getParagraphRanges} from '../tools/docs/get-paragraph-ra
 import {registerTool as insertDocHyperlink} from '../tools/docs/insert-doc-hyperlink';
 import {registerTool as removeDocHyperlinks} from '../tools/docs/remove-doc-hyperlinks';
 import {registerTool as exportDoc} from '../tools/docs/export-doc';
+import {registerTool as applyTextStyle} from '../tools/docs/apply-text-style';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -151,6 +152,7 @@ async function setupMcpTools(server: McpServer) {
     insertDocHyperlink(server, getOAuthClientForUser);
     removeDocHyperlinks(server, getOAuthClientForUser);
     exportDoc(server, getOAuthClientForUser);
+    applyTextStyle(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
