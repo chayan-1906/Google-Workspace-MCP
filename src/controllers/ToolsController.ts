@@ -76,6 +76,8 @@ import {registerTool as insertDocHyperlink} from '../tools/docs/insert-doc-hyper
 import {registerTool as removeDocHyperlinks} from '../tools/docs/remove-doc-hyperlinks';
 import {registerTool as exportDoc} from '../tools/docs/export-doc';
 import {registerTool as applyTextStyle} from '../tools/docs/apply-text-style';
+import {registerTool as applyParagraphStyle} from '../tools/docs/apply-paragraph-style';
+import {registerTool as setListStyle} from '../tools/docs/set-list-style';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -153,6 +155,8 @@ async function setupMcpTools(server: McpServer) {
     removeDocHyperlinks(server, getOAuthClientForUser);
     exportDoc(server, getOAuthClientForUser);
     applyTextStyle(server, getOAuthClientForUser);
+    applyParagraphStyle(server, getOAuthClientForUser);
+    setListStyle(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }

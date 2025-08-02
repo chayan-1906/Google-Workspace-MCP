@@ -85,8 +85,6 @@ const tools = {
 
     applyTextStyle: 'apply-text-style',
     applyParagraphStyle: 'apply-paragraph-style',
-    applyNamedStyle: 'apply-named-style',
-    setBackgroundColor: 'set-background-color',
     setListStyle: 'set-list-style',
     clearAllFormattingDoc: 'remove-all-formatting-doc',
 
