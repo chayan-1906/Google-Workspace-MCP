@@ -4,6 +4,8 @@ An MCP-compliant server built with TypeScript to extend Claude and other AI agen
 
 ---
 
+![logo](https://raw.githubusercontent.com/chayan-1906/Google-Workspace-MCP/master/google-workspace.png)
+
 ## ⚙️ Quick Start
 
 ### 1. 📁 Clone the repo
