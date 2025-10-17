@@ -80,6 +80,7 @@ import {registerTool as applyParagraphStyle} from '../tools/docs/apply-paragraph
 import {registerTool as setListStyle} from '../tools/docs/set-list-style';
 import {registerTool as removeAllFormattingDoc} from '../tools/docs/remove-all-formatting-doc';
 import {registerTool as getAllCustomFormattingDoc} from '../tools/docs/get-all-custom-formatting-doc';
+import {registerTool as insertTable} from '../tools/docs/insert-table';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -161,6 +162,7 @@ async function setupMcpTools(server: McpServer) {
     setListStyle(server, getOAuthClientForUser);
     removeAllFormattingDoc(server, getOAuthClientForUser);
     getAllCustomFormattingDoc(server, getOAuthClientForUser);
+    insertTable(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
