@@ -8,15 +8,16 @@ import {tools} from "../../utils/constants";
 import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
-const insertTable = async (documentId: string, index: number, rows: number, columns: number, tabId: string | undefined, auth: Auth.OAuth2Client) => {
+const deleteTable = async (documentId: string, tableStartIndex: number, tableEndIndex: number, tabId: string | undefined, auth: Auth.OAuth2Client) => {
     const docs = GoogleApiClientFactory.createDocsClient(auth);
 
-    const location: any = {
-        index: index,
+    const range: any = {
+        startIndex: tableStartIndex,
+        endIndex: tableEndIndex,
     };
 
     if (tabId) {
-        location.tabId = tabId;
+        range.tabId = tabId;
     }
 
     await docs.documents.batchUpdate({
@@ -24,10 +25,8 @@ const insertTable = async (documentId: string, index: number, rows: number, colu
         requestBody: {
             requests: [
                 {
-                    insertTable: {
-                        location: location,
-                        rows: rows,
-                        columns: columns,
+                    deleteContentRange: {
+                        range: range,
                     },
                 },
             ],
@@ -37,37 +36,36 @@ const insertTable = async (documentId: string, index: number, rows: number, colu
 
 export const registerTool = (server: McpServer, getOAuthClientForUser: (email: string) => Promise<OAuth2Client | null>) => {
     server.tool(
-        tools.insertTable,
-        'Inserts a table with specified rows and columns at a given position in a Google Docs document',
+        tools.deleteTable,
+        'Deletes a table from a Google Docs document by specifying its start and end index',
         {
             documentId: z.string().describe('The ID of the Google Doc'),
-            index: z.number().describe('The position index where the table should be inserted (0-based)'),
-            rows: z.number().min(1).max(20).describe('Number of rows for the table (1-20)'),
-            columns: z.number().min(1).max(20).describe('Number of columns for the table (1-20)'),
+            tableStartIndex: z.number().describe('The start index of the table to delete'),
+            tableEndIndex: z.number().describe('The end index of the table to delete'),
             tabId: z.string().optional().describe('Tab ID if document has multiple tabs'),
         },
-        async ({documentId, index, rows, columns, tabId}) => {
-            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
-            if (!oauth2Client) return response;
+        async ({documentId, tableStartIndex, tableEndIndex, tabId}) => {
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser)
+            if (!oauth2Client) return response
 
             try {
-                await insertTable(documentId, index, rows, columns, tabId, oauth2Client);
+                await deleteTable(documentId, tableStartIndex, tableEndIndex, tabId, oauth2Client);
 
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Table inserted successfully! ✅\n\n📄 Document: \`${documentId}\`\n📍 Position: ${index}\n📊 Size: ${rows} rows × ${columns} columns${tabId ? `\n📑 Tab: ${tabId}` : ''}`,
+                            text: `Table deleted successfully! ✅\n\n📄 Document: \`${documentId}\`\n📍 Removed Range: ${tableStartIndex}-${tableEndIndex}${tabId ? `\n📑 Tab: ${tabId}` : ''}`,
                         },
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to insert table: ${error}`), tools.insertTable);
+                sendError(transport, new Error(`Failed to delete table: ${error}`), tools.deleteTable)
                 return {
                     content: [
                         {
                             type: 'text',
-                            text: `Failed to insert table ❌: ${error.message}`,
+                            text: `Failed to delete table ❌: ${error.message}`,
                         },
                     ],
                 };

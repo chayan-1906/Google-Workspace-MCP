@@ -92,6 +92,7 @@ const tools = {
     insertImage: 'insert-image',
     insertTable: 'insert-table',
     updateTable: 'update-table',
+    deleteTable: 'delete-table',
     deleteElement: 'delete-element',
     // addCommentDoc: 'add-comment-doc',
     // deleteCommentDoc: 'delete-comment-doc',

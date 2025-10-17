@@ -81,6 +81,8 @@ import {registerTool as setListStyle} from '../tools/docs/set-list-style';
 import {registerTool as removeAllFormattingDoc} from '../tools/docs/remove-all-formatting-doc';
 import {registerTool as getAllCustomFormattingDoc} from '../tools/docs/get-all-custom-formatting-doc';
 import {registerTool as insertTable} from '../tools/docs/insert-table';
+import {registerTool as updateTable} from '../tools/docs/update-table';
+import {registerTool as deleteTable} from '../tools/docs/delete-table';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -163,6 +165,8 @@ async function setupMcpTools(server: McpServer) {
     removeAllFormattingDoc(server, getOAuthClientForUser);
     getAllCustomFormattingDoc(server, getOAuthClientForUser);
     insertTable(server, getOAuthClientForUser);
+    updateTable(server, getOAuthClientForUser);
+    deleteTable(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }
