@@ -45,8 +45,8 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             tabId: z.string().optional().describe('Tab ID if document has multiple tabs'),
         },
         async ({documentId, tableStartIndex, tableEndIndex, tabId}) => {
-            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser)
-            if (!oauth2Client) return response
+            const {oauth2Client, response} = await getOAuth2ClientFromEmail(getOAuthClientForUser);
+            if (!oauth2Client) return response;
 
             try {
                 await deleteTable(documentId, tableStartIndex, tableEndIndex, tabId, oauth2Client);
@@ -60,7 +60,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to delete table: ${error}`), tools.deleteTable)
+                sendError(transport, new Error(`Failed to delete table: ${error}`), tools.deleteTable);
                 return {
                     content: [
                         {

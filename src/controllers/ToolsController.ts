@@ -83,6 +83,7 @@ import {registerTool as getAllCustomFormattingDoc} from '../tools/docs/get-all-c
 import {registerTool as insertTable} from '../tools/docs/insert-table';
 import {registerTool as updateTable} from '../tools/docs/update-table';
 import {registerTool as deleteTable} from '../tools/docs/delete-table';
+import {registerTool as insertImage} from '../tools/docs/insert-image';
 
 async function setupMcpTools(server: McpServer) {
     const start = Date.now();
@@ -167,6 +168,7 @@ async function setupMcpTools(server: McpServer) {
     insertTable(server, getOAuthClientForUser);
     updateTable(server, getOAuthClientForUser);
     deleteTable(server, getOAuthClientForUser);
+    insertImage(server, getOAuthClientForUser);
 
     await printInConsole(transport, `All tools loaded in ${Date.now() - start}ms`);
 }

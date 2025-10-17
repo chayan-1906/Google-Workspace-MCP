@@ -9,7 +9,7 @@ import {getOAuth2ClientFromEmail} from "../../services/OAuth";
 import {GoogleApiClientFactory} from "../../services/GoogleApiClients";
 
 const updateTable = async (documentId: string, tableStartIndex: number, operation: string, rowIndex: number | undefined, columnIndex: number | undefined, cellContent: string | undefined, insertCount: number | undefined, tabId: string | undefined, auth: Auth.OAuth2Client) => {
-    const docs = GoogleApiClientFactory.createDocsClient(auth)
+    const docs = GoogleApiClientFactory.createDocsClient(auth);
 
     const requests: any[] = [];
 
@@ -106,10 +106,10 @@ const updateTable = async (documentId: string, tableStartIndex: number, operatio
             });
         }
     } else if (operation === 'updateCell' && rowIndex !== undefined && columnIndex !== undefined && cellContent !== undefined) {
-        const doc = await docs.documents.get({documentId})
-        const content = doc.data.body?.content || []
+        const doc = await docs.documents.get({documentId});
+        const content = doc.data.body?.content || [];
 
-        let table = null
+        let table = null;
         for (const element of content) {
             if (element.startIndex === tableStartIndex && element.table) {
                 table = element.table;
@@ -121,7 +121,7 @@ const updateTable = async (documentId: string, tableStartIndex: number, operatio
             throw new Error('Table not found at the specified index');
         }
 
-        const row = table.tableRows?.[rowIndex]
+        const row = table.tableRows?.[rowIndex];
         if (!row) {
             throw new Error(`Row ${rowIndex} not found in table`);
         }
@@ -186,7 +186,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
             try {
                 await updateTable(documentId, tableStartIndex, operation, rowIndex, columnIndex, cellContent, insertCount || 1, tabId, oauth2Client);
 
-                let operationDesc = ''
+                let operationDesc = '';
                 if (operation === 'insertRows') {
                     operationDesc = `Inserted ${insertCount || 1} row(s) at index ${rowIndex}`;
                 } else if (operation === 'insertColumns') {
@@ -208,7 +208,7 @@ export const registerTool = (server: McpServer, getOAuthClientForUser: (email: s
                     ],
                 };
             } catch (error: any) {
-                sendError(transport, new Error(`Failed to update table: ${error}`), tools.updateTable)
+                sendError(transport, new Error(`Failed to update table: ${error}`), tools.updateTable);
                 return {
                     content: [
                         {

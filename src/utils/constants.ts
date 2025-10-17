@@ -89,11 +89,10 @@ const tools = {
     removeAllFormattingDoc: 'remove-all-formatting-doc',
     getAllCustomFormattingDoc: 'get-all-custom-formatting-doc',
 
-    insertImage: 'insert-image',
     insertTable: 'insert-table',
     updateTable: 'update-table',
     deleteTable: 'delete-table',
-    deleteElement: 'delete-element',
+    insertImage: 'insert-image',
     // addCommentDoc: 'add-comment-doc',
     // deleteCommentDoc: 'delete-comment-doc',
     // listCommentsDoc: 'list-comments-doc',
