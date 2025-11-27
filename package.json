@@ -2,6 +2,7 @@
   "name": "google-workspace-mcp",
   "version": "1.0.0",
   "main": "src/server.js",
+  "bin": "build/index.js",
   "description": "Production-ready Model Context Protocol server providing Claude with complete Google Workspace integration - comprehensive tools for Drive, Sheets, Docs management, file operations, sharing controls, and collaborative features with OAuth 2.0 authentication and MongoDB persistence.",
   "keywords": [
     "model-context-protocol",
@@ -27,7 +28,7 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc",
-    "bundle": "ncc build dist/server.js -o build",
+    "bundle": "ncc build dist/server.js -o build --no-cache --no-source-map-register",
     "package": "ts-node src/scripts/package-script.ts"
   },
   "dependencies": {
@@ -47,5 +48,10 @@
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "pkg": {
+    "assets": [
+      "build/**/*.js"
+    ]
   }
 }
